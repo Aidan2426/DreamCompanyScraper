@@ -8,7 +8,8 @@ import webbrowser
 
 COMPANY_LOGOS = {
     "Apple":  "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
-    "Google": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    "Google":    "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    "Microsoft": "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",
 }
 
 TEAM_COLORS = {
@@ -259,6 +260,16 @@ function filtered() {{
 
 function parseDate(str) {{
   if (!str) return 0;
+  // relative: "21 minutes ago", "an hour ago", "2 days ago", "a week ago"
+  const rel = str.toLowerCase();
+  const now = Date.now();
+  const n = m => {{ const x = rel.match(m); return x ? (x[1]==='a'||x[1]==='an' ? 1 : parseInt(x[1])) : null; }};
+  if (rel.includes('minute'))  {{ const v=n(/(\\d+|a|an)\\s+minute/); if(v) return now - v*60*1000; }}
+  if (rel.includes('hour'))    {{ const v=n(/(\\d+|a|an)\\s+hour/);   if(v) return now - v*3600*1000; }}
+  if (rel.includes('day'))     {{ const v=n(/(\\d+|a|an)\\s+day/);    if(v) return now - v*86400*1000; }}
+  if (rel.includes('week'))    {{ const v=n(/(\\d+|a|an)\\s+week/);   if(v) return now - v*7*86400*1000; }}
+  if (rel.includes('month'))   {{ const v=n(/(\\d+|a|an)\\s+month/);  if(v) return now - v*30*86400*1000; }}
+  // absolute: "Apr 19, 2026"
   const d = new Date(str);
   return isNaN(d) ? 0 : d.getTime();
 }}

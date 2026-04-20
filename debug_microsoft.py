@@ -82,6 +82,14 @@ async def main():
         print("\n=== CARD STRUCTURE ===")
         print(card_html)
 
+        # Dump first full card HTML
+        first_card = await page.evaluate("""() => {
+            const card = document.querySelector('div[data-test-id="job-listing"]');
+            return card ? card.outerHTML.substring(0, 3000) : 'NO CARD FOUND';
+        }""")
+        print("\n=== FIRST CARD FULL HTML ===")
+        print(first_card)
+
         await browser.close()
 
 asyncio.run(main())
