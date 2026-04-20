@@ -5,7 +5,8 @@
       "WebSearch",
       "WebFetch(domain:www.google.com)",
       "WebFetch(domain:apply.careers.microsoft.com)",
-      "WebFetch(domain:explore.jobs.netflix.net)"
+      "WebFetch(domain:explore.jobs.netflix.net)",
+      "WebFetch(domain:www.metacareers.com)"
     ]
   }
 }
