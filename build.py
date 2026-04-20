@@ -14,6 +14,7 @@ COMPANY_LOGOS = {
     "Meta":      "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
     "Amazon":    "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
     "OpenAI":    "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
+    "Anthropic": "https://upload.wikimedia.org/wikipedia/commons/7/78/Anthropic_logo.svg",
 }
 
 TEAM_COLORS = {
