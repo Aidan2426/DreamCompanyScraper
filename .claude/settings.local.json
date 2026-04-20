@@ -3,7 +3,8 @@
     "allow": [
       "WebFetch(domain:jobs.apple.com)",
       "WebSearch",
-      "WebFetch(domain:www.google.com)"
+      "WebFetch(domain:www.google.com)",
+      "WebFetch(domain:apply.careers.microsoft.com)"
     ]
   }
 }
