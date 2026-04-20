@@ -58,7 +58,7 @@ def scrape() -> list[dict]:
                     })
 
             print(f"[netflix] Page {page}: {len(positions)} jobs (total {len(all_jobs)})")
-            start += PARAMS["num"]
+            start += len(positions)
             page  += 1
 
     print(f"[netflix] Done. {len(all_jobs)} total jobs.")
