@@ -16,7 +16,14 @@
       "Bash(python build.py)",
       "Bash(python debug_anthropic.py)",
       "Bash(python debug_anthropic2.py)",
-      "Bash(python *)"
+      "Bash(python *)",
+      "WebFetch(domain:www.disneycareers.com)",
+      "WebFetch(domain:api.icims.com)",
+      "Bash(pip list *)",
+      "WebFetch(domain:jobs.nvidia.com)",
+      "WebFetch(domain:nvidia.eightfold.ai)",
+      "WebFetch(domain:fantastic.jobs)",
+      "WebFetch(domain:jobo.world)"
     ]
   }
 }
