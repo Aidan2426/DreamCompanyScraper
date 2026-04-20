@@ -6,7 +6,14 @@
       "WebFetch(domain:www.google.com)",
       "WebFetch(domain:apply.careers.microsoft.com)",
       "WebFetch(domain:explore.jobs.netflix.net)",
-      "WebFetch(domain:www.metacareers.com)"
+      "WebFetch(domain:www.metacareers.com)",
+      "WebFetch(domain:www.amazon.jobs)",
+      "WebFetch(domain:openai.com)",
+      "WebFetch(domain:jobs.ashbyhq.com)",
+      "Bash(python scrapers/openai.py)",
+      "Bash(python -c ' *)",
+      "Bash(python main.py --company openai)",
+      "Bash(python build.py)"
     ]
   }
 }

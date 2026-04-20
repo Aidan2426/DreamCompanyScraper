@@ -4,7 +4,7 @@ import json
 from datetime import date
 
 from db import init_db, upsert_jobs, get_new_jobs, get_all_jobs
-from scrapers import apple, google, microsoft, netflix, meta
+from scrapers import apple, google, microsoft, netflix, meta, amazon, openai
 
 TODAY = date.today().isoformat()
 
@@ -13,7 +13,7 @@ async def run(skip_scrape: bool = False, companies: list = None):
     init_db()
 
     if not skip_scrape:
-        all_scrapers = {"apple": apple, "google": google, "microsoft": microsoft, "netflix": netflix, "meta": meta}
+        all_scrapers = {"apple": apple, "google": google, "microsoft": microsoft, "netflix": netflix, "meta": meta, "amazon": amazon, "openai": openai}
         run_scrapers = {k: v for k, v in all_scrapers.items() if not companies or k in companies}
 
         all_scraped = []
@@ -26,16 +26,16 @@ async def run(skip_scrape: bool = False, companies: list = None):
                 else:
                     jobs = await asyncio.get_event_loop().run_in_executor(None, scraper.scrape)
                 all_scraped.extend(jobs)
-                print(f"✓ {name.title()}: {len(jobs)} jobs")
+                print(f"[OK] {name.title()}: {len(jobs)} jobs")
             except Exception as e:
-                print(f"✗ {name.title()} failed: {e}")
+                print(f"[FAIL] {name.title()} failed: {e}")
 
         if not all_scraped:
             print("No jobs scraped.")
             return
 
         new_count = upsert_jobs(all_scraped)
-        print(f"\n✓ {len(all_scraped)} total scraped, {new_count} new today\n")
+        print(f"\n[OK] {len(all_scraped)} total scraped, {new_count} new today\n")
 
     # Dump all jobs to jobs.json for build.py
     all_jobs = get_all_jobs()

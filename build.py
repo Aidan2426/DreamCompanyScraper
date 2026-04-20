@@ -12,6 +12,8 @@ COMPANY_LOGOS = {
     "Microsoft": "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",
     "Netflix":   "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
     "Meta":      "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
+    "Amazon":    "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    "OpenAI":    "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
 }
 
 TEAM_COLORS = {
