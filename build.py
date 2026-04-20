@@ -10,6 +10,7 @@ COMPANY_LOGOS = {
     "Apple":  "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
     "Google":    "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
     "Microsoft": "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",
+    "Netflix":   "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
 }
 
 TEAM_COLORS = {

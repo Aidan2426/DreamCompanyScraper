@@ -4,7 +4,7 @@ import json
 from datetime import date
 
 from db import init_db, upsert_jobs, get_new_jobs, get_all_jobs
-from scrapers import apple, google, microsoft
+from scrapers import apple, google, microsoft, netflix
 
 TODAY = date.today().isoformat()
 
@@ -13,14 +13,18 @@ async def run(skip_scrape: bool = False, companies: list = None):
     init_db()
 
     if not skip_scrape:
-        all_scrapers = {"apple": apple, "google": google, "microsoft": microsoft}
+        all_scrapers = {"apple": apple, "google": google, "microsoft": microsoft, "netflix": netflix}
         run_scrapers = {k: v for k, v in all_scrapers.items() if not companies or k in companies}
 
         all_scraped = []
         for name, scraper in run_scrapers.items():
             print(f"\n{'='*50}\nRunning {name.title()} scraper...\n{'='*50}")
             try:
-                jobs = await scraper.scrape()
+                # Support both async and sync scrapers
+                if asyncio.iscoroutinefunction(scraper.scrape):
+                    jobs = await scraper.scrape()
+                else:
+                    jobs = await asyncio.get_event_loop().run_in_executor(None, scraper.scrape)
                 all_scraped.extend(jobs)
                 print(f"✓ {name.title()}: {len(jobs)} jobs")
             except Exception as e:
