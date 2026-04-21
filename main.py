@@ -4,7 +4,7 @@ import json
 from datetime import date
 
 from db import init_db, upsert_jobs, get_new_jobs, get_all_jobs
-from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, anthropic, disney, nvidia, hershey, ibm, cisco, oracle, universal, duolingo
+from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, anthropic, disney, nvidia, hershey, ibm, cisco, oracle, universal, duolingo, hp
 
 TODAY = date.today().isoformat()
 
@@ -13,7 +13,7 @@ async def run(skip_scrape: bool = False, companies: list = None):
     init_db()
 
     if not skip_scrape:
-        all_scrapers = {"apple": apple, "google": google, "microsoft": microsoft, "netflix": netflix, "meta": meta, "amazon": amazon, "openai": openai, "anthropic": anthropic, "disney": disney, "nvidia": nvidia, "hershey": hershey, "ibm": ibm, "cisco": cisco, "oracle": oracle, "universal": universal, "duolingo": duolingo}
+        all_scrapers = {"apple": apple, "google": google, "microsoft": microsoft, "netflix": netflix, "meta": meta, "amazon": amazon, "openai": openai, "anthropic": anthropic, "disney": disney, "nvidia": nvidia, "hershey": hershey, "ibm": ibm, "cisco": cisco, "oracle": oracle, "universal": universal, "duolingo": duolingo, "hp": hp}
         run_scrapers = {k: v for k, v in all_scrapers.items() if not companies or k in companies}
 
         all_scraped = []
