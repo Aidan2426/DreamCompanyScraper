@@ -26,6 +26,20 @@ TEAM_COLORS = {
     "Operations and Supply Chain":("#4a4a00", "#f9f9e6"),
 }
 
+STATE_ABBREV = {
+    "Alabama":"AL","Alaska":"AK","Arizona":"AZ","Arkansas":"AR","California":"CA",
+    "Colorado":"CO","Connecticut":"CT","Delaware":"DE","Florida":"FL","Georgia":"GA",
+    "Hawaii":"HI","Idaho":"ID","Illinois":"IL","Indiana":"IN","Iowa":"IA","Kansas":"KS",
+    "Kentucky":"KY","Louisiana":"LA","Maine":"ME","Maryland":"MD","Massachusetts":"MA",
+    "Michigan":"MI","Minnesota":"MN","Mississippi":"MS","Missouri":"MO","Montana":"MT",
+    "Nebraska":"NE","Nevada":"NV","New Hampshire":"NH","New Jersey":"NJ","New Mexico":"NM",
+    "New York":"NY","North Carolina":"NC","North Dakota":"ND","Ohio":"OH","Oklahoma":"OK",
+    "Oregon":"OR","Pennsylvania":"PA","Rhode Island":"RI","South Carolina":"SC",
+    "South Dakota":"SD","Tennessee":"TN","Texas":"TX","Utah":"UT","Vermont":"VT",
+    "Virginia":"VA","Washington":"WA","West Virginia":"WV","Wisconsin":"WI","Wyoming":"WY",
+    "District of Columbia":"DC","Puerto Rico":"PR","Guam":"GU","Virgin Islands":"VI",
+}
+
 jobs_data = {"scraped_at": "", "jobs": []}
 if os.path.exists("jobs.json"):
     with open("jobs.json", encoding="utf-8") as f:
@@ -36,15 +50,14 @@ scraped_at = jobs_data.get("scraped_at", "")
 new_count  = sum(1 for j in jobs if j.get("is_new"))
 teams      = sorted({j["team"] for j in jobs if j.get("team")})
 companies  = sorted({j["company"] for j in jobs if j.get("company")})
-cities      = sorted({j["location"]   for j in jobs if j.get("location")})
 experiences = sorted({j["experience"] for j in jobs if j.get("experience")})
 
 jobs_json     = json.dumps(jobs,      ensure_ascii=False)
 teams_json    = json.dumps(teams,     ensure_ascii=False)
 companies_json= json.dumps(companies, ensure_ascii=False)
-cities_json      = json.dumps(cities,      ensure_ascii=False)
-experiences_json = json.dumps(experiences, ensure_ascii=False)
-logos_json    = json.dumps(COMPANY_LOGOS, ensure_ascii=False)
+experiences_json  = json.dumps(experiences,  ensure_ascii=False)
+state_abbrev_json = json.dumps(STATE_ABBREV, ensure_ascii=False)
+logos_json        = json.dumps(COMPANY_LOGOS, ensure_ascii=False)
 
 html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -236,8 +249,11 @@ html = f"""<!DOCTYPE html>
     <select class="filter-select" id="company-select">
       <option value="">All Companies</option>
     </select>
-    <select class="filter-select" id="city-select">
-      <option value="">All Cities</option>
+    <select class="filter-select" id="us-city-select">
+      <option value="">All US Cities</option>
+    </select>
+    <select class="filter-select" id="intl-city-select">
+      <option value="">All Intl Cities</option>
     </select>
     <select class="filter-select" id="exp-select">
       <option value="">All Levels</option>
@@ -252,35 +268,81 @@ html = f"""<!DOCTYPE html>
 <div class="pagination" id="pagination"></div>
 
 <script>
-const JOBS     = {jobs_json};
-const LOGOS    = {logos_json};
-const TEAMS    = {teams_json};
-const COMPANIES= {companies_json};
-const CITIES      = {cities_json};
+const JOBS        = {jobs_json};
+const LOGOS       = {logos_json};
+const TEAMS       = {teams_json};
+const COMPANIES   = {companies_json};
 const EXPERIENCES = {experiences_json};
+const SA          = {state_abbrev_json};  // full state name → 2-letter abbrev
+const US_ST       = new Set(Object.values(SA));  // set of valid 2-letter state codes
+
+function normalizeLocation(loc) {{
+  if (!loc) return null;
+  // Strip zip codes
+  let s = loc.replace(/\b\d{{5}}(-\d{{4}})?\b/g, '').replace(/\s+/g, ' ').trim();
+  const parts = s.split(/\s*,\s*/).map(p => p.trim()).filter(Boolean);
+  if (!parts.length) return null;
+  const city = parts[0];
+
+  for (let i = 1; i < parts.length; i++) {{
+    const p = parts[i];
+    if (US_ST.has(p))  return {{ display: `${{city}}, ${{p}}`,    isUS: true }};
+    if (SA[p])         return {{ display: `${{city}}, ${{SA[p]}}`, isUS: true }};
+    if (/^(USA|United States|US)$/i.test(p)) {{
+      for (let k = i - 1; k >= 1; k--) {{
+        if (US_ST.has(parts[k])) return {{ display: `${{city}}, ${{parts[k]}}`,    isUS: true }};
+        if (SA[parts[k]])        return {{ display: `${{city}}, ${{SA[parts[k]]}}`, isUS: true }};
+      }}
+      return {{ display: city, isUS: true }};
+    }}
+  }}
+
+  // "Pittsburgh PA" style — no comma, state abbrev at end
+  const m = city.match(/^(.+?)\s+([A-Z]{{2}})$/);
+  if (m && US_ST.has(m[2])) return {{ display: `${{m[1]}}, ${{m[2]}}`, isUS: true }};
+
+  // International: "City, Country"
+  if (parts.length >= 2) return {{ display: `${{city}}, ${{parts[parts.length - 1]}}`, isUS: false }};
+  return {{ display: city, isUS: false }};
+}}
+
+// Build city lists — only include cities with ≥2 jobs to keep dropdowns manageable
+const _cityCount = {{}};
+JOBS.forEach(j => {{
+  const n = normalizeLocation(j.location);
+  if (n) _cityCount[n.display] = (_cityCount[n.display] || 0) + 1;
+}});
+const US_CITIES   = [...new Set(JOBS.map(j => normalizeLocation(j.location)).filter(n => n && n.isUS   && _cityCount[n.display] >= 2).map(n => n.display))].sort();
+const INTL_CITIES = [...new Set(JOBS.map(j => normalizeLocation(j.location)).filter(n => n && !n.isUS  && _cityCount[n.display] >= 2).map(n => n.display))].sort();
 
 const teamSel    = document.getElementById('team-select');
 const companySel = document.getElementById('company-select');
-const citySel    = document.getElementById('city-select');
+const usCitySel  = document.getElementById('us-city-select');
+const intlCitySel= document.getElementById('intl-city-select');
 const expSel     = document.getElementById('exp-select');
-TEAMS.forEach(t => {{ const o=document.createElement('option'); o.value=o.textContent=t; teamSel.appendChild(o); }});
-COMPANIES.forEach(c => {{ const o=document.createElement('option'); o.value=o.textContent=c; companySel.appendChild(o); }});
-CITIES.forEach(c => {{ const o=document.createElement('option'); o.value=o.textContent=c; citySel.appendChild(o); }});
-EXPERIENCES.forEach(e => {{ const o=document.createElement('option'); o.value=o.textContent=e; expSel.appendChild(o); }});
+TEAMS.forEach(t     => {{ const o=document.createElement('option'); o.value=o.textContent=t;   teamSel.appendChild(o); }});
+COMPANIES.forEach(c => {{ const o=document.createElement('option'); o.value=o.textContent=c;   companySel.appendChild(o); }});
+US_CITIES.forEach(c => {{ const o=document.createElement('option'); o.value=o.textContent=c;   usCitySel.appendChild(o); }});
+INTL_CITIES.forEach(c=>{{ const o=document.createElement('option'); o.value=o.textContent=c;   intlCitySel.appendChild(o); }});
+EXPERIENCES.forEach(e=>{{ const o=document.createElement('option'); o.value=o.textContent=e;   expSel.appendChild(o); }});
 
 const PAGE_SIZE = 100;
 let currentPage = 1;
 
-const state = {{ q:'', newOnly:false, team:'', company:'', city:'', experience:'', sort:'newest' }};
+const state = {{ q:'', newOnly:false, team:'', company:'', usCity:'', intlCity:'', experience:'', sort:'newest' }};
 
 function filtered() {{
   return JOBS.filter(j => {{
-    if (state.q       && !j.title.toLowerCase().includes(state.q))    return false;
-    if (state.newOnly && !j.is_new)                                    return false;
-    if (state.team    && j.team     !== state.team)    return false;
-    if (state.company && j.company  !== state.company) return false;
-    if (state.city       && j.location   !== state.city)       return false;
-        if (state.experience && j.experience !== state.experience) return false;
+    if (state.q          && !j.title.toLowerCase().includes(state.q)) return false;
+    if (state.newOnly    && !j.is_new)                                 return false;
+    if (state.team       && j.team    !== state.team)                  return false;
+    if (state.company    && j.company !== state.company)               return false;
+    if (state.experience && j.experience !== state.experience)         return false;
+    if (state.usCity || state.intlCity) {{
+      const n = normalizeLocation(j.location);
+      if (state.usCity   && (!n || !n.isUS  || n.display !== state.usCity))   return false;
+      if (state.intlCity && (!n ||  n.isUS  || n.display !== state.intlCity)) return false;
+    }}
     return true;
   }});
 }}
@@ -419,10 +481,11 @@ document.querySelectorAll('[data-sort]').forEach(b => b.addEventListener('click'
   document.querySelectorAll('[data-sort]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); state.sort = b.dataset.sort; render();
 }}));
-teamSel.addEventListener('change', () => {{ state.team = teamSel.value; teamSel.classList.toggle('active',!!teamSel.value); render(); }});
-companySel.addEventListener('change', () => {{ state.company = companySel.value; companySel.classList.toggle('active',!!companySel.value); render(); }});
-citySel.addEventListener('change', () => {{ state.city = citySel.value; citySel.classList.toggle('active',!!citySel.value); render(); }});
-expSel.addEventListener('change',  () => {{ state.experience = expSel.value; expSel.classList.toggle('active',!!expSel.value); render(); }});
+teamSel.addEventListener('change',     () => {{ state.team     = teamSel.value;     teamSel.classList.toggle('active',!!teamSel.value);     render(); }});
+companySel.addEventListener('change',  () => {{ state.company  = companySel.value;  companySel.classList.toggle('active',!!companySel.value);  render(); }});
+usCitySel.addEventListener('change',   () => {{ state.usCity   = usCitySel.value;   usCitySel.classList.toggle('active',!!usCitySel.value);   if (usCitySel.value) {{ intlCitySel.value=''; state.intlCity=''; intlCitySel.classList.remove('active'); }} render(); }});
+intlCitySel.addEventListener('change', () => {{ state.intlCity = intlCitySel.value; intlCitySel.classList.toggle('active',!!intlCitySel.value); if (intlCitySel.value) {{ usCitySel.value=''; state.usCity=''; usCitySel.classList.remove('active'); }} render(); }});
+expSel.addEventListener('change',      () => {{ state.experience = expSel.value;    expSel.classList.toggle('active',!!expSel.value);           render(); }});
 
 render();
 </script>
