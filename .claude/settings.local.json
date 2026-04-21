@@ -26,7 +26,8 @@
       "WebFetch(domain:jobo.world)",
       "WebFetch(domain:www.tesla.com)",
       "Bash(pip show *)",
-      "Bash(pip install *)"
+      "Bash(pip install *)",
+      "WebFetch(domain:commons.wikimedia.org)"
     ]
   }
 }
