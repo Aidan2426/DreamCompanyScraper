@@ -192,6 +192,23 @@ html = f"""<!DOCTYPE html>
       grid-column: 1/-1; text-align: center;
       padding: 80px 0; font-size: 19px; color: var(--muted);
     }}
+
+    /* ── Pagination ── */
+    .pagination {{
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 24px 28px 64px;
+    }}
+    .page-btn {{
+      height: 36px; min-width: 36px; padding: 0 14px;
+      background: var(--white); border: 1px solid #d2d2d7;
+      border-radius: 10px; font-size: 14px; font-weight: 500;
+      color: var(--near-black); cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }}
+    .page-btn:hover:not(:disabled) {{ background: #f5f5f7; border-color: #b0b0b5; }}
+    .page-btn:disabled {{ opacity: 0.35; cursor: default; }}
+    .page-btn.active {{ background: var(--blue); border-color: var(--blue); color: #fff; }}
+    .page-label {{ font-size: 13px; color: var(--muted); padding: 0 6px; }}
   </style>
 </head>
 <body>
@@ -232,6 +249,7 @@ html = f"""<!DOCTYPE html>
 
 <div class="count-bar"><span id="count-label"></span></div>
 <div class="grid" id="grid"></div>
+<div class="pagination" id="pagination"></div>
 
 <script>
 const JOBS     = {jobs_json};
@@ -249,6 +267,9 @@ TEAMS.forEach(t => {{ const o=document.createElement('option'); o.value=o.textCo
 COMPANIES.forEach(c => {{ const o=document.createElement('option'); o.value=o.textContent=c; companySel.appendChild(o); }});
 CITIES.forEach(c => {{ const o=document.createElement('option'); o.value=o.textContent=c; citySel.appendChild(o); }});
 EXPERIENCES.forEach(e => {{ const o=document.createElement('option'); o.value=o.textContent=e; expSel.appendChild(o); }});
+
+const PAGE_SIZE = 100;
+let currentPage = 1;
 
 const state = {{ q:'', newOnly:false, team:'', company:'', city:'', experience:'', sort:'newest' }};
 
@@ -289,19 +310,76 @@ function sorted(arr) {{
   }});
 }}
 
-const grid  = document.getElementById('grid');
-const label = document.getElementById('count-label');
+const grid       = document.getElementById('grid');
+const label      = document.getElementById('count-label');
+const pagination = document.getElementById('pagination');
 
-function render() {{
-  const list = sorted(filtered());
-  label.textContent = list.length.toLocaleString() + ' job' + (list.length!==1?'s':'') + ' shown';
+function renderPagination(total, totalPages) {{
+  pagination.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  const start = (currentPage - 1) * PAGE_SIZE + 1;
+  const end   = Math.min(currentPage * PAGE_SIZE, total);
+
+  const prev = document.createElement('button');
+  prev.className = 'page-btn'; prev.textContent = '‹ Prev';
+  prev.disabled = currentPage === 1;
+  prev.addEventListener('click', () => {{ currentPage--; renderPage(window._lastList); scrollToGrid(); }});
+  pagination.appendChild(prev);
+
+  // window around current page
+  const delta = 2;
+  const pages = new Set([1, totalPages]);
+  for (let i = Math.max(2, currentPage-delta); i <= Math.min(totalPages-1, currentPage+delta); i++) pages.add(i);
+  let last = 0;
+  [...pages].sort((a,b)=>a-b).forEach(p => {{
+    if (last && p - last > 1) {{
+      const dots = document.createElement('span');
+      dots.className = 'page-label'; dots.textContent = '…';
+      pagination.appendChild(dots);
+    }}
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (p === currentPage ? ' active' : '');
+    btn.textContent = p;
+    btn.addEventListener('click', () => {{ currentPage = p; renderPage(window._lastList); scrollToGrid(); }});
+    pagination.appendChild(btn);
+    last = p;
+  }});
+
+  const next = document.createElement('button');
+  next.className = 'page-btn'; next.textContent = 'Next ›';
+  next.disabled = currentPage === totalPages;
+  next.addEventListener('click', () => {{ currentPage++; renderPage(window._lastList); scrollToGrid(); }});
+  pagination.appendChild(next);
+}}
+
+function scrollToGrid() {{
+  grid.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+}}
+
+function renderPage(list) {{
+  window._lastList = list;
+  const totalPages = Math.ceil(list.length / PAGE_SIZE);
+  currentPage = Math.max(1, Math.min(currentPage, totalPages || 1));
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page  = list.slice(start, start + PAGE_SIZE);
+  const end   = start + page.length;
+
+  if (list.length === 0) {{
+    label.textContent = '0 jobs shown';
+  }} else {{
+    label.textContent = `Showing ${{(start+1).toLocaleString()}}–${{end.toLocaleString()}} of ${{list.length.toLocaleString()}} job${{list.length!==1?'s':''}}`;
+  }}
+
   grid.innerHTML = '';
-  if (!list.length) {{
+  if (!page.length) {{
     grid.innerHTML = '<div class="no-results">No jobs match your filters.</div>';
+    renderPagination(0, 0);
     return;
   }}
   const frag = document.createDocumentFragment();
-  list.forEach(j => {{
+  page.forEach(j => {{
     const logoSrc = LOGOS[j.company];
     const card = document.createElement('div');
     card.className = 'card';
@@ -324,6 +402,12 @@ function render() {{
     frag.appendChild(card);
   }});
   grid.appendChild(frag);
+  renderPagination(list.length, totalPages);
+}}
+
+function render() {{
+  currentPage = 1;
+  renderPage(sorted(filtered()));
 }}
 
 document.getElementById('q').addEventListener('input', e => {{ state.q = e.target.value.trim().toLowerCase(); render(); }});
