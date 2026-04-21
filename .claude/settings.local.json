@@ -30,7 +30,9 @@
       "WebFetch(domain:commons.wikimedia.org)",
       "WebFetch(domain:x.ai)",
       "Bash(curl -s -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/124.0.0.0 Safari/537.36\" \"https://x.ai/careers/open-roles\")",
-      "Bash(curl -s \"https://boards-api.greenhouse.io/v1/boards/xai/jobs?content=true\")"
+      "Bash(curl -s \"https://boards-api.greenhouse.io/v1/boards/xai/jobs?content=true\")",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/124.0.0.0 Safari/537.36\" \"https://www.palantir.com/careers/open-positions/\")",
+      "Bash(curl -s \"https://api.lever.co/v0/postings/palantir?mode=json&limit=500\")"
     ]
   }
 }
