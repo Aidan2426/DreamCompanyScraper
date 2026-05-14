@@ -30,6 +30,8 @@ COMPANY_LOGOS = {
     "Twitch":         "https://upload.wikimedia.org/wikipedia/commons/2/26/Twitch_logo.svg",
     "Yahoo":          "https://upload.wikimedia.org/wikipedia/commons/2/2e/Yahoo%21_logo.svg",
     "Riot Games":     "https://upload.wikimedia.org/wikipedia/commons/9/9e/Riot_Games_2019.svg",
+    "Fujifilm":       "https://upload.wikimedia.org/wikipedia/commons/5/58/Fujifilm_logo.svg",
+    "PNC":            "https://upload.wikimedia.org/wikipedia/commons/6/6f/PNC_Financial_Services_logo.svg",
 }
 
 TEAM_COLORS = {
