@@ -44,7 +44,11 @@
       "Bash(curl -s -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/124.0.0.0 Safari/537.36\" \"https://jobs.ea.com/en_US/careers\")",
       "Bash(curl -s -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/124.0.0.0 Safari/537.36\" \"https://www.epicgames.com/site/careers/jobs\")",
       "Bash(curl -s \"https://boards-api.greenhouse.io/v1/boards/pinterest/jobs\")",
-      "Bash(curl -s \"https://api.ashbyhq.com/posting-api/job-board/supercell\")"
+      "Bash(curl -s \"https://api.ashbyhq.com/posting-api/job-board/supercell\")",
+      "Bash(curl -s \"https://jobs.us.pwc.com/search-jobs\")",
+      "Bash(curl -s \"https://jobs-search-analytics.prod.use1.radancy.net\")",
+      "Bash(curl -s \"https://api.radancy.net/v1/jobs?company=pwc\" -H \"Accept: application/json\")",
+      "Bash(curl -s \"https://jobs.us.pwc.com/api/jobs?page=1\" -H \"Accept: application/json\")"
     ]
   }
 }

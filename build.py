@@ -19,6 +19,7 @@ COMPANY_LOGOS = {
     "Pinterest":      "https://upload.wikimedia.org/wikipedia/commons/3/35/Pinterest_Logo.svg",
     "LinkedIn":       "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
     "Supercell":      "https://upload.wikimedia.org/wikipedia/commons/9/97/Supercell-Logo.svg",
+    "PwC":            "https://upload.wikimedia.org/wikipedia/commons/0/05/PricewaterhouseCoopers_Logo.svg",
 }
 
 TEAM_COLORS = {
