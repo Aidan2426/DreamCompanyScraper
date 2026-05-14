@@ -9,26 +9,30 @@ from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, an
 TODAY = date.today().isoformat()
 
 
-async def run(skip_scrape: bool = False, companies: list = None):
+async def run_one(name, scraper):
+    try:
+        if asyncio.iscoroutinefunction(scraper.scrape):
+            jobs = await scraper.scrape()
+        else:
+            jobs = await asyncio.get_event_loop().run_in_executor(None, scraper.scrape)
+        print(f"[OK] {name.title()}: {len(jobs)} jobs")
+        return jobs
+    except Exception as e:
+        print(f"[FAIL] {name.title()} failed: {e}")
+        return []
+
+
+async def run(skip_scrape: bool = False, companies: list = None, skip: list = None):
     init_db()
 
     if not skip_scrape:
         all_scrapers = {"apple": apple, "google": google, "microsoft": microsoft, "netflix": netflix, "meta": meta, "amazon": amazon, "openai": openai, "anthropic": anthropic, "disney": disney, "nvidia": nvidia, "hershey": hershey, "ibm": ibm, "cisco": cisco, "oracle": oracle, "universal": universal, "duolingo": duolingo, "hp": hp, "intel": intel, "qualcomm": qualcomm, "micron": micron, "paramount": paramount, "adobe": adobe, "motorola": motorola, "samsung": samsung, "analogdevices": analogdevices, "ebay": ebay, "gecko": gecko, "westerndigital": westerndigital, "nps": nps, "xai": xai, "palantir": palantir, "sony": sony, "nintendo": nintendo, "ea": ea, "epicgames": epicgames, "roblox": roblox, "ubisoft": ubisoft}
-        run_scrapers = {k: v for k, v in all_scrapers.items() if not companies or k in companies}
+        run_scrapers = {k: v for k, v in all_scrapers.items()
+                        if (not companies or k in companies) and (not skip or k not in skip)}
 
-        all_scraped = []
-        for name, scraper in run_scrapers.items():
-            print(f"\n{'='*50}\nRunning {name.title()} scraper...\n{'='*50}")
-            try:
-                # Support both async and sync scrapers
-                if asyncio.iscoroutinefunction(scraper.scrape):
-                    jobs = await scraper.scrape()
-                else:
-                    jobs = await asyncio.get_event_loop().run_in_executor(None, scraper.scrape)
-                all_scraped.extend(jobs)
-                print(f"[OK] {name.title()}: {len(jobs)} jobs")
-            except Exception as e:
-                print(f"[FAIL] {name.title()} failed: {e}")
+        print(f"Running {len(run_scrapers)} scrapers in parallel...\n")
+        results = await asyncio.gather(*[run_one(name, scraper) for name, scraper in run_scrapers.items()])
+        all_scraped = [job for batch in results for job in batch]
 
         if not all_scraped:
             print("No jobs scraped.")
@@ -64,7 +68,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Dream Company Job Scraper")
     parser.add_argument("--skip-scrape", action="store_true", help="Skip scraping, just rebuild jobs.json from DB")
     parser.add_argument("--company", nargs="+", help="Only run specific scrapers e.g. --company apple google")
+    parser.add_argument("--skip", nargs="+", help="Skip specific scrapers e.g. --skip apple google meta")
     args = parser.parse_args()
 
     companies = [c.lower() for c in args.company] if args.company else None
-    asyncio.run(run(skip_scrape=args.skip_scrape, companies=companies))
+    skip = [c.lower() for c in args.skip] if args.skip else None
+    asyncio.run(run(skip_scrape=args.skip_scrape, companies=companies, skip=skip))

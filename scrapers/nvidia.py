@@ -44,7 +44,8 @@ def scrape() -> list[dict]:
                 break
 
             for j in positions:
-                role_id = str(j.get("id", ""))
+                raw_id  = str(j.get("id", ""))
+                role_id = f"nvidia_{raw_id}" if raw_id else ""
                 title   = (j.get("name") or "").strip()
                 if not role_id or not title:
                     continue
@@ -53,7 +54,7 @@ def scrape() -> list[dict]:
                 location = " | ".join(locs)
                 team     = (j.get("department") or "").strip()
                 posted   = _ts_to_date(j.get("postedTs"))
-                path     = j.get("positionUrl") or f"/careers/job/{role_id}"
+                path     = j.get("positionUrl") or f"/careers/job/{raw_id}"
                 url      = f"{BASE_URL}{path}"
 
                 all_jobs.append({

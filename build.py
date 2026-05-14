@@ -366,8 +366,8 @@ function parseDate(str) {{
 function sorted(arr) {{
   if (state.sort === 'title') return [...arr].sort((a,b)=>a.title.localeCompare(b.title));
   return [...arr].sort((a,b) => {{
-    const ta = parseDate(a.posted_date);
-    const tb = parseDate(b.posted_date);
+    const ta = parseDate(a.posted_date) || parseDate(a.first_seen);
+    const tb = parseDate(b.posted_date) || parseDate(b.first_seen);
     return tb - ta || a.title.localeCompare(b.title);
   }});
 }}

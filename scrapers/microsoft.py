@@ -29,7 +29,7 @@ async def _extract_jobs_from_dom(page: Page) -> list[dict]:
                     : '';
 
                 const roleMatch = href ? href.match(/\\/job\\/(\\d+)/) : null;
-                const role_id   = roleMatch ? roleMatch[1] : '';
+                const role_id   = roleMatch ? 'microsoft_' + roleMatch[1] : '';
 
                 const titleEl = card.querySelector('div.title-1aNJK');
                 const title   = titleEl ? titleEl.innerText.trim() : '';

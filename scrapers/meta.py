@@ -49,7 +49,8 @@ async def scrape() -> list[dict]:
     all_jobs = []
     seen = set()
     for j in _job_data:
-        role_id = str(j.get("id", ""))
+        raw_id = str(j.get("id", ""))
+        role_id = f"meta_{raw_id}" if raw_id else ""
         if not role_id or role_id in seen:
             continue
         seen.add(role_id)
@@ -59,7 +60,7 @@ async def scrape() -> list[dict]:
         team     = ", ".join(teams) if teams else ""
         locs     = j.get("locations", [])
         location = " | ".join(locs) if locs else ""
-        url      = f"https://www.metacareers.com/jobs/{role_id}/"
+        url      = f"https://www.metacareers.com/jobs/{raw_id}/"
 
         all_jobs.append({
             "role_id":    role_id,

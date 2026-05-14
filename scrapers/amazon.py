@@ -60,7 +60,8 @@ def scrape() -> list[dict]:
                 break
 
             for j in jobs:
-                role_id = str(j.get("id") or j.get("job_id") or "")
+                raw_id = str(j.get("id") or j.get("job_id") or "")
+                role_id = f"amazon_{raw_id}" if raw_id else ""
                 if not role_id or role_id in seen:
                     continue
                 seen.add(role_id)

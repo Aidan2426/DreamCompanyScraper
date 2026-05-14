@@ -34,7 +34,7 @@ async def _extract_jobs_from_dom(page: Page) -> list[dict]:
                 const href  = a.getAttribute('href') || '';
 
                 const roleMatch = href.match(/\\/details\\/([^/?]+)/);
-                const role_id   = roleMatch ? roleMatch[1] : '';
+                const role_id   = roleMatch ? 'apple_' + roleMatch[1] : '';
 
                 const teamCodeMatch = href.match(/[?&]team=([^&]+)/);
                 const team_code = teamCodeMatch ? teamCodeMatch[1] : '';
@@ -158,7 +158,8 @@ def _parse_from_api(intercepted: list[dict]) -> list[dict]:
                     break
 
         for j in raw_jobs:
-            role_id = str(j.get("positionId") or j.get("roleId") or j.get("id") or "")
+            raw_id = str(j.get("positionId") or j.get("roleId") or j.get("id") or "")
+            role_id = f"apple_{raw_id}" if raw_id else ""
             title = j.get("postingTitle") or j.get("title") or j.get("name") or ""
             team = j.get("team", {})
             if isinstance(team, dict):
@@ -167,7 +168,7 @@ def _parse_from_api(intercepted: list[dict]) -> list[dict]:
             if isinstance(location, dict):
                 location = location.get("name") or ""
             posted_date = j.get("postingDate") or j.get("postedDate") or ""
-            url = f"https://jobs.apple.com/en-us/details/{role_id}" if role_id else ""
+            url = f"https://jobs.apple.com/en-us/details/{raw_id}" if raw_id else ""
             if role_id and title:
                 jobs.append({
                     "role_id": role_id,

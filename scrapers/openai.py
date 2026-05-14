@@ -62,7 +62,8 @@ def scrape() -> list[dict]:
 
     all_jobs = []
     for j in postings:
-        role_id  = str(j.get("id") or "")
+        raw_id   = str(j.get("id") or "")
+        role_id  = f"openai_{raw_id}" if raw_id else ""
         title    = (j.get("title") or "").strip()
         team_id  = j.get("teamId") or ""
         team     = team_map.get(team_id, "")
@@ -70,7 +71,7 @@ def scrape() -> list[dict]:
         workplace = (j.get("workplaceType") or "").lower()
         if workplace == "remote":
             location = (location + " (Remote)").strip() if location else "Remote"
-        url = f"https://jobs.ashbyhq.com/openai/{role_id}"
+        url = f"https://jobs.ashbyhq.com/openai/{raw_id}"
 
         if role_id and title:
             all_jobs.append({

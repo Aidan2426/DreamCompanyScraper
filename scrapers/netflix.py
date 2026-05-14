@@ -43,12 +43,13 @@ def scrape() -> list[dict]:
                 break
 
             for j in positions:
-                role_id     = str(j.get("id", ""))
+                raw_id      = str(j.get("id", ""))
+                role_id     = f"netflix_{raw_id}" if raw_id else ""
                 title       = j.get("name", "").strip()
                 location    = j.get("location", "").strip()
                 team        = j.get("department", "").strip()
                 posted_date = _ts_to_date(j.get("t_create"))
-                url         = f"https://explore.jobs.netflix.net/careers/job/{role_id}"
+                url         = f"https://explore.jobs.netflix.net/careers/job/{raw_id}"
 
                 if role_id and title:
                     all_jobs.append({

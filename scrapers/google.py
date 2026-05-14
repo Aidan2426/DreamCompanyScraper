@@ -35,7 +35,7 @@ async def _extract_jobs_from_dom(page: Page) -> list[dict]:
                     : '';
 
                 const roleMatch = href ? href.match(/jobs\\/results\\/([^?/]+)/) : null;
-                const role_id   = roleMatch ? roleMatch[1] : '';
+                const role_id   = roleMatch ? 'google_' + roleMatch[1] : '';
 
                 // Dedupe locations — Google renders same span twice
                 const locEls  = card.querySelectorAll('span.r0wTof');
@@ -131,14 +131,15 @@ def _parse_from_api(intercepted: list[dict]) -> list[dict]:
                     raw = data[key]
                     break
         for j in raw:
-            role_id = str(j.get("id") or j.get("jobId") or "")
+            raw_id  = str(j.get("id") or j.get("jobId") or "")
+            role_id = f"google_{raw_id}" if raw_id else ""
             title   = j.get("title") or j.get("jobTitle") or ""
             team    = j.get("organization") or j.get("team") or j.get("department") or ""
             loc     = j.get("location") or j.get("locations") or ""
             if isinstance(loc, list):
                 loc = " | ".join(loc)
             posted  = j.get("date") or j.get("postedDate") or ""
-            url     = j.get("url") or (f"https://www.google.com/about/careers/applications/jobs/results/{role_id}" if role_id else "")
+            url     = j.get("url") or (f"https://www.google.com/about/careers/applications/jobs/results/{raw_id}" if raw_id else "")
             if role_id and title:
                 jobs.append({"role_id": role_id, "title": title, "team": team,
                              "location": loc, "posted_date": posted,

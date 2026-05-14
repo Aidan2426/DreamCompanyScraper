@@ -18,7 +18,8 @@ def scrape() -> list[dict]:
 
     all_jobs = []
     for j in jobs_raw:
-        role_id = str(j.get("id") or "")
+        raw_id = str(j.get("id") or "")
+        role_id = f"anthropic_{raw_id}" if raw_id else ""
         title = (j.get("title") or "").strip()
         if not role_id or not title:
             continue
@@ -30,7 +31,7 @@ def scrape() -> list[dict]:
         location = location.strip()
 
         posted = (j.get("first_published") or "")[:10]  # YYYY-MM-DD
-        url = j.get("absolute_url") or f"https://job-boards.greenhouse.io/anthropic/jobs/{role_id}"
+        url = j.get("absolute_url") or f"https://job-boards.greenhouse.io/anthropic/jobs/{raw_id}"
 
         all_jobs.append({
             "role_id":     role_id,
