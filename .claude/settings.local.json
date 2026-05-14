@@ -56,7 +56,8 @@
       "WebFetch(domain:mycareer.verizon.com)",
       "WebFetch(domain:careers.amd.com)",
       "WebFetch(domain:careers.salesforce.com)",
-      "WebFetch(domain:www.uber.com)"
+      "WebFetch(domain:www.uber.com)",
+      "WebFetch(domain:careers.zoom.us)"
     ]
   }
 }

@@ -32,6 +32,14 @@ COMPANY_LOGOS = {
     "Riot Games":     "https://upload.wikimedia.org/wikipedia/commons/9/9e/Riot_Games_2019.svg",
     "Fujifilm":       "https://upload.wikimedia.org/wikipedia/commons/5/58/Fujifilm_logo.svg",
     "PNC":            "https://upload.wikimedia.org/wikipedia/commons/6/6f/PNC_Financial_Services_logo.svg",
+    "UPMC":           "https://upload.wikimedia.org/wikipedia/commons/a/a0/UPMC_logo.svg",
+    "National Geographic Society": "https://upload.wikimedia.org/wikipedia/commons/0/0e/National_Geographic_Society.svg",
+    "Panasonic":      "https://upload.wikimedia.org/wikipedia/commons/3/31/Panasonic_logo_%28Blue%29.svg",
+    "Snap":           "https://upload.wikimedia.org/wikipedia/commons/a/a7/Snapchat_logo.svg",
+    "Logitech":       "https://upload.wikimedia.org/wikipedia/commons/0/05/Logitech_logo.svg",
+    "Cloudflare":     "https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg",
+    "Peloton":        "https://upload.wikimedia.org/wikipedia/commons/1/16/Peloton_logo.svg",
+    "Zillow":         "https://upload.wikimedia.org/wikipedia/commons/9/96/Zillow_logo.svg",
 }
 
 TEAM_COLORS = {
