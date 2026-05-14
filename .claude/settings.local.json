@@ -53,7 +53,10 @@
       "WebFetch(domain:api.greenhouse.io)",
       "WebFetch(domain:api.lever.co)",
       "WebFetch(domain:jobs.lever.co)",
-      "WebFetch(domain:mycareer.verizon.com)"
+      "WebFetch(domain:mycareer.verizon.com)",
+      "WebFetch(domain:careers.amd.com)",
+      "WebFetch(domain:careers.salesforce.com)",
+      "WebFetch(domain:www.uber.com)"
     ]
   }
 }

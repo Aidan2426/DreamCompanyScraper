@@ -22,6 +22,10 @@ COMPANY_LOGOS = {
     "PwC":            "https://upload.wikimedia.org/wikipedia/commons/0/05/PricewaterhouseCoopers_Logo.svg",
     "Spotify":        "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg",
     "Verizon":        "https://upload.wikimedia.org/wikipedia/commons/8/81/Verizon_2015_logo_-vector.svg",
+    "AMD":            "https://upload.wikimedia.org/wikipedia/commons/7/7c/AMD_Logo.svg",
+    "Salesforce":     "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",
+    "Uber":           "https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png",
+    "Airbnb":         "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",
 }
 
 TEAM_COLORS = {
