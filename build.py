@@ -26,6 +26,7 @@ COMPANY_LOGOS = {
     "Salesforce":     "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",
     "Uber":           "https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png",
     "Airbnb":         "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",
+    "Dropbox":        "https://upload.wikimedia.org/wikipedia/commons/7/74/Dropbox_logo_%282013%29.svg",
 }
 
 TEAM_COLORS = {
