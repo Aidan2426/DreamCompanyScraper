@@ -16,6 +16,9 @@ COMPANY_LOGOS = {
     "OpenAI":    "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
     "Anthropic":     "https://upload.wikimedia.org/wikipedia/commons/7/78/Anthropic_logo.svg",
     "Analog Devices": "https://upload.wikimedia.org/wikipedia/commons/8/86/Analog_Devices_Logo.svg",
+    "Pinterest":      "https://upload.wikimedia.org/wikipedia/commons/3/35/Pinterest_Logo.svg",
+    "LinkedIn":       "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
+    "Supercell":      "https://upload.wikimedia.org/wikipedia/commons/9/97/Supercell-Logo.svg",
 }
 
 TEAM_COLORS = {
