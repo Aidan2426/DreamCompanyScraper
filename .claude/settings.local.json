@@ -48,7 +48,12 @@
       "Bash(curl -s \"https://jobs.us.pwc.com/search-jobs\")",
       "Bash(curl -s \"https://jobs-search-analytics.prod.use1.radancy.net\")",
       "Bash(curl -s \"https://api.radancy.net/v1/jobs?company=pwc\" -H \"Accept: application/json\")",
-      "Bash(curl -s \"https://jobs.us.pwc.com/api/jobs?page=1\" -H \"Accept: application/json\")"
+      "Bash(curl -s \"https://jobs.us.pwc.com/api/jobs?page=1\" -H \"Accept: application/json\")",
+      "WebFetch(domain:www.lifeatspotify.com)",
+      "WebFetch(domain:api.greenhouse.io)",
+      "WebFetch(domain:api.lever.co)",
+      "WebFetch(domain:jobs.lever.co)",
+      "WebFetch(domain:mycareer.verizon.com)"
     ]
   }
 }
