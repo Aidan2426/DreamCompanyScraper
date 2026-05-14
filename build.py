@@ -27,6 +27,9 @@ COMPANY_LOGOS = {
     "Uber":           "https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png",
     "Airbnb":         "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",
     "Dropbox":        "https://upload.wikimedia.org/wikipedia/commons/7/74/Dropbox_logo_%282013%29.svg",
+    "Twitch":         "https://upload.wikimedia.org/wikipedia/commons/2/26/Twitch_logo.svg",
+    "Yahoo":          "https://upload.wikimedia.org/wikipedia/commons/2/2e/Yahoo%21_logo.svg",
+    "Riot Games":     "https://upload.wikimedia.org/wikipedia/commons/9/9e/Riot_Games_2019.svg",
 }
 
 TEAM_COLORS = {
