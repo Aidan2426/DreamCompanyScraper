@@ -40,6 +40,18 @@ COMPANY_LOGOS = {
     "Cloudflare":     "https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg",
     "Peloton":        "https://upload.wikimedia.org/wikipedia/commons/1/16/Peloton_logo.svg",
     "Zillow":         "https://upload.wikimedia.org/wikipedia/commons/9/96/Zillow_logo.svg",
+    "Garmin":         "https://upload.wikimedia.org/wikipedia/commons/5/5c/Garmin_logo.svg",
+    "Autodesk":       "https://upload.wikimedia.org/wikipedia/commons/b/b9/Autodesk_Logo.svg",
+    "Deloitte":       "https://upload.wikimedia.org/wikipedia/commons/5/56/Deloitte.svg",
+    "Wesco":          "https://upload.wikimedia.org/wikipedia/commons/6/69/Wesco_International_logo.svg",
+    "Viatris":        "https://upload.wikimedia.org/wikipedia/commons/6/6a/Viatris_logo.svg",
+    "Dick's Sporting Goods": "https://upload.wikimedia.org/wikipedia/commons/5/56/DICK%27S_Sporting_Goods_logo.svg",
+    "Alcoa":          "https://upload.wikimedia.org/wikipedia/commons/6/69/Alcoa_Logo.svg",
+    "Arconic":        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Arconic_logo.svg",
+    "Westinghouse":   "https://upload.wikimedia.org/wikipedia/commons/4/49/Westinghouse_Electric_Corporation_Logo.svg",
+    "EQT":            "https://upload.wikimedia.org/wikipedia/commons/0/05/EQT_Corporation_logo.svg",
+    "Howmet Aerospace": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Howmet_Aerospace_logo.svg",
+    "American Eagle":   "https://upload.wikimedia.org/wikipedia/commons/8/8b/American_Eagle_Outfitters_Logo.svg",
 }
 
 TEAM_COLORS = {

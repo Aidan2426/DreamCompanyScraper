@@ -57,7 +57,18 @@
       "WebFetch(domain:careers.amd.com)",
       "WebFetch(domain:careers.salesforce.com)",
       "WebFetch(domain:www.uber.com)",
-      "WebFetch(domain:careers.zoom.us)"
+      "WebFetch(domain:careers.zoom.us)",
+      "WebFetch(domain:www.dickssportinggoods.jobs)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" -H \"Accept: application/json\" \"https://www.dickssportinggoods.jobs/jobs/?mypage=1\")",
+      "Bash(curl -s \"https://www.dickssportinggoods.jobs/wp-content/plugins/appcast-jobsearch-plugin/plugin_helpers/../assets/js/appcast_jobsearch_scripts.js?ver=1778694982\")",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://www.dickssportinggoods.jobs/calc-results/?mypage=0\")",
+      "Bash(curl -s -A \"Mozilla/5.0\" \"https://www.dickssportinggoods.jobs/calc-results/?mypage=87\")",
+      "Bash(curl -s -A \"Mozilla/5.0\" \"https://www.dickssportinggoods.jobs/calc-results/?mypage=88\")",
+      "Bash(curl -s -A Mozilla/5.0 https://www.dickssportinggoods.jobs/calc-results/?mypage=__TRACKED_VAR__)",
+      "Bash(curl -s -c /tmp/dsg_cookies.txt -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://www.dickssportinggoods.jobs/jobs/\" -o /dev/null)",
+      "Bash(curl -s -b /tmp/dsg_cookies.txt -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" -H \"Referer: https://www.dickssportinggoods.jobs/jobs/\" \"https://www.dickssportinggoods.jobs/calc-results/?mypage=1\")",
+      "Bash(curl -s -A \"Mozilla/5.0\" \"https://careers.westinghousenuclear.com/go/All-Careers/8736400/?startrow=26\")",
+      "Bash(curl -s \"https://boards-api.greenhouse.io/v1/boards/eqtcorporation/jobs?content=true\")"
     ]
   }
 }
