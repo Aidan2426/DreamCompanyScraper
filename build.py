@@ -65,6 +65,23 @@ COMPANY_LOGOS = {
     "Razer":                     _gfav("razer.com"),
     "Stripe":                    _gfav("stripe.com"),
     "Notion":                    _gfav("notion.so"),
+    "Visa":                      _gfav("visa.com"),
+    "BNY":                       _gfav("bny.com"),
+    "Mastercard":                _gfav("mastercard.com"),
+    "General Dynamics":          _gfav("gd.com"),
+    "Ford":                      _gfav("ford.com"),
+    "Sandisk":                   _gfav("sandisk.com"),
+    "Figma":                     _gfav("figma.com"),
+    "Capital One":               _gfav("capitalone.com"),
+    "CrowdStrike":               _gfav("crowdstrike.com"),
+    "Boeing":                    _gfav("boeing.com"),
+    "Wabtec":                    _gfav("wabtec.com"),
+    "Lenovo":                    _gfav("lenovo.com"),
+    "Tesla":                     _gfav("tesla.com"),
+    "SpaceX":                    _gfav("spacex.com"),
+    "Lockheed Martin":           _gfav("lockheedmartin.com"),
+    "PayPal":                    _gfav("paypal.com"),
+    "Dell":                      _gfav("dell.com"),
     "Disney":                    _gfav("disney.com"),
     "Nvidia":                    _gfav("nvidia.com"),
     "Hershey":                   _gfav("thehersheycompany.com"),
@@ -436,6 +453,12 @@ html = f"""<!DOCTYPE html>
     .radius-city-input::placeholder {{ color: rgba(255,255,255,0.3); }}
     .radius-city-input:focus {{ background: rgba(255,255,255,0.09); border-color: rgba(0,113,227,0.65); color: #fff; }}
     .radius-city-input.active {{ border-color: var(--blue); color: #fff; background: rgba(0,113,227,0.10); }}
+    .radius-clear {{
+      background: none; border: none; cursor: pointer; padding: 0 2px;
+      color: rgba(255,255,255,0.4); font-size: 13px; line-height: 1;
+      transition: color 0.15s;
+    }}
+    .radius-clear:hover {{ color: #fff; }}
     .radius-select {{
       font-size: 12.5px; padding: 5px 28px 5px 11px;
       background: rgba(255,255,255,0.06);
@@ -567,6 +590,7 @@ html = f"""<!DOCTYPE html>
     </div>
     <div class="radius-wrap">
       <input class="radius-city-input" id="radius-city" type="text" placeholder="City, ST" list="city-datalist" autocomplete="off"/>
+      <button class="radius-clear" id="radius-clear" title="Clear city" style="display:none">✕</button>
       <datalist id="city-datalist"></datalist>
       <select class="radius-select" id="radius-miles">
         <option value="">Any dist</option>
@@ -694,9 +718,41 @@ function scoreJob(j) {{
   if (/\\b(backend|frontend|full[\\s-]?stack)/.test(title))                               s += 22;
   if (/\\b(information tech|systems|infrastructure|devops|cloud|platform|\\bsre\\b)/.test(title)) s += 28;
 
-  // Entry-level signals
-  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|early[\\s-]*career|level\\s*i\\b|associate\\b)/.test(title)) s += 28;
+  // Entry-level signals — generic
+  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|early[\\s-]*career|level\\s*i\\b)/.test(title)) s += 28;
+  // "associate" only boosts when paired with a tech role word
+  if (/\\bassociate\\b/.test(title) && /\\b(software|engineer|developer|analyst|data|scientist|swe|sde|programmer|devops|cloud|it|security|architect)\\b/.test(title)) s += 28;
   if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|associate)/.test(exp)) s += 35;
+
+  // ── Company-specific level systems ──
+  // Google: L3=SWE II (entry), L4=SWE III (junior-mid), L5+=Senior (penalised below)
+  if (/\\b(swe\\s*(ii|2)|sde\\s*(ii|2)|software\\s*engineer\\s*(ii|2)|data\\s*engineer\\s*(ii|2))\\b/.test(title)) s += 30;
+  if (/\\b(swe\\s*(iii|3)|sde\\s*(iii|3)|software\\s*engineer\\s*(iii|3))\\b/.test(title)) s += 12;
+  if (/\\b(swe\\s*(iv|v|4|5|6)|software\\s*engineer\\s*(iv|v|4|5|6))\\b/.test(title)) s -= 30;
+  // Meta: E3/E4 entry-junior, E5+ senior
+  if (/\\bE[34]\\b/.test(title)) s += 28;
+  if (/\\bE[56789]\\b/.test(title)) s -= 35;
+  // Amazon: SDE I=entry (L4), SDE II=mid (L5), Senior SDE=senior (L6)
+  // "sde" already +40; SDE I specifically gets extra boost
+  if (/\\bsde\\s*i\\b/.test(title) && !/\\bsde\\s*ii\\b/.test(title)) s += 20;
+  // Microsoft: SDE=entry, SDE II=mid, Senior SDE=senior — handled by "sde" +40 + senior penalty
+  // Apple: ICT2/ICT3 entry, ICT4 mid, ICT5/6 senior
+  if (/\\bict\\s*[23]\\b/.test(title)) s += 28;
+  if (/\\bict\\s*4\\b/.test(title)) s += 5;
+  if (/\\bict\\s*[567]\\b/.test(title)) s -= 30;
+  // Stripe: IC3=entry, IC4=junior-mid, IC5+=senior
+  if (/\\bic\\s*[34]\\b/.test(title)) s += 25;
+  if (/\\bic\\s*[567]\\b/.test(title)) s -= 30;
+  // Uber/Airbnb/Snap/Pinterest/Roblox: L3/L4=entry-mid, L5+=senior
+  if (/\\b(software|swe|sde|data|ml)\\b/.test(title) && /\\bl[34]\\b/.test(title)) s += 22;
+  if (/\\b(software|swe|sde|data|ml)\\b/.test(title) && /\\bl[5678]\\b/.test(title)) s -= 30;
+  // Salesforce: MTS=entry, SMTS=senior, LMTS/PMTS=staff
+  if (/\\bmts\\b/.test(title) && !/\\b(s|l|p)mts\\b/.test(title)) s += 20;
+  if (/\\b(smts|lmts|pmts)\\b/.test(title)) s -= 25;
+  // EA: Associate SE / SE I = entry
+  if (/\\bse\\s*i\\b/.test(title) && !/\\bse\\s*ii\\b/.test(title)) s += 20;
+  // Ubisoft: Junior Programmer handled by "junior"; Programmer=mid; Senior=penalised below
+  // PNC: C1 Associate=caught by "associate"; C2 SWE neutral; C3+ Senior/Principal caught below
 
   // Seniority penalties
   if (/\\b(senior|sr\\.?\\s|staff\\s|principal)/.test(title)) s -= 35;
@@ -805,12 +861,12 @@ Object.keys(CITY_COORDS).sort().forEach(c => {{
   _cityDatalist.appendChild(opt);
 }});
 
-const HIDDEN_TITLES = /retail sales associate/i;
+const HIDDEN_TITLES = /\b(retail\s+sales|sales\s+associate|cashier|store\s+(manager|associate|leader|supervisor)|sales\s+rep(resentative)?|retail\s+associate|floor\s+(associate|supervisor)|merchandise|barista|bank\s+teller|teller\b)\b/i;
 
 function filtered() {{
   return JOBS.filter(j => {{
     if (HIDDEN_TITLES.test(j.title)) return false;
-    if (state.q              && !j.title.toLowerCase().includes(state.q)) return false;
+    if (state.q              && !j.title.toLowerCase().includes(state.q) && !(j.company||'').toLowerCase().includes(state.q)) return false;
     if (state.newOnly        && !j.is_new)                                 return false;
     if (companyDrop.sel.size && !companyDrop.sel.has(j.company))          return false;
     if (teamDrop.sel.size    && !teamDrop.sel.has(j.team))                return false;
@@ -852,16 +908,17 @@ function parseDate(str) {{
   if (rel.includes('month'))   {{ const v=n(/(\\d+|a|an)\\s+month/);  if(v) return now - v*30*86400*1000; }}
   // absolute: "Apr 19, 2026"
   const d = new Date(str);
-  return isNaN(d) ? 0 : d.getTime();
+  if (isNaN(d)) return 0;
+  // future dates (e.g. expiration fields) treated as unknown
+  return d.getTime() > Date.now() ? 0 : d.getTime();
 }}
 
 function sorted(arr) {{
   if (state.sort === 'title')  return [...arr].sort((a,b)=>a.title.localeCompare(b.title));
   if (state.sort === 'foryou') return [...arr].sort((a,b) => {{
-    const da = Math.floor((parseDate(a.posted_date) || parseDate(a.first_seen)) / 86400000);
-    const db = Math.floor((parseDate(b.posted_date) || parseDate(b.first_seen)) / 86400000);
-    if (db !== da) return db - da;
-    return scoreJob(b) - scoreJob(a) || a.title.localeCompare(b.title);
+    const ta = parseDate(a.posted_date) || parseDate(a.first_seen);
+    const tb = parseDate(b.posted_date) || parseDate(b.first_seen);
+    return tb - ta || scoreJob(b) - scoreJob(a) || a.title.localeCompare(b.title);
   }});
   return [...arr].sort((a,b) => {{
     const ta = parseDate(a.posted_date) || parseDate(a.first_seen);
@@ -993,9 +1050,18 @@ document.querySelectorAll('[data-sort]').forEach(b => b.addEventListener('click'
 
 const _radiusCityEl  = document.getElementById('radius-city');
 const _radiusMilesEl = document.getElementById('radius-miles');
+const _radiusClearEl = document.getElementById('radius-clear');
 _radiusCityEl.addEventListener('input', () => {{
   state.radiusCity = _radiusCityEl.value.trim();
   _radiusCityEl.classList.toggle('active', !!state.radiusCity);
+  _radiusClearEl.style.display = state.radiusCity ? '' : 'none';
+  render();
+}});
+_radiusClearEl.addEventListener('click', () => {{
+  _radiusCityEl.value = '';
+  state.radiusCity = '';
+  _radiusCityEl.classList.remove('active');
+  _radiusClearEl.style.display = 'none';
   render();
 }});
 _radiusMilesEl.addEventListener('change', () => {{
