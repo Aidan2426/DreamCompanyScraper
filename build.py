@@ -4,88 +4,95 @@ Run: python build.py
 """
 import json
 import os
+import re
+import time
+import urllib.request
+import urllib.parse
 import webbrowser
 
+def _gfav(domain):
+    return f"https://www.google.com/s2/favicons?domain={domain}&sz=128"
+
 COMPANY_LOGOS = {
-    "Apple":  "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
-    "Google":    "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
-    "Microsoft": "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",
-    "Netflix":   "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
-    "Meta":      "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
-    "Amazon":    "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
-    "OpenAI":    "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
-    "Anthropic":     "https://upload.wikimedia.org/wikipedia/commons/7/78/Anthropic_logo.svg",
-    "Analog Devices": "https://upload.wikimedia.org/wikipedia/commons/8/86/Analog_Devices_Logo.svg",
-    "Pinterest":      "https://upload.wikimedia.org/wikipedia/commons/3/35/Pinterest_Logo.svg",
-    "LinkedIn":       "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
-    "Supercell":      "https://upload.wikimedia.org/wikipedia/commons/9/97/Supercell-Logo.svg",
-    "PwC":            "https://upload.wikimedia.org/wikipedia/commons/0/05/PricewaterhouseCoopers_Logo.svg",
-    "Spotify":        "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg",
-    "Verizon":        "https://upload.wikimedia.org/wikipedia/commons/8/81/Verizon_2015_logo_-vector.svg",
-    "AMD":            "https://upload.wikimedia.org/wikipedia/commons/7/7c/AMD_Logo.svg",
-    "Salesforce":     "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",
-    "Uber":           "https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png",
-    "Airbnb":         "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",
-    "Dropbox":        "https://upload.wikimedia.org/wikipedia/commons/7/74/Dropbox_logo_%282013%29.svg",
-    "Twitch":         "https://upload.wikimedia.org/wikipedia/commons/2/26/Twitch_logo.svg",
-    "Yahoo":          "https://upload.wikimedia.org/wikipedia/commons/2/2e/Yahoo%21_logo.svg",
-    "Riot Games":     "https://upload.wikimedia.org/wikipedia/commons/9/9e/Riot_Games_2019.svg",
-    "Fujifilm":       "https://upload.wikimedia.org/wikipedia/commons/5/58/Fujifilm_logo.svg",
-    "PNC":            "https://upload.wikimedia.org/wikipedia/commons/6/6f/PNC_Financial_Services_logo.svg",
-    "UPMC":           "https://upload.wikimedia.org/wikipedia/commons/a/a0/UPMC_logo.svg",
-    "National Geographic Society": "https://upload.wikimedia.org/wikipedia/commons/0/0e/National_Geographic_Society.svg",
-    "Panasonic":      "https://upload.wikimedia.org/wikipedia/commons/3/31/Panasonic_logo_%28Blue%29.svg",
-    "Snap":           "https://upload.wikimedia.org/wikipedia/commons/a/a7/Snapchat_logo.svg",
-    "Logitech":       "https://upload.wikimedia.org/wikipedia/commons/0/05/Logitech_logo.svg",
-    "Cloudflare":     "https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg",
-    "Peloton":        "https://upload.wikimedia.org/wikipedia/commons/1/16/Peloton_logo.svg",
-    "Zillow":         "https://upload.wikimedia.org/wikipedia/commons/9/96/Zillow_logo.svg",
-    "Garmin":         "https://upload.wikimedia.org/wikipedia/commons/5/5c/Garmin_logo.svg",
-    "Autodesk":       "https://upload.wikimedia.org/wikipedia/commons/b/b9/Autodesk_Logo.svg",
-    "Deloitte":       "https://upload.wikimedia.org/wikipedia/commons/5/56/Deloitte.svg",
-    "Wesco":          "https://upload.wikimedia.org/wikipedia/commons/6/69/Wesco_International_logo.svg",
-    "Viatris":        "https://upload.wikimedia.org/wikipedia/commons/6/6a/Viatris_logo.svg",
-    "Dick's Sporting Goods": "https://upload.wikimedia.org/wikipedia/commons/5/56/DICK%27S_Sporting_Goods_logo.svg",
-    "Alcoa":          "https://upload.wikimedia.org/wikipedia/commons/6/69/Alcoa_Logo.svg",
-    "Arconic":        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Arconic_logo.svg",
-    "Westinghouse":   "https://upload.wikimedia.org/wikipedia/commons/4/49/Westinghouse_Electric_Corporation_Logo.svg",
-    "EQT":            "https://upload.wikimedia.org/wikipedia/commons/0/05/EQT_Corporation_logo.svg",
-    "Howmet Aerospace": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Howmet_Aerospace_logo.svg",
-    "American Eagle":   "https://upload.wikimedia.org/wikipedia/commons/8/8b/American_Eagle_Outfitters_Logo.svg",
-    "Coherent":         "https://upload.wikimedia.org/wikipedia/commons/8/8e/Coherent_Corp_logo.svg",
-    "Nike":             "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg",
-    "Adidas":           "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg",
-    "Razer":            "https://upload.wikimedia.org/wikipedia/commons/a/a4/Razer_snake_logo.svg",
-    "Stripe":           "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",
-    "Notion":           "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
-    "Disney":           "https://upload.wikimedia.org/wikipedia/commons/a/a4/Disney_wordmark.svg",
-    "Nvidia":           "https://upload.wikimedia.org/wikipedia/commons/a/a4/NVIDIA_logo.svg",
-    "Hershey":          "https://upload.wikimedia.org/wikipedia/commons/e/e2/Hershey_Company_logo.svg",
-    "IBM":              "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
-    "Cisco":            "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg",
-    "Oracle":           "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
-    "Universal Parks & Resorts": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Universal_Pictures_logo.svg",
-    "Duolingo":         "https://upload.wikimedia.org/wikipedia/commons/d/de/Duolingo_logo.svg",
-    "HP":               "https://upload.wikimedia.org/wikipedia/commons/a/ad/HP_logo_2012.svg",
-    "Intel":            "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg",
-    "Qualcomm":         "https://upload.wikimedia.org/wikipedia/commons/f/fc/Qualcomm-Logo.svg",
-    "Micron":           "https://upload.wikimedia.org/wikipedia/commons/c/c0/Micron_Technology_Inc._logo.svg",
-    "Paramount":        "https://upload.wikimedia.org/wikipedia/commons/2/20/Paramount_Pictures_logo.svg",
-    "Adobe":            "https://upload.wikimedia.org/wikipedia/commons/8/8d/Adobe_Corporate_logo.svg",
-    "Motorola Solutions": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Motorola_Solutions_logo.svg",
-    "Samsung":          "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg",
-    "eBay":             "https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg",
-    "Gecko Robotics":   "https://upload.wikimedia.org/wikipedia/commons/5/5e/Gecko_Robotics_logo.svg",
-    "Western Digital":  "https://upload.wikimedia.org/wikipedia/commons/7/7e/Western_Digital_logo_%282020%29.svg",
-    "National Park Service": "https://upload.wikimedia.org/wikipedia/commons/1/1f/US-NationalParkService-Logo.svg",
-    "xAI":              "https://upload.wikimedia.org/wikipedia/commons/b/b2/XAI_Logo.svg",
-    "Palantir":         "https://upload.wikimedia.org/wikipedia/commons/1/13/Palantir_Technologies_logo.svg",
-    "Sony":             "https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg",
-    "Nintendo":         "https://upload.wikimedia.org/wikipedia/commons/0/0d/Nintendo.svg",
-    "EA":               "https://upload.wikimedia.org/wikipedia/commons/a/ae/Electronic-arts-ea-logo.svg",
-    "Epic Games":       "https://upload.wikimedia.org/wikipedia/commons/3/31/Epic_Games_logo_and_wordmark.svg",
-    "Roblox":           "https://upload.wikimedia.org/wikipedia/commons/8/85/Roblox_logo.svg",
-    "Ubisoft":          "https://upload.wikimedia.org/wikipedia/commons/7/78/Ubisoft_logo.svg",
+    "Apple":                     _gfav("apple.com"),
+    "Google":                    _gfav("google.com"),
+    "Microsoft":                 _gfav("microsoft.com"),
+    "Netflix":                   _gfav("netflix.com"),
+    "Meta":                      _gfav("meta.com"),
+    "Amazon":                    _gfav("amazon.com"),
+    "OpenAI":                    _gfav("openai.com"),
+    "Anthropic":                 _gfav("anthropic.com"),
+    "Analog Devices":            _gfav("analog.com"),
+    "Pinterest":                 _gfav("pinterest.com"),
+    "LinkedIn":                  _gfav("linkedin.com"),
+    "Supercell":                 _gfav("supercell.com"),
+    "PwC":                       _gfav("pwc.com"),
+    "Spotify":                   _gfav("spotify.com"),
+    "Verizon":                   _gfav("verizon.com"),
+    "AMD":                       _gfav("amd.com"),
+    "Salesforce":                _gfav("salesforce.com"),
+    "Uber":                      _gfav("uber.com"),
+    "Airbnb":                    _gfav("airbnb.com"),
+    "Dropbox":                   _gfav("dropbox.com"),
+    "Twitch":                    _gfav("twitch.tv"),
+    "Yahoo":                     _gfav("yahoo.com"),
+    "Riot Games":                _gfav("riotgames.com"),
+    "Fujifilm":                  _gfav("fujifilm.com"),
+    "PNC":                       _gfav("pnc.com"),
+    "UPMC":                      _gfav("upmc.com"),
+    "National Geographic Society": _gfav("nationalgeographic.com"),
+    "Panasonic":                 _gfav("panasonic.com"),
+    "Snap":                      _gfav("snap.com"),
+    "Logitech":                  _gfav("logitech.com"),
+    "Cloudflare":                _gfav("cloudflare.com"),
+    "Peloton":                   _gfav("onepeloton.com"),
+    "Zillow":                    _gfav("zillow.com"),
+    "Garmin":                    _gfav("garmin.com"),
+    "Autodesk":                  _gfav("autodesk.com"),
+    "Deloitte":                  _gfav("deloitte.com"),
+    "Wesco":                     _gfav("wesco.com"),
+    "Viatris":                   _gfav("viatris.com"),
+    "Dick's Sporting Goods":     _gfav("dickssportinggoods.com"),
+    "Alcoa":                     _gfav("alcoa.com"),
+    "Arconic":                   _gfav("arconic.com"),
+    "Westinghouse":              _gfav("westinghousenuclear.com"),
+    "EQT":                       _gfav("eqt.com"),
+    "Howmet Aerospace":          _gfav("howmet.com"),
+    "American Eagle":            _gfav("ae.com"),
+    "Coherent":                  _gfav("coherent.com"),
+    "Nike":                      _gfav("nike.com"),
+    "Adidas":                    _gfav("adidas.com"),
+    "Razer":                     _gfav("razer.com"),
+    "Stripe":                    _gfav("stripe.com"),
+    "Notion":                    _gfav("notion.so"),
+    "Disney":                    _gfav("disney.com"),
+    "Nvidia":                    _gfav("nvidia.com"),
+    "Hershey":                   _gfav("thehersheycompany.com"),
+    "IBM":                       _gfav("ibm.com"),
+    "Cisco":                     _gfav("cisco.com"),
+    "Oracle":                    _gfav("oracle.com"),
+    "Universal Parks & Resorts": _gfav("universalparks.com"),
+    "Duolingo":                  _gfav("duolingo.com"),
+    "HP":                        _gfav("hp.com"),
+    "Intel":                     _gfav("intel.com"),
+    "Qualcomm":                  _gfav("qualcomm.com"),
+    "Micron":                    _gfav("micron.com"),
+    "Paramount":                 _gfav("paramount.com"),
+    "Adobe":                     _gfav("adobe.com"),
+    "Motorola Solutions":        _gfav("motorolasolutions.com"),
+    "Samsung":                   _gfav("samsung.com"),
+    "eBay":                      _gfav("ebay.com"),
+    "Gecko Robotics":            _gfav("geckorobotics.com"),
+    "Western Digital":           _gfav("westerndigital.com"),
+    "National Park Service":     _gfav("nps.gov"),
+    "xAI":                       _gfav("x.ai"),
+    "Palantir":                  _gfav("palantir.com"),
+    "Sony":                      _gfav("sony.com"),
+    "Nintendo":                  _gfav("nintendo.com"),
+    "EA":                        _gfav("ea.com"),
+    "Epic Games":                _gfav("epicgames.com"),
+    "Roblox":                    _gfav("roblox.com"),
+    "Ubisoft":                   _gfav("ubisoft.com"),
 }
 
 TEAM_COLORS = {
@@ -110,6 +117,105 @@ STATE_ABBREV = {
     "District of Columbia":"DC","Puerto Rico":"PR","Guam":"GU","Virgin Islands":"VI",
 }
 
+_US_ST = set(STATE_ABBREV.values())
+_INTL_HINTS = {
+    'bangalore','bengaluru','hyderabad','mumbai','delhi','new delhi','pune','chennai',
+    'kolkata','noida','gurgaon','gurugram','ahmedabad','kochi','jaipur','indore','nagpur',
+    'toronto','vancouver','montreal','ottawa','calgary','edmonton','winnipeg','halifax',
+    'london','manchester','edinburgh','bristol','leeds','birmingham','glasgow','dublin',
+    'amsterdam','berlin','munich','frankfurt','hamburg','cologne','stuttgart','paris',
+    'lyon','marseille','madrid','barcelona','seville','milan','rome','turin','naples',
+    'sydney','melbourne','brisbane','perth','adelaide','auckland','wellington','christchurch',
+    'singapore','tokyo','osaka','kyoto','sapporo','beijing','shanghai','shenzhen',
+    'guangzhou','hong kong','seoul','busan','taipei','kaohsiung','bangkok','jakarta',
+    'kuala lumpur','manila','ho chi minh','hanoi','tel aviv','jerusalem','dubai',
+    'abu dhabi','riyadh','doha','cairo','nairobi','lagos','johannesburg','cape town',
+    'mexico city','guadalajara','monterrey','bogota','lima','santiago','sao paulo',
+    'rio de janeiro','buenos aires','stockholm','oslo','copenhagen','helsinki',
+    'zurich','geneva','bern','brussels','antwerp','vienna','warsaw','prague',
+    'budapest','bucharest','athens','lisbon','porto',
+}
+
+def _extract_job_us_cities(jobs):
+    counts = {}
+    for j in jobs:
+        loc = (j.get('location') or '').strip()
+        if not loc:
+            continue
+        for part in re.split(r'\r?\n', loc):
+            part = part.strip()
+            if not part:
+                continue
+            m = re.match(r'^([A-Z]{2})\s*[-–]\s*(.+?)(?:\s*\(\d+\))?$', part)
+            if m and m.group(1) in _US_ST and m.group(2).strip().lower() not in _INTL_HINTS:
+                key = f"{m.group(2).strip()}, {m.group(1)}"
+                counts[key] = counts.get(key, 0) + 1
+                continue
+            clean = re.sub(r'\b\d{5}(-\d{4})?\b', '', part).strip()
+            segs = [s.strip() for s in clean.split(',') if s.strip()]
+            if not segs:
+                continue
+            city = segs[0]
+            city_lc = city.lower()
+            if city_lc in _INTL_HINTS:
+                continue
+            matched = False
+            for seg in segs[1:]:
+                if seg in _US_ST:
+                    key = f"{city}, {seg}"
+                    counts[key] = counts.get(key, 0) + 1
+                    matched = True
+                    break
+                if seg in STATE_ABBREV:
+                    key = f"{city}, {STATE_ABBREV[seg]}"
+                    counts[key] = counts.get(key, 0) + 1
+                    matched = True
+                    break
+            if not matched:
+                m2 = re.match(r'^(.+?)\s+([A-Z]{2})$', city)
+                if m2 and m2.group(2) in _US_ST and m2.group(1).lower() not in _INTL_HINTS:
+                    key = f"{m2.group(1)}, {m2.group(2)}"
+                    counts[key] = counts.get(key, 0) + 1
+    return counts
+
+def _geocode_cities(city_counts, cache_file='city_coords.json'):
+    cache = {}
+    if os.path.exists(cache_file):
+        with open(cache_file, encoding='utf-8') as f:
+            try:
+                cache = json.load(f)
+            except Exception:
+                pass
+    to_geocode = [c for c in city_counts if c not in cache]
+    if to_geocode:
+        print(f"Geocoding {len(to_geocode)} new cities...")
+        for i, city in enumerate(to_geocode):
+            try:
+                q = urllib.parse.urlencode({'q': city + ', USA', 'format': 'json', 'limit': 1})
+                req = urllib.request.Request(
+                    f'https://nominatim.openstreetmap.org/search?{q}',
+                    headers={'User-Agent': 'DreamCompanyScraper/1.0 (aash3@hawk.illinoistech.edu)'}
+                )
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    data = json.loads(resp.read())
+                if data:
+                    lat, lon = float(data[0]['lat']), float(data[0]['lon'])
+                    cache[city] = {'lat': lat, 'lon': lon}
+                    print(f"  [{i+1}/{len(to_geocode)}] {city} -> {lat:.4f}, {lon:.4f}")
+                else:
+                    cache[city] = None
+                    print(f"  [{i+1}/{len(to_geocode)}] {city} -> not found")
+            except Exception as e:
+                print(f"  [{i+1}/{len(to_geocode)}] {city} -> ERROR: {e}")
+                cache[city] = None
+            if i < len(to_geocode) - 1:
+                time.sleep(1.1)
+        with open(cache_file, 'w', encoding='utf-8') as f:
+            json.dump(cache, f, ensure_ascii=False, indent=2)
+        resolved = sum(1 for v in cache.values() if v)
+        print(f"Geocoding done — {resolved} cities resolved.")
+    return {k: v for k, v in cache.items() if v is not None}
+
 jobs_data = {"scraped_at": "", "jobs": []}
 if os.path.exists("jobs.json"):
     with open("jobs.json", encoding="utf-8") as f:
@@ -122,12 +228,17 @@ teams      = sorted({j["team"] for j in jobs if j.get("team")})
 companies  = sorted({j["company"] for j in jobs if j.get("company")})
 experiences = sorted({j["experience"] for j in jobs if j.get("experience")})
 
-jobs_json     = json.dumps(jobs,      ensure_ascii=False)
-teams_json    = json.dumps(teams,     ensure_ascii=False)
-companies_json= json.dumps(companies, ensure_ascii=False)
+city_counts  = _extract_job_us_cities(jobs)
+city_counts  = {c: n for c, n in city_counts.items() if n >= 2}
+city_coords  = _geocode_cities(city_counts)
+
+jobs_json         = json.dumps(jobs,         ensure_ascii=False)
+teams_json        = json.dumps(teams,        ensure_ascii=False)
+companies_json    = json.dumps(companies,    ensure_ascii=False)
 experiences_json  = json.dumps(experiences,  ensure_ascii=False)
 state_abbrev_json = json.dumps(STATE_ABBREV, ensure_ascii=False)
 logos_json        = json.dumps(COMPANY_LOGOS, ensure_ascii=False)
+city_coords_json  = json.dumps(city_coords,  ensure_ascii=False)
 
 html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -135,6 +246,7 @@ html = f"""<!DOCTYPE html>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dream Jobs</title>
+  <link rel="icon" type="image/jpeg" href="free-simpmle-star-clipart-01-1.jpg"/>
   <style>
     *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
     :root {{
@@ -282,7 +394,21 @@ html = f"""<!DOCTYPE html>
     }}
     .cs-item:hover {{ background: rgba(255,255,255,0.07); }}
     .cs-item.selected {{ background: rgba(0,113,227,0.12); }}
-    .cs-logo {{ width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; background: #fff; border-radius: 3px; padding: 2px; box-sizing: border-box; }}
+    .cs-logo {{ width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; border-radius: 3px; background: #fff; padding: 2px; box-sizing: border-box; }}
+
+    /* ── Company grid dropdown ── */
+    #cs-company .cs-panel {{ min-width: 420px; max-width: 520px; max-height: 400px; }}
+    .cs-grid {{ display: flex; flex-wrap: wrap; gap: 5px; padding: 4px 2px; overflow-y: auto; }}
+    .cs-grid-item {{
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      padding: 8px 5px 6px; border-radius: 8px; cursor: pointer;
+      width: 76px; transition: background 0.1s; flex-shrink: 0;
+    }}
+    .cs-grid-item:hover {{ background: rgba(255,255,255,0.07); }}
+    .cs-grid-item.selected {{ background: rgba(0,113,227,0.15); outline: 1.5px solid var(--blue); }}
+    .cs-grid-logo {{ width: 36px; height: 36px; object-fit: contain; border-radius: 6px; background: #fff; padding: 3px; box-sizing: border-box; }}
+    .cs-grid-lbl {{ font-size: 10px; color: rgba(255,255,255,0.65); text-align: center; line-height: 1.2; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+    .cs-grid-item.selected .cs-grid-lbl {{ color: #fff; }}
     .cs-lbl {{ font-size: 13px; color: rgba(255,255,255,0.82); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
     .cs-check {{
       width: 16px; height: 16px; border-radius: 4px;
@@ -294,6 +420,35 @@ html = f"""<!DOCTYPE html>
     .cs-tick {{ display: none; width: 9px; height: 8px; }}
     .cs-item.selected .cs-tick {{ display: block; }}
     .cs-empty {{ font-size: 13px; color: rgba(255,255,255,0.3); padding: 12px 8px; text-align: center; }}
+
+    /* ── Radius filter ── */
+    .radius-wrap {{
+      display: inline-flex; align-items: center; gap: 4px;
+    }}
+    .radius-city-input {{
+      font-size: 12.5px; padding: 5px 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 980px; color: rgba(255,255,255,0.55);
+      outline: none; width: 138px; font-weight: 500;
+      transition: all 0.15s;
+    }}
+    .radius-city-input::placeholder {{ color: rgba(255,255,255,0.3); }}
+    .radius-city-input:focus {{ background: rgba(255,255,255,0.09); border-color: rgba(0,113,227,0.65); color: #fff; }}
+    .radius-city-input.active {{ border-color: var(--blue); color: #fff; background: rgba(0,113,227,0.10); }}
+    .radius-select {{
+      font-size: 12.5px; padding: 5px 28px 5px 11px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 980px; color: rgba(255,255,255,0.55);
+      cursor: pointer; outline: none; appearance: none; font-weight: 500;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 9px center;
+      transition: all 0.15s;
+    }}
+    .radius-select option {{ background: #111113; }}
+    .radius-select:hover {{ color: #fff; border-color: rgba(255,255,255,0.2); background-color: rgba(255,255,255,0.10); }}
+    .radius-select.active {{ border-color: var(--blue); color: #fff; background-color: rgba(0,113,227,0.18); }}
 
     /* ── Count bar ── */
     .count-bar {{
@@ -381,7 +536,7 @@ html = f"""<!DOCTYPE html>
 <body>
 
 <nav>
-  <span class="nav-brand">Dream Jobs</span>
+  <span class="nav-brand"><img src="free-simpmle-star-clipart-01-1.jpg" style="height:26px;width:26px;object-fit:contain;vertical-align:middle;margin-right:7px;border-radius:4px;"/>Dream Jobs</span>
   <span class="nav-meta" id="nav-meta">{len(jobs)} jobs · {new_count} new today</span>
 </nav>
 
@@ -410,9 +565,16 @@ html = f"""<!DOCTYPE html>
       <button class="cs-btn"><span class="cs-btn-label">Team</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
       <div class="cs-panel"><input class="cs-search" placeholder="Search…" autocomplete="off"/><div class="cs-list"></div></div>
     </div>
-    <div class="custom-select" id="cs-city">
-      <button class="cs-btn"><span class="cs-btn-label">City</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
-      <div class="cs-panel"><input class="cs-search" placeholder="Search…" autocomplete="off"/><div class="cs-list"></div></div>
+    <div class="radius-wrap">
+      <input class="radius-city-input" id="radius-city" type="text" placeholder="City, ST" list="city-datalist" autocomplete="off"/>
+      <datalist id="city-datalist"></datalist>
+      <select class="radius-select" id="radius-miles">
+        <option value="">Any dist</option>
+        <option value="25">25 mi</option>
+        <option value="50">50 mi</option>
+        <option value="100">100 mi</option>
+        <option value="200">200 mi</option>
+      </select>
     </div>
     <div class="custom-select" id="cs-exp">
       <button class="cs-btn"><span class="cs-btn-label">Level</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
@@ -435,8 +597,17 @@ const LOGOS       = {logos_json};
 const TEAMS       = {teams_json};
 const COMPANIES   = {companies_json};
 const EXPERIENCES = {experiences_json};
-const SA          = {state_abbrev_json};  // full state name → 2-letter abbrev
-const US_ST       = new Set(Object.values(SA));  // set of valid 2-letter state codes
+const SA          = {state_abbrev_json};
+const US_ST       = new Set(Object.values(SA));
+const CITY_COORDS = {city_coords_json};
+
+function haversine(lat1, lon1, lat2, lon2) {{
+  const R = 3958.8;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}}
 
 // Cities that share a 2-letter code with a US state but are NOT in the US
 const INTL_CITY_HINT = new Set([
@@ -507,11 +678,6 @@ function getLocations(j) {{
   return results;
 }}
 
-// Build city lists — only include cities with ≥2 jobs to keep dropdowns manageable
-const _cityCount = {{}};
-JOBS.forEach(j => getLocations(j).forEach(n => {{ _cityCount[n.display] = (_cityCount[n.display] || 0) + 1; }}));
-const US_CITIES   = [...new Set(JOBS.flatMap(j => getLocations(j).filter(n => n.isUS  && _cityCount[n.display] >= 2).map(n => n.display)))].sort();
-const INTL_CITIES = [...new Set(JOBS.flatMap(j => getLocations(j).filter(n => !n.isUS && _cityCount[n.display] >= 2).map(n => n.display)))].sort();
 
 // ── For You scoring ──
 function scoreJob(j) {{
@@ -545,7 +711,7 @@ function scoreJob(j) {{
 }}
 
 // ── Custom multi-select dropdown factory ──
-function makeDropdown(containerId, getItems, iconFn) {{
+function makeDropdown(containerId, getItems, iconFn, gridMode) {{
   const wrap     = document.getElementById(containerId);
   const btn      = wrap.querySelector('.cs-btn');
   const badge    = wrap.querySelector('.cs-badge');
@@ -560,26 +726,49 @@ function makeDropdown(containerId, getItems, iconFn) {{
     const items = getItems().filter(v => !q || v.toLowerCase().includes(q.toLowerCase()));
     if (!items.length) {{ list.innerHTML = '<div class="cs-empty">No results</div>'; return; }}
     const frag = document.createDocumentFragment();
-    items.forEach(v => {{
-      const icon = iconFn ? iconFn(v) : null;
-      const d = document.createElement('div');
-      d.className = 'cs-item' + (sel.has(v) ? ' selected' : '');
-      if (icon) {{ const img=document.createElement('img'); img.className='cs-logo'; img.src=icon; img.alt=''; d.appendChild(img); }}
-      const lbl=document.createElement('span'); lbl.className='cs-lbl'; lbl.textContent=v; d.appendChild(lbl);
-      const chk=document.createElement('div'); chk.className='cs-check';
-      chk.innerHTML='<svg class="cs-tick" viewBox="0 0 10 8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4l3 3 5-6"/></svg>';
-      d.appendChild(chk);
-      d.addEventListener('mousedown', e => {{
-        e.preventDefault();
-        sel.has(v) ? sel.delete(v) : sel.add(v);
-        d.classList.toggle('selected', sel.has(v));
-        badge.textContent = sel.size || '';
-        badge.style.display = sel.size ? '' : 'none';
-        btn.classList.toggle('active', sel.size > 0);
-        render();
+    if (gridMode) {{
+      const grid = document.createElement('div');
+      grid.className = 'cs-grid';
+      items.forEach(v => {{
+        const icon = iconFn ? iconFn(v) : null;
+        const d = document.createElement('div');
+        d.className = 'cs-grid-item' + (sel.has(v) ? ' selected' : '');
+        if (icon) {{ const img=document.createElement('img'); img.className='cs-grid-logo'; img.src=icon; img.alt=''; d.appendChild(img); }}
+        const lbl=document.createElement('span'); lbl.className='cs-grid-lbl'; lbl.textContent=v; lbl.title=v; d.appendChild(lbl);
+        d.addEventListener('mousedown', e => {{
+          e.preventDefault();
+          sel.has(v) ? sel.delete(v) : sel.add(v);
+          d.classList.toggle('selected', sel.has(v));
+          badge.textContent = sel.size || '';
+          badge.style.display = sel.size ? '' : 'none';
+          btn.classList.toggle('active', sel.size > 0);
+          render();
+        }});
+        grid.appendChild(d);
       }});
-      frag.appendChild(d);
-    }});
+      frag.appendChild(grid);
+    }} else {{
+      items.forEach(v => {{
+        const icon = iconFn ? iconFn(v) : null;
+        const d = document.createElement('div');
+        d.className = 'cs-item' + (sel.has(v) ? ' selected' : '');
+        if (icon) {{ const img=document.createElement('img'); img.className='cs-logo'; img.src=icon; img.alt=''; d.appendChild(img); }}
+        const lbl=document.createElement('span'); lbl.className='cs-lbl'; lbl.textContent=v; d.appendChild(lbl);
+        const chk=document.createElement('div'); chk.className='cs-check';
+        chk.innerHTML='<svg class="cs-tick" viewBox="0 0 10 8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4l3 3 5-6"/></svg>';
+        d.appendChild(chk);
+        d.addEventListener('mousedown', e => {{
+          e.preventDefault();
+          sel.has(v) ? sel.delete(v) : sel.add(v);
+          d.classList.toggle('selected', sel.has(v));
+          badge.textContent = sel.size || '';
+          badge.style.display = sel.size ? '' : 'none';
+          btn.classList.toggle('active', sel.size > 0);
+          render();
+        }});
+        frag.appendChild(d);
+      }});
+    }}
     list.appendChild(frag);
   }}
 
@@ -602,15 +791,25 @@ const PAGE_SIZE = 100;
 let currentPage = 1;
 let _usOnly = true;
 
-const companyDrop = makeDropdown('cs-company', ()=>COMPANIES, v=>LOGOS[v]);
-const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,     null);
-const cityDrop    = makeDropdown('cs-city',    ()=>_usOnly ? US_CITIES : [...new Set([...US_CITIES,...INTL_CITIES])].sort((a,b)=>a.localeCompare(b)), null);
-const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES, null);
+const companyDrop = makeDropdown('cs-company', ()=>COMPANIES, v=>LOGOS[v], true);
+const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,     null,        false);
+const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES, null,      false);
 
-const state = {{ q:'', newOnly:false, sort:'newest' }};
+const state = {{ q:'', newOnly:false, sort:'newest', radiusCity:'', radiusMiles:0 }};
+
+// Populate city datalist from geocoded cities
+const _cityDatalist = document.getElementById('city-datalist');
+Object.keys(CITY_COORDS).sort().forEach(c => {{
+  const opt = document.createElement('option');
+  opt.value = c;
+  _cityDatalist.appendChild(opt);
+}});
+
+const HIDDEN_TITLES = /retail sales associate/i;
 
 function filtered() {{
   return JOBS.filter(j => {{
+    if (HIDDEN_TITLES.test(j.title)) return false;
     if (state.q              && !j.title.toLowerCase().includes(state.q)) return false;
     if (state.newOnly        && !j.is_new)                                 return false;
     if (companyDrop.sel.size && !companyDrop.sel.has(j.company))          return false;
@@ -621,9 +820,20 @@ function filtered() {{
       const locs = getLocations(j);
       if (locs.length > 0 && !locs.some(n => n.isUS)) return false;
     }}
-    if (cityDrop.sel.size) {{
+    if (state.radiusCity) {{
       const locs = getLocations(j);
-      if (!locs.some(n => cityDrop.sel.has(n.display))) return false;
+      if (state.radiusMiles) {{
+        const center = CITY_COORDS[state.radiusCity];
+        if (center) {{
+          const inRange = locs.some(n => {{
+            const c = CITY_COORDS[n.display];
+            return c && haversine(center.lat, center.lon, c.lat, c.lon) <= state.radiusMiles;
+          }});
+          if (!inRange) return false;
+        }}
+      }} else {{
+        if (!locs.some(n => n.display.toLowerCase() === state.radiusCity.toLowerCase())) return false;
+      }}
     }}
     return true;
   }});
@@ -774,14 +984,25 @@ document.querySelectorAll('[data-region]').forEach(b => b.addEventListener('clic
   document.querySelectorAll('[data-region]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
   _usOnly = b.dataset.region === 'us';
-  cityDrop.sel.clear();
-  cityDrop.refresh();
   render();
 }}));
 document.querySelectorAll('[data-sort]').forEach(b => b.addEventListener('click', () => {{
   document.querySelectorAll('[data-sort]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); state.sort = b.dataset.sort; render();
 }}));
+
+const _radiusCityEl  = document.getElementById('radius-city');
+const _radiusMilesEl = document.getElementById('radius-miles');
+_radiusCityEl.addEventListener('input', () => {{
+  state.radiusCity = _radiusCityEl.value.trim();
+  _radiusCityEl.classList.toggle('active', !!state.radiusCity);
+  render();
+}});
+_radiusMilesEl.addEventListener('change', () => {{
+  state.radiusMiles = parseInt(_radiusMilesEl.value) || 0;
+  _radiusMilesEl.classList.toggle('active', !!state.radiusMiles);
+  render();
+}});
 
 render();
 </script>
