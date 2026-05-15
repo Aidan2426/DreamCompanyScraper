@@ -68,7 +68,18 @@
       "Bash(curl -s -c /tmp/dsg_cookies.txt -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://www.dickssportinggoods.jobs/jobs/\" -o /dev/null)",
       "Bash(curl -s -b /tmp/dsg_cookies.txt -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" -H \"Referer: https://www.dickssportinggoods.jobs/jobs/\" \"https://www.dickssportinggoods.jobs/calc-results/?mypage=1\")",
       "Bash(curl -s -A \"Mozilla/5.0\" \"https://careers.westinghousenuclear.com/go/All-Careers/8736400/?startrow=26\")",
-      "Bash(curl -s \"https://boards-api.greenhouse.io/v1/boards/eqtcorporation/jobs?content=true\")"
+      "Bash(curl -s \"https://boards-api.greenhouse.io/v1/boards/eqtcorporation/jobs?content=true\")",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://careers.atimaterials.com/us/en\")",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://careers.nike.com/jobs\")",
+      "Bash(curl -s \"https://cdn.phenompeople.com/CareerConnectResources/PIIPIIUS/en_us/desktop/page15/ph-page-page15-1774375518882.js\")",
+      "Bash(curl -s \"https://cdn.phenompeople.com/CareerConnectResources/common/js/common/ph-common-bundle-part2-4.113.js\")",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://stripe.com/jobs/search\")",
+      "WebFetch(domain:www.databricks.com)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/124.0.0.0 Safari/537.36\" \"https://www.databricks.com/company/careers/open-positions\")",
+      "Bash(curl -s \"https://www.databricks.com/page-data/company/careers/open-positions/page-data.json\")",
+      "Bash(curl -sv \"https://www.databricks.com/page-data/company/careers/open-positions/page-data.json\")",
+      "WebFetch(domain:www.notion.com)",
+      "Bash(curl -s \"https://api.ashbyhq.com/posting-api/job-board/notion?includeCompensation=true\")"
     ]
   }
 }

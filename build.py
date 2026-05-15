@@ -52,6 +52,40 @@ COMPANY_LOGOS = {
     "EQT":            "https://upload.wikimedia.org/wikipedia/commons/0/05/EQT_Corporation_logo.svg",
     "Howmet Aerospace": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Howmet_Aerospace_logo.svg",
     "American Eagle":   "https://upload.wikimedia.org/wikipedia/commons/8/8b/American_Eagle_Outfitters_Logo.svg",
+    "Coherent":         "https://upload.wikimedia.org/wikipedia/commons/8/8e/Coherent_Corp_logo.svg",
+    "Nike":             "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg",
+    "Adidas":           "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg",
+    "Razer":            "https://upload.wikimedia.org/wikipedia/commons/a/a4/Razer_snake_logo.svg",
+    "Stripe":           "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",
+    "Notion":           "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
+    "Disney":           "https://upload.wikimedia.org/wikipedia/commons/a/a4/Disney_wordmark.svg",
+    "Nvidia":           "https://upload.wikimedia.org/wikipedia/commons/a/a4/NVIDIA_logo.svg",
+    "Hershey":          "https://upload.wikimedia.org/wikipedia/commons/e/e2/Hershey_Company_logo.svg",
+    "IBM":              "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+    "Cisco":            "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg",
+    "Oracle":           "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+    "Universal Parks & Resorts": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Universal_Pictures_logo.svg",
+    "Duolingo":         "https://upload.wikimedia.org/wikipedia/commons/d/de/Duolingo_logo.svg",
+    "HP":               "https://upload.wikimedia.org/wikipedia/commons/a/ad/HP_logo_2012.svg",
+    "Intel":            "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg",
+    "Qualcomm":         "https://upload.wikimedia.org/wikipedia/commons/f/fc/Qualcomm-Logo.svg",
+    "Micron":           "https://upload.wikimedia.org/wikipedia/commons/c/c0/Micron_Technology_Inc._logo.svg",
+    "Paramount":        "https://upload.wikimedia.org/wikipedia/commons/2/20/Paramount_Pictures_logo.svg",
+    "Adobe":            "https://upload.wikimedia.org/wikipedia/commons/8/8d/Adobe_Corporate_logo.svg",
+    "Motorola Solutions": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Motorola_Solutions_logo.svg",
+    "Samsung":          "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg",
+    "eBay":             "https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg",
+    "Gecko Robotics":   "https://upload.wikimedia.org/wikipedia/commons/5/5e/Gecko_Robotics_logo.svg",
+    "Western Digital":  "https://upload.wikimedia.org/wikipedia/commons/7/7e/Western_Digital_logo_%282020%29.svg",
+    "National Park Service": "https://upload.wikimedia.org/wikipedia/commons/1/1f/US-NationalParkService-Logo.svg",
+    "xAI":              "https://upload.wikimedia.org/wikipedia/commons/b/b2/XAI_Logo.svg",
+    "Palantir":         "https://upload.wikimedia.org/wikipedia/commons/1/13/Palantir_Technologies_logo.svg",
+    "Sony":             "https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg",
+    "Nintendo":         "https://upload.wikimedia.org/wikipedia/commons/0/0d/Nintendo.svg",
+    "EA":               "https://upload.wikimedia.org/wikipedia/commons/a/ae/Electronic-arts-ea-logo.svg",
+    "Epic Games":       "https://upload.wikimedia.org/wikipedia/commons/3/31/Epic_Games_logo_and_wordmark.svg",
+    "Roblox":           "https://upload.wikimedia.org/wikipedia/commons/8/85/Roblox_logo.svg",
+    "Ubisoft":          "https://upload.wikimedia.org/wikipedia/commons/7/78/Ubisoft_logo.svg",
 }
 
 TEAM_COLORS = {
@@ -142,45 +176,124 @@ html = f"""<!DOCTYPE html>
     /* ── Controls ── */
     .controls-bar {{
       position: sticky; top: 52px; z-index: 90;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: saturate(180%) blur(20px);
-      padding: 14px 28px; display: flex; flex-direction: column;
-      align-items: center; gap: 10px;
+      background: #0e0e10;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 14px 24px 12px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 11px;
     }}
-    .search-row {{
-      display: flex; gap: 10px; width: 100%; max-width: 680px;
+    .search-wrap {{
+      position: relative; width: 100%; max-width: 580px;
+    }}
+    .search-wrap .s-icon {{
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      width: 15px; height: 15px; pointer-events: none;
+      stroke: rgba(255,255,255,0.3); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
     }}
     .search-input {{
-      flex: 1; height: 36px; background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
-      padding: 0 14px; font-size: 14px; color: #fff; outline: none;
+      width: 100%; height: 38px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 10px;
+      padding: 0 14px 0 38px;
+      font-size: 14px; color: #fff; outline: none;
+      transition: border-color 0.15s, background 0.15s;
     }}
-    .search-input::placeholder {{ color: rgba(255,255,255,0.4); }}
-    .search-input:focus {{ border-color: var(--blue); }}
-    .filter-row {{
-      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    .search-input::placeholder {{ color: rgba(255,255,255,0.3); }}
+    .search-input:focus {{ background: rgba(255,255,255,0.09); border-color: rgba(0,113,227,0.65); }}
+    .filter-strip {{
+      display: flex; align-items: center; gap: 7px;
+      flex-wrap: wrap; justify-content: center;
+    }}
+    .fsep {{
+      width: 1px; height: 18px;
+      background: rgba(255,255,255,0.12);
+      flex-shrink: 0; margin: 0 3px;
     }}
     .pill {{
-      font-size: 13px; padding: 5px 14px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 980px; color: rgba(255,255,255,0.7);
-      cursor: pointer; white-space: nowrap;
-      transition: background 0.15s, color 0.15s;
+      font-size: 12.5px; padding: 5px 13px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 980px; color: rgba(255,255,255,0.55);
+      cursor: pointer; white-space: nowrap; font-weight: 500;
+      transition: all 0.15s;
     }}
-    .pill:hover {{ background: rgba(255,255,255,0.15); color: #fff; }}
-    .pill.active {{ background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 600; }}
+    .pill:hover {{ background: rgba(255,255,255,0.11); color: #fff; border-color: rgba(255,255,255,0.2); }}
+    .pill.active {{ background: var(--blue); border-color: var(--blue); color: #fff; }}
     .filter-select {{
-      font-size: 13px; padding: 5px 28px 5px 14px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 980px; color: rgba(255,255,255,0.7);
-      cursor: pointer; outline: none; appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 10px center;
+      font-size: 12.5px; padding: 5px 26px 5px 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 980px; color: rgba(255,255,255,0.55);
+      cursor: pointer; outline: none; appearance: none; font-weight: 500;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 9px center;
+      transition: all 0.15s;
     }}
-    .filter-select option {{ background: #1d1d1f; }}
-    .filter-select.active {{ border-color: var(--blue); color: #fff; }}
+    .filter-select option {{ background: #111113; }}
+    .filter-select:hover {{ color: #fff; border-color: rgba(255,255,255,0.2); background-color: rgba(255,255,255,0.10); }}
+    .filter-select.active {{ border-color: var(--blue); color: #fff; background-color: rgba(0,113,227,0.18); }}
+
+    /* ── Custom multi-select dropdowns ── */
+    .custom-select {{ position: relative; }}
+    .cs-btn {{
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12.5px; padding: 5px 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 980px; color: rgba(255,255,255,0.55);
+      cursor: pointer; white-space: nowrap; font-weight: 500;
+      transition: all 0.15s; user-select: none;
+    }}
+    .cs-btn:hover {{ background: rgba(255,255,255,0.11); color: #fff; border-color: rgba(255,255,255,0.2); }}
+    .cs-btn.active {{ border-color: var(--blue); color: #fff; background: rgba(0,113,227,0.18); }}
+    .cs-badge {{
+      display: none; background: var(--blue); color: #fff;
+      border-radius: 980px; font-size: 10px; font-weight: 700;
+      padding: 1px 6px; line-height: 1.5;
+    }}
+    .cs-chevron {{ flex-shrink: 0; transition: transform 0.15s; }}
+    .custom-select.open .cs-chevron {{ transform: rotate(180deg); }}
+    .cs-panel {{
+      position: absolute; top: calc(100% + 6px); left: 50%;
+      transform: translateX(-50%);
+      background: #1c1c1e; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px; padding: 8px;
+      min-width: 230px; max-width: 300px; max-height: 340px;
+      overflow: hidden; flex-direction: column; gap: 4px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      z-index: 200; display: none;
+    }}
+    .custom-select.open .cs-panel {{ display: flex; }}
+    .cs-search {{
+      width: 100%; flex-shrink: 0;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 8px; padding: 6px 10px;
+      font-size: 13px; color: #fff; outline: none;
+    }}
+    .cs-search::placeholder {{ color: rgba(255,255,255,0.3); }}
+    .cs-list {{ overflow-y: auto; flex: 1; }}
+    .cs-item {{
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 8px; border-radius: 8px;
+      cursor: pointer; transition: background 0.1s;
+    }}
+    .cs-item:hover {{ background: rgba(255,255,255,0.07); }}
+    .cs-item.selected {{ background: rgba(0,113,227,0.12); }}
+    .cs-logo {{ width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; background: #fff; border-radius: 3px; padding: 2px; box-sizing: border-box; }}
+    .cs-lbl {{ font-size: 13px; color: rgba(255,255,255,0.82); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+    .cs-check {{
+      width: 16px; height: 16px; border-radius: 4px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.1s;
+    }}
+    .cs-item.selected .cs-check {{ background: var(--blue); border-color: var(--blue); }}
+    .cs-tick {{ display: none; width: 9px; height: 8px; }}
+    .cs-item.selected .cs-tick {{ display: block; }}
+    .cs-empty {{ font-size: 13px; color: rgba(255,255,255,0.3); padding: 12px 8px; text-align: center; }}
 
     /* ── Count bar ── */
     .count-bar {{
@@ -212,10 +325,15 @@ html = f"""<!DOCTYPE html>
       width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;
     }}
     .company-label {{ font-size: 12px; color: var(--muted); font-weight: 500; }}
+    .card-top-right {{ margin-left: auto; display: flex; gap: 4px; align-items: center; }}
     .new-badge {{
-      margin-left: auto; font-size: 10px; font-weight: 700;
+      font-size: 10px; font-weight: 700;
       background: #34c759; color: #fff;
       border-radius: 5px; padding: 2px 7px; letter-spacing: 0.4px;
+    }}
+    .match-badge {{
+      font-size: 10px; font-weight: 700; color: #fff;
+      border-radius: 5px; padding: 2px 7px; letter-spacing: 0.3px;
     }}
 
     .card-title {{
@@ -273,29 +391,37 @@ html = f"""<!DOCTYPE html>
 </div>
 
 <div class="controls-bar">
-  <div class="search-row">
-    <input class="search-input" id="q" type="search" placeholder="Search title…" autocomplete="off"/>
+  <div class="search-wrap">
+    <svg class="s-icon" viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="13" y1="13" x2="18" y2="18"/></svg>
+    <input class="search-input" id="q" type="search" placeholder="Search jobs…" autocomplete="off"/>
   </div>
-  <div class="filter-row">
+  <div class="filter-strip">
     <button class="pill active" data-new="all">All</button>
-    <button class="pill" data-new="new">New Only</button>
-    <select class="filter-select" id="team-select">
-      <option value="">All Teams</option>
-    </select>
-    <select class="filter-select" id="company-select">
-      <option value="">All Companies</option>
-    </select>
-    <select class="filter-select" id="us-city-select">
-      <option value="">All US Cities</option>
-    </select>
-    <select class="filter-select" id="intl-city-select">
-      <option value="">All Intl Cities</option>
-    </select>
-    <select class="filter-select" id="exp-select">
-      <option value="">All Levels</option>
-    </select>
+    <button class="pill" data-new="new">✦ New</button>
+    <div class="fsep"></div>
+    <button class="pill active" data-region="us">🇺🇸 US</button>
+    <button class="pill" data-region="all">🌐 All</button>
+    <div class="fsep"></div>
+    <div class="custom-select" id="cs-company">
+      <button class="cs-btn"><span class="cs-btn-label">Company</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
+      <div class="cs-panel"><input class="cs-search" placeholder="Search…" autocomplete="off"/><div class="cs-list"></div></div>
+    </div>
+    <div class="custom-select" id="cs-team">
+      <button class="cs-btn"><span class="cs-btn-label">Team</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
+      <div class="cs-panel"><input class="cs-search" placeholder="Search…" autocomplete="off"/><div class="cs-list"></div></div>
+    </div>
+    <div class="custom-select" id="cs-city">
+      <button class="cs-btn"><span class="cs-btn-label">City</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
+      <div class="cs-panel"><input class="cs-search" placeholder="Search…" autocomplete="off"/><div class="cs-list"></div></div>
+    </div>
+    <div class="custom-select" id="cs-exp">
+      <button class="cs-btn"><span class="cs-btn-label">Level</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
+      <div class="cs-panel"><div class="cs-list"></div></div>
+    </div>
+    <div class="fsep"></div>
     <button class="pill active" data-sort="newest">Newest</button>
     <button class="pill" data-sort="title">A–Z</button>
+    <button class="pill" data-sort="foryou">✦ For You</button>
   </div>
 </div>
 
@@ -312,6 +438,25 @@ const EXPERIENCES = {experiences_json};
 const SA          = {state_abbrev_json};  // full state name → 2-letter abbrev
 const US_ST       = new Set(Object.values(SA));  // set of valid 2-letter state codes
 
+// Cities that share a 2-letter code with a US state but are NOT in the US
+const INTL_CITY_HINT = new Set([
+  'bangalore','bengaluru','hyderabad','mumbai','delhi','new delhi','pune','chennai',
+  'kolkata','noida','gurgaon','gurugram','ahmedabad','kochi','jaipur','indore','nagpur',
+  'toronto','vancouver','montreal','ottawa','calgary','edmonton','winnipeg','halifax',
+  'london','manchester','edinburgh','bristol','leeds','birmingham','glasgow','dublin',
+  'amsterdam','berlin','munich','frankfurt','hamburg','cologne','stuttgart','paris',
+  'lyon','marseille','madrid','barcelona','seville','milan','rome','turin','naples',
+  'sydney','melbourne','brisbane','perth','adelaide','auckland','wellington','christchurch',
+  'singapore','tokyo','osaka','kyoto','sapporo','beijing','shanghai','shenzhen',
+  'guangzhou','hong kong','seoul','busan','taipei','kaohsiung','bangkok','jakarta',
+  'kuala lumpur','manila','ho chi minh','hanoi','tel aviv','jerusalem','dubai',
+  'abu dhabi','riyadh','doha','cairo','nairobi','lagos','johannesburg','cape town',
+  'mexico city','guadalajara','monterrey','bogota','lima','santiago','sao paulo',
+  'rio de janeiro','buenos aires','stockholm','oslo','copenhagen','helsinki',
+  'zurich','geneva','bern','brussels','antwerp','vienna','warsaw','prague',
+  'budapest','bucharest','athens','lisbon','porto'
+]);
+
 function normalizeLocation(loc) {{
   if (!loc) return null;
   // Strip zip codes
@@ -319,11 +464,12 @@ function normalizeLocation(loc) {{
   const parts = s.split(/\s*,\s*/).map(p => p.trim()).filter(Boolean);
   if (!parts.length) return null;
   const city = parts[0];
+  const cityLc = city.toLowerCase();
 
   for (let i = 1; i < parts.length; i++) {{
     const p = parts[i];
-    if (US_ST.has(p))  return {{ display: `${{city}}, ${{p}}`,    isUS: true }};
-    if (SA[p])         return {{ display: `${{city}}, ${{SA[p]}}`, isUS: true }};
+    if (US_ST.has(p) && !INTL_CITY_HINT.has(cityLc))  return {{ display: `${{city}}, ${{p}}`,    isUS: true }};
+    if (SA[p]        && !INTL_CITY_HINT.has(cityLc))   return {{ display: `${{city}}, ${{SA[p]}}`, isUS: true }};
     if (/^(USA|United States|US)$/i.test(p)) {{
       for (let k = i - 1; k >= 1; k--) {{
         if (US_ST.has(parts[k])) return {{ display: `${{city}}, ${{parts[k]}}`,    isUS: true }};
@@ -335,49 +481,149 @@ function normalizeLocation(loc) {{
 
   // "Pittsburgh PA" style — no comma, state abbrev at end
   const m = city.match(/^(.+?)\s+([A-Z]{{2}})$/);
-  if (m && US_ST.has(m[2])) return {{ display: `${{m[1]}}, ${{m[2]}}`, isUS: true }};
+  if (m && US_ST.has(m[2]) && !INTL_CITY_HINT.has(m[1].toLowerCase())) return {{ display: `${{m[1]}}, ${{m[2]}}`, isUS: true }};
 
   // International: "City, Country"
   if (parts.length >= 2) return {{ display: `${{city}}, ${{parts[parts.length - 1]}}`, isUS: false }};
   return {{ display: city, isUS: false }};
 }}
 
+// Parse all locations from a job (handles newline-delimited multi-location strings)
+function getLocations(j) {{
+  const raw = (j.location || '').trim();
+  if (!raw) return [];
+  const parts = raw.split(/\\r?\\n/).map(s => s.trim()).filter(Boolean);
+  const results = [];
+  parts.forEach(p => {{
+    // "PA - Pittsburgh (15222)" or "PA - Pittsburgh" format
+    const m = p.match(/^([A-Z]{{2}})\s*[-–]\s*(.+?)(?:\s*\(\d+\))?$/);
+    if (m && US_ST.has(m[1]) && !INTL_CITY_HINT.has(m[2].trim().toLowerCase())) {{
+      results.push({{ display: `${{m[2].trim()}}, ${{m[1]}}`, isUS: true }});
+      return;
+    }}
+    const n = normalizeLocation(p);
+    if (n) results.push(n);
+  }});
+  return results;
+}}
+
 // Build city lists — only include cities with ≥2 jobs to keep dropdowns manageable
 const _cityCount = {{}};
-JOBS.forEach(j => {{
-  const n = normalizeLocation(j.location);
-  if (n) _cityCount[n.display] = (_cityCount[n.display] || 0) + 1;
-}});
-const US_CITIES   = [...new Set(JOBS.map(j => normalizeLocation(j.location)).filter(n => n && n.isUS   && _cityCount[n.display] >= 2).map(n => n.display))].sort();
-const INTL_CITIES = [...new Set(JOBS.map(j => normalizeLocation(j.location)).filter(n => n && !n.isUS  && _cityCount[n.display] >= 2).map(n => n.display))].sort();
+JOBS.forEach(j => getLocations(j).forEach(n => {{ _cityCount[n.display] = (_cityCount[n.display] || 0) + 1; }}));
+const US_CITIES   = [...new Set(JOBS.flatMap(j => getLocations(j).filter(n => n.isUS  && _cityCount[n.display] >= 2).map(n => n.display)))].sort();
+const INTL_CITIES = [...new Set(JOBS.flatMap(j => getLocations(j).filter(n => !n.isUS && _cityCount[n.display] >= 2).map(n => n.display)))].sort();
 
-const teamSel    = document.getElementById('team-select');
-const companySel = document.getElementById('company-select');
-const usCitySel  = document.getElementById('us-city-select');
-const intlCitySel= document.getElementById('intl-city-select');
-const expSel     = document.getElementById('exp-select');
-TEAMS.forEach(t     => {{ const o=document.createElement('option'); o.value=o.textContent=t;   teamSel.appendChild(o); }});
-COMPANIES.forEach(c => {{ const o=document.createElement('option'); o.value=o.textContent=c;   companySel.appendChild(o); }});
-US_CITIES.forEach(c => {{ const o=document.createElement('option'); o.value=o.textContent=c;   usCitySel.appendChild(o); }});
-INTL_CITIES.forEach(c=>{{ const o=document.createElement('option'); o.value=o.textContent=c;   intlCitySel.appendChild(o); }});
-EXPERIENCES.forEach(e=>{{ const o=document.createElement('option'); o.value=o.textContent=e;   expSel.appendChild(o); }});
+// ── For You scoring ──
+function scoreJob(j) {{
+  let s = 10;
+  const title = (j.title || '').toLowerCase();
+  const team  = (j.team  || '').toLowerCase();
+  const exp   = (j.experience || '').toLowerCase();
+
+  // Role match — title
+  if (/data[\\s-]?(engineer|analyst|scientist|science|pipelin)/.test(title)) s += 40;
+  else if (/\\b(data|analytics|sql|\\bbi\\b|warehouse)/.test(title))          s += 22;
+  if (/\\b(software[\\s-]*(engineer|developer)|swe|sde|developer|programmer)/.test(title)) s += 40;
+  if (/\\b(machine[\\s-]*learning|\\bml\\b|\\bai\\b|artificial intel)/.test(title))        s += 35;
+  if (/\\b(backend|frontend|full[\\s-]?stack)/.test(title))                               s += 22;
+  if (/\\b(information tech|systems|infrastructure|devops|cloud|platform|\\bsre\\b)/.test(title)) s += 28;
+
+  // Entry-level signals
+  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|early[\\s-]*career|level\\s*i\\b|associate\\b)/.test(title)) s += 28;
+  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|associate)/.test(exp)) s += 35;
+
+  // Seniority penalties
+  if (/\\b(senior|sr\\.?\\s|staff\\s|principal)/.test(title)) s -= 35;
+  if (/\\b(director|vp\\b|vice\\s*president|head\\s+of|chief|\\bpresident\\b)/.test(title)) s -= 50;
+  if (/\\bmanager\\b/.test(title)) s -= 20;
+  if (/\\b(senior|staff|principal)/.test(exp)) s -= 30;
+
+  // Team boost
+  if (/\\b(engineering|software|data|analytics|\\bml\\b|\\bai\\b|\\bit\\b|technology|infrastructure|platform|cloud|security)/.test(team)) s += 15;
+
+  return Math.max(0, Math.min(100, s));
+}}
+
+// ── Custom multi-select dropdown factory ──
+function makeDropdown(containerId, getItems, iconFn) {{
+  const wrap     = document.getElementById(containerId);
+  const btn      = wrap.querySelector('.cs-btn');
+  const badge    = wrap.querySelector('.cs-badge');
+  const panel    = wrap.querySelector('.cs-panel');
+  const searchEl = wrap.querySelector('.cs-search');
+  const list     = wrap.querySelector('.cs-list');
+  const sel      = new Set();
+  let q = '';
+
+  function renderItems() {{
+    list.innerHTML = '';
+    const items = getItems().filter(v => !q || v.toLowerCase().includes(q.toLowerCase()));
+    if (!items.length) {{ list.innerHTML = '<div class="cs-empty">No results</div>'; return; }}
+    const frag = document.createDocumentFragment();
+    items.forEach(v => {{
+      const icon = iconFn ? iconFn(v) : null;
+      const d = document.createElement('div');
+      d.className = 'cs-item' + (sel.has(v) ? ' selected' : '');
+      if (icon) {{ const img=document.createElement('img'); img.className='cs-logo'; img.src=icon; img.alt=''; d.appendChild(img); }}
+      const lbl=document.createElement('span'); lbl.className='cs-lbl'; lbl.textContent=v; d.appendChild(lbl);
+      const chk=document.createElement('div'); chk.className='cs-check';
+      chk.innerHTML='<svg class="cs-tick" viewBox="0 0 10 8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4l3 3 5-6"/></svg>';
+      d.appendChild(chk);
+      d.addEventListener('mousedown', e => {{
+        e.preventDefault();
+        sel.has(v) ? sel.delete(v) : sel.add(v);
+        d.classList.toggle('selected', sel.has(v));
+        badge.textContent = sel.size || '';
+        badge.style.display = sel.size ? '' : 'none';
+        btn.classList.toggle('active', sel.size > 0);
+        render();
+      }});
+      frag.appendChild(d);
+    }});
+    list.appendChild(frag);
+  }}
+
+  btn.addEventListener('click', e => {{
+    e.stopPropagation();
+    const wasOpen = wrap.classList.contains('open');
+    document.querySelectorAll('.custom-select.open').forEach(el => el.classList.remove('open'));
+    if (!wasOpen) {{ wrap.classList.add('open'); renderItems(); if (searchEl) {{ searchEl.value=''; q=''; searchEl.focus(); }} }}
+  }});
+  if (searchEl) {{
+    searchEl.addEventListener('keydown', e => e.stopPropagation());
+    searchEl.addEventListener('input',   () => {{ q=searchEl.value; renderItems(); }});
+  }}
+  panel.addEventListener('click', e => e.stopPropagation());
+  return {{ sel, refresh: renderItems }};
+}}
+document.addEventListener('click', () => document.querySelectorAll('.custom-select.open').forEach(el=>el.classList.remove('open')));
 
 const PAGE_SIZE = 100;
 let currentPage = 1;
+let _usOnly = true;
 
-const state = {{ q:'', newOnly:false, team:'', company:'', usCity:'', intlCity:'', experience:'', sort:'newest' }};
+const companyDrop = makeDropdown('cs-company', ()=>COMPANIES, v=>LOGOS[v]);
+const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,     null);
+const cityDrop    = makeDropdown('cs-city',    ()=>_usOnly ? US_CITIES : [...new Set([...US_CITIES,...INTL_CITIES])].sort((a,b)=>a.localeCompare(b)), null);
+const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES, null);
+
+const state = {{ q:'', newOnly:false, sort:'newest' }};
 
 function filtered() {{
   return JOBS.filter(j => {{
-    if (state.q          && !j.title.toLowerCase().includes(state.q)) return false;
-    if (state.newOnly    && !j.is_new)                                 return false;
-    if (state.team       && j.team    !== state.team)                  return false;
-    if (state.company    && j.company !== state.company)               return false;
-    if (state.experience && j.experience !== state.experience)         return false;
-    if (state.usCity || state.intlCity) {{
-      const n = normalizeLocation(j.location);
-      if (state.usCity   && (!n || !n.isUS  || n.display !== state.usCity))   return false;
-      if (state.intlCity && (!n ||  n.isUS  || n.display !== state.intlCity)) return false;
+    if (state.q              && !j.title.toLowerCase().includes(state.q)) return false;
+    if (state.newOnly        && !j.is_new)                                 return false;
+    if (companyDrop.sel.size && !companyDrop.sel.has(j.company))          return false;
+    if (teamDrop.sel.size    && !teamDrop.sel.has(j.team))                return false;
+    if (expDrop.sel.size     && !expDrop.sel.has(j.experience))           return false;
+    if (state.sort === 'foryou' && scoreJob(j) < 20)                      return false;
+    if (_usOnly) {{
+      const locs = getLocations(j);
+      if (locs.length > 0 && !locs.some(n => n.isUS)) return false;
+    }}
+    if (cityDrop.sel.size) {{
+      const locs = getLocations(j);
+      if (!locs.some(n => cityDrop.sel.has(n.display))) return false;
     }}
     return true;
   }});
@@ -400,7 +646,13 @@ function parseDate(str) {{
 }}
 
 function sorted(arr) {{
-  if (state.sort === 'title') return [...arr].sort((a,b)=>a.title.localeCompare(b.title));
+  if (state.sort === 'title')  return [...arr].sort((a,b)=>a.title.localeCompare(b.title));
+  if (state.sort === 'foryou') return [...arr].sort((a,b) => {{
+    const da = Math.floor((parseDate(a.posted_date) || parseDate(a.first_seen)) / 86400000);
+    const db = Math.floor((parseDate(b.posted_date) || parseDate(b.first_seen)) / 86400000);
+    if (db !== da) return db - da;
+    return scoreJob(b) - scoreJob(a) || a.title.localeCompare(b.title);
+  }});
   return [...arr].sort((a,b) => {{
     const ta = parseDate(a.posted_date) || parseDate(a.first_seen);
     const tb = parseDate(b.posted_date) || parseDate(b.first_seen);
@@ -479,13 +731,18 @@ function renderPage(list) {{
   const frag = document.createDocumentFragment();
   page.forEach(j => {{
     const logoSrc = LOGOS[j.company];
+    const sc = state.sort === 'foryou' ? scoreJob(j) : -1;
+    const matchColor = sc >= 70 ? '#34c759' : sc >= 40 ? '#ff9500' : '#8e8e93';
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
       <div class="card-top">
         ${{logoSrc ? `<img class="logo" src="${{logoSrc}}" alt="${{j.company}}"/>` : ''}}
         <span class="company-label">${{j.company}}</span>
-        ${{j.is_new ? '<span class="new-badge">NEW</span>' : ''}}
+        <div class="card-top-right">
+          ${{j.is_new ? '<span class="new-badge">NEW</span>' : ''}}
+          ${{sc >= 0 ? `<span class="match-badge" style="background:${{matchColor}}">${{sc}}%</span>` : ''}}
+        </div>
       </div>
       <div class="card-title"><a href="${{j.url}}" target="_blank" rel="noopener">${{j.title}}</a></div>
       <div class="tags">
@@ -513,15 +770,18 @@ document.querySelectorAll('[data-new]').forEach(b => b.addEventListener('click',
   document.querySelectorAll('[data-new]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); state.newOnly = b.dataset.new === 'new'; render();
 }}));
+document.querySelectorAll('[data-region]').forEach(b => b.addEventListener('click', () => {{
+  document.querySelectorAll('[data-region]').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  _usOnly = b.dataset.region === 'us';
+  cityDrop.sel.clear();
+  cityDrop.refresh();
+  render();
+}}));
 document.querySelectorAll('[data-sort]').forEach(b => b.addEventListener('click', () => {{
   document.querySelectorAll('[data-sort]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); state.sort = b.dataset.sort; render();
 }}));
-teamSel.addEventListener('change',     () => {{ state.team     = teamSel.value;     teamSel.classList.toggle('active',!!teamSel.value);     render(); }});
-companySel.addEventListener('change',  () => {{ state.company  = companySel.value;  companySel.classList.toggle('active',!!companySel.value);  render(); }});
-usCitySel.addEventListener('change',   () => {{ state.usCity   = usCitySel.value;   usCitySel.classList.toggle('active',!!usCitySel.value);   if (usCitySel.value) {{ intlCitySel.value=''; state.intlCity=''; intlCitySel.classList.remove('active'); }} render(); }});
-intlCitySel.addEventListener('change', () => {{ state.intlCity = intlCitySel.value; intlCitySel.classList.toggle('active',!!intlCitySel.value); if (intlCitySel.value) {{ usCitySel.value=''; state.usCity=''; usCitySel.classList.remove('active'); }} render(); }});
-expSel.addEventListener('change',      () => {{ state.experience = expSel.value;    expSel.classList.toggle('active',!!expSel.value);           render(); }});
 
 render();
 </script>
