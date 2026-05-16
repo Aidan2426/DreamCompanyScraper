@@ -6785,5 +6785,503 @@
   "Franklin, MA": {
     "lat": 42.5896205,
     "lon": -72.6110645
+  },
+  "Eastvale, CA": {
+    "lat": 33.9747067,
+    "lon": -117.566541
+  },
+  "Terre Haute, IN": {
+    "lat": 39.4667025,
+    "lon": -87.4139119
+  },
+  "King Salmon, AK": {
+    "lat": 58.7505385,
+    "lon": -156.5218277
+  },
+  "Port Angeles, WA": {
+    "lat": 48.118146,
+    "lon": -123.430741
+  },
+  "Longmire, WA": {
+    "lat": 46.7495408,
+    "lon": -121.8125387
+  },
+  "All Cities, TX": null,
+  "Gatlinburg, TN": {
+    "lat": 35.714259,
+    "lon": -83.5101638
+  },
+  "Bernardsville, NJ": {
+    "lat": 40.7186805,
+    "lon": -74.5692273
+  },
+  "United States, LA": {
+    "lat": 30.6972412,
+    "lon": -88.1892334
+  },
+  "Gettysburg, PA": {
+    "lat": 39.8308973,
+    "lon": -77.231012
+  },
+  "Helena, MT": {
+    "lat": 46.5927425,
+    "lon": -112.036277
+  },
+  "Pecos, NM": {
+    "lat": 35.5745273,
+    "lon": -105.6752624
+  },
+  "North Canton, OH": {
+    "lat": 40.875891,
+    "lon": -81.4023356
+  },
+  "Kinderhook, NY": {
+    "lat": 42.3953617,
+    "lon": -73.6978983
+  },
+  "Fort Scott, KS": {
+    "lat": 37.8399791,
+    "lon": -94.7082882
+  },
+  "Palmetto, GA": {
+    "lat": 33.5178907,
+    "lon": -84.6696549
+  },
+  "Glen Ellyn, IL": {
+    "lat": 41.8775293,
+    "lon": -88.0670118
+  },
+  "Belle Vernon, PA": {
+    "lat": 40.1250725,
+    "lon": -79.8664356
+  },
+  "Page, AZ": {
+    "lat": 36.9148305,
+    "lon": -111.457294
+  },
+  "Yorktown, VA": {
+    "lat": 37.2356655,
+    "lon": -76.5136495
+  },
+  "Harlingen, TX": {
+    "lat": 26.1907543,
+    "lon": -97.6960599
+  },
+  "Bourbonnais, IL": {
+    "lat": 41.1639309,
+    "lon": -87.8839693
+  },
+  "Capitola, CA": {
+    "lat": 36.9762927,
+    "lon": -121.954057
+  },
+  "Bay City, MI": {
+    "lat": 43.5962107,
+    "lon": -83.8881711
+  },
+  "Farmington, CT": {
+    "lat": 41.7198216,
+    "lon": -72.8320435
+  },
+  "Georgetown, TX": {
+    "lat": 30.6370152,
+    "lon": -97.6775634
+  },
+  "Fort Oglethorpe, GA": {
+    "lat": 34.9499947,
+    "lon": -85.2456607
+  },
+  "Sitka, AK": {
+    "lat": 57.0524973,
+    "lon": -135.337612
+  },
+  "Homestead, FL": {
+    "lat": 25.4718946,
+    "lon": -80.4759905
+  },
+  "Independence, MO": {
+    "lat": 39.0924792,
+    "lon": -94.4137923
+  },
+  "Wentzville, MO": {
+    "lat": 38.8244136,
+    "lon": -90.8683119
+  },
+  "Balsam, NC": {
+    "lat": 35.4267748,
+    "lon": -83.0852137
+  },
+  "Keystone, SD": {
+    "lat": 43.8928746,
+    "lon": -103.4257231
+  },
+  "Mistelgau, DE": null,
+  "Parkersburg, WV": {
+    "lat": 39.2667309,
+    "lon": -81.5620755
+  },
+  "Junction City, KS": {
+    "lat": 39.0286093,
+    "lon": -96.8313978
+  },
+  "Sharpsburg, PA": {
+    "lat": 40.4945131,
+    "lon": -79.9264405
+  },
+  "Bridgewater, VA": {
+    "lat": 38.3820655,
+    "lon": -78.9766975
+  },
+  "Clarksburg, WV": {
+    "lat": 39.2806451,
+    "lon": -80.3445341
+  },
+  "Wharton, NJ": {
+    "lat": 40.8931546,
+    "lon": -74.5818254
+  },
+  "LaVergne, TN": {
+    "lat": 36.0434585,
+    "lon": -86.5849283
+  },
+  "Linthicum Heights, MD": {
+    "lat": 39.2039094,
+    "lon": -76.6597094
+  },
+  "McKees Rocks, PA": {
+    "lat": 40.4656244,
+    "lon": -80.0656106
+  },
+  "Tannersville, PA": {
+    "lat": 41.0400917,
+    "lon": -75.3057387
+  },
+  "Kinston, NC": {
+    "lat": 35.2626635,
+    "lon": -77.5816353
+  },
+  "Jefferson Hills, PA": {
+    "lat": 40.2911809,
+    "lon": -79.9319942
+  },
+  "Walled Lake, MI": {
+    "lat": 42.537811,
+    "lon": -83.4810481
+  },
+  "Orwell, OH": {
+    "lat": 41.5341639,
+    "lon": -80.8741422
+  },
+  "Odenton, MD": {
+    "lat": 39.0657788,
+    "lon": -76.6876169
+  },
+  "Towson, MD": {
+    "lat": 39.3964591,
+    "lon": -76.6148148
+  },
+  "North East, PA": {
+    "lat": 42.2150373,
+    "lon": -79.8358415
+  },
+  "Whitehouse, OH": {
+    "lat": 41.5189413,
+    "lon": -83.8038284
+  },
+  "Fuquay Varina, NC": {
+    "lat": 35.5843849,
+    "lon": -78.7998691
+  },
+  "Mill Valley, CA": {
+    "lat": 37.9060368,
+    "lon": -122.5449763
+  },
+  "New Market, VA": {
+    "lat": 38.6479018,
+    "lon": -78.6714137
+  },
+  "Rogers, AR": {
+    "lat": 36.334857,
+    "lon": -94.1193816
+  },
+  "Asheboro, NC": {
+    "lat": 35.7079146,
+    "lon": -79.8136446
+  },
+  "New Albany, IN": {
+    "lat": 38.2856247,
+    "lon": -85.8241312
+  },
+  "McMurray, PA": {
+    "lat": 40.2791485,
+    "lon": -80.088632
+  },
+  "Penn Hills, PA": {
+    "lat": 40.4729398,
+    "lon": -79.8176723
+  },
+  "Zelienople, PA": {
+    "lat": 40.7924181,
+    "lon": -80.1365478
+  },
+  "Lorton, VA": {
+    "lat": 38.6946355,
+    "lon": -77.2199931
+  },
+  "Shiloh, IL": {
+    "lat": 38.5614383,
+    "lon": -89.8973233
+  },
+  "3325 Fort George G. Meade, MD": {
+    "lat": 39.1248136,
+    "lon": -76.7905618
+  },
+  "Portsmouth, NH": {
+    "lat": 43.0751306,
+    "lon": -70.7601826
+  },
+  "Long Beach, MS": {
+    "lat": 30.3504751,
+    "lon": -89.1528176
+  },
+  "Fallon, NV": {
+    "lat": 39.4745166,
+    "lon": -118.777895
+  },
+  "Morgantown, WV": {
+    "lat": 39.6296809,
+    "lon": -79.9559437
+  },
+  "South Deerfield, MA": {
+    "lat": 42.4773046,
+    "lon": -72.6079039
+  },
+  "Roanoke Rapids, NC": {
+    "lat": 36.4558016,
+    "lon": -77.6573514
+  },
+  "Frankfort, IN": {
+    "lat": 40.2797657,
+    "lon": -86.5108244
+  },
+  "Des Plaines, IL": {
+    "lat": 42.0415823,
+    "lon": -87.8873916
+  },
+  "St. Petersburg, FL": {
+    "lat": 27.7712264,
+    "lon": -82.6340259
+  },
+  "Poulsbo, WA": {
+    "lat": 47.7391366,
+    "lon": -122.63928
+  },
+  "Westfield, NY": {
+    "lat": 42.32228,
+    "lon": -79.578103
+  },
+  "Twentynine Palms, CA": {
+    "lat": 34.1356915,
+    "lon": -116.0543506
+  },
+  "Severna Park, MD": {
+    "lat": 39.0826193,
+    "lon": -76.5719676
+  },
+  "Reidsville, NC": {
+    "lat": 36.3548586,
+    "lon": -79.6644748
+  },
+  "Yadkinville, NC": {
+    "lat": 36.1345807,
+    "lon": -80.6595079
+  },
+  "Suitland, MD": {
+    "lat": 38.8501136,
+    "lon": -76.9255846
+  },
+  "Leechburg, PA": {
+    "lat": 40.6271073,
+    "lon": -79.6059188
+  },
+  "Vandergrift, PA": {
+    "lat": 40.6028462,
+    "lon": -79.5647741
+  },
+  "Concord, MA": {
+    "lat": 42.4605189,
+    "lon": -71.3488963
+  },
+  "Ebermannstadt, DE": null,
+  "Warner Robins, GA": {
+    "lat": 32.6200973,
+    "lon": -83.606568
+  },
+  "New Martinsville, WV": {
+    "lat": 39.643573,
+    "lon": -80.8636301
+  },
+  "Marysville, CA": {
+    "lat": 39.1457247,
+    "lon": -121.5913516
+  },
+  "Sunset, UT": {
+    "lat": 41.1363012,
+    "lon": -112.0309373
+  },
+  "Rosbach, DE": null,
+  "Marana, AZ": {
+    "lat": 32.4483736,
+    "lon": -111.211475
+  },
+  "Camp Springs, MD": {
+    "lat": 38.8020807,
+    "lon": -76.9241908
+  },
+  "Fairbanks, AK": {
+    "lat": 64.837845,
+    "lon": -147.716675
+  },
+  "Fox Chapel, PA": {
+    "lat": 40.522924,
+    "lon": -79.8913193
+  },
+  "Monaca, PA": {
+    "lat": 40.6872885,
+    "lon": -80.2714505
+  },
+  "230 West North Ave Pitsburgh, PA": null,
+  "Corry, PA": {
+    "lat": 41.920334,
+    "lon": -79.640329
+  },
+  "Cheswick, PA": {
+    "lat": 40.5410997,
+    "lon": -79.8013437
+  },
+  "Irwin, PA": {
+    "lat": 40.3301738,
+    "lon": -79.7093339
+  },
+  "Bellevue, PA": {
+    "lat": 40.4959365,
+    "lon": -80.0563537
+  },
+  "Braddock, PA": {
+    "lat": 40.4034024,
+    "lon": -79.8683824
+  },
+  "Cranberry, PA": {
+    "lat": 40.7099343,
+    "lon": -80.1060506
+  },
+  "Monterey, CA": {
+    "lat": 36.2231079,
+    "lon": -121.387742
+  },
+  "Barstow, CA": {
+    "lat": 34.8986215,
+    "lon": -117.0244313
+  },
+  "Marine Corps Base Kaneohe Bay, HI": null,
+  "Ridgecrest, CA": {
+    "lat": 35.6206924,
+    "lon": -117.672097
+  },
+  "Killeen, TX": {
+    "lat": 31.1171441,
+    "lon": -97.727796
+  },
+  "Newark, OH": {
+    "lat": 40.0581205,
+    "lon": -82.4012643
+  },
+  "Union City, PA": {
+    "lat": 41.8995001,
+    "lon": -79.8453298
+  },
+  "Blue Bell, PA": {
+    "lat": 40.147809,
+    "lon": -75.272781
+  },
+  "Belleville, CA": {
+    "lat": 34.1377315,
+    "lon": -117.697861
+  },
+  "Baytown, TX": {
+    "lat": 29.7355047,
+    "lon": -94.9774274
+  },
+  "Aberdeen, MD": {
+    "lat": 39.5120347,
+    "lon": -76.1643289
+  },
+  "Tarentum, PA": {
+    "lat": 40.6021328,
+    "lon": -79.7545147
+  },
+  "Glenshaw, PA": {
+    "lat": 40.5328462,
+    "lon": -79.9675536
+  },
+  "Bedford, OH": {
+    "lat": 41.39311,
+    "lon": -81.536509
+  },
+  "Hollidaysburg, PA": {
+    "lat": 40.430774,
+    "lon": -78.3900826
+  },
+  "Middleburg, PA": {
+    "lat": 40.7859166,
+    "lon": -77.0472028
+  },
+  "Burlington, NC": {
+    "lat": 36.0956918,
+    "lon": -79.4377991
+  },
+  "Thompsontown, PA": {
+    "lat": 40.5644419,
+    "lon": -77.2373388
+  },
+  "3025 Gaithersburg, MD": {
+    "lat": 39.1399187,
+    "lon": -77.1929215
+  },
+  "Hudson, OH": {
+    "lat": 41.240056,
+    "lon": -81.440667
+  },
+  "Medina, OH": {
+    "lat": 41.1000764,
+    "lon": -81.9382517
+  },
+  "Laurel, MD": {
+    "lat": 39.0984317,
+    "lon": -76.8485094
+  },
+  "San Miguel, CA": {
+    "lat": 35.754959,
+    "lon": -120.6932267
+  },
+  "Bogotá, DC": {
+    "lat": 4.5996789,
+    "lon": -74.0850871
+  },
+  "Allegheny County, PA": {
+    "lat": 40.4597204,
+    "lon": -79.9760405
+  },
+  "Weirton, WV": {
+    "lat": 40.4002396,
+    "lon": -80.5899788
+  },
+  "Berkeley, CA": {
+    "lat": 37.8708393,
+    "lon": -122.272863
+  },
+  "Normal, IL": {
+    "lat": 40.5092961,
+    "lon": -88.9843937
   }
 }

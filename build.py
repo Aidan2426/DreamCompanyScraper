@@ -2,6 +2,7 @@
 Reads jobs.json and generates index.html.
 Run: python build.py
 """
+import argparse
 import json
 import os
 import re
@@ -9,6 +10,10 @@ import time
 import urllib.request
 import urllib.parse
 import webbrowser
+
+_parser = argparse.ArgumentParser()
+_parser.add_argument("--no-open", action="store_true")
+_args = _parser.parse_args()
 
 def _gfav(domain):
     return f"https://www.google.com/s2/favicons?domain={domain}&sz=128"
@@ -111,6 +116,66 @@ COMPANY_LOGOS = {
     "Epic Games":                _gfav("epicgames.com"),
     "Roblox":                    _gfav("roblox.com"),
     "Ubisoft":                   _gfav("ubisoft.com"),
+    "RoboPGH":                   _gfav("robopgh.org"),
+    "Aqua":                      _gfav("aquawater.com"),
+    "CMU":                       _gfav("cmu.edu"),
+    "Covestro":                  _gfav("covestro.com"),
+    "First National Bank":       _gfav("fnb-corp.com"),
+    "Bechtel":                   _gfav("bechtel.com"),
+    "Highmark Health":           _gfav("highmarkhealth.org"),
+    "Kennametal":                _gfav("kennametal.com"),
+    "Leidos":                    _gfav("leidos.com"),
+    "ServiceNow":                _gfav("servicenow.com"),
+    "United Airlines":           _gfav("united.com"),
+    "Armada":                    _gfav("armada.com"),
+    "ByteDance":                 _gfav("bytedance.com"),
+    "Warner Bros. Discovery":    _gfav("wbd.com"),
+    "SeatGeek":                  _gfav("seatgeek.com"),
+    "Ticketmaster":              _gfav("ticketmaster.com"),
+    "StubHub":                   _gfav("stubhub.com"),
+    "CGI":                       _gfav("cgi.com"),
+    # RoboPGH employer companies
+    "ANKI":                      _gfav("anki.com"),
+    "Advanced Construction Robotics": _gfav("acrbotics.com"),
+    "Aethon":                    _gfav("aethon.com"),
+    "Agility Robotics":          _gfav("agilityrobotics.com"),
+    "Allvision":                 _gfav("allvision.io"),
+    "Astrobotic":                _gfav("astrobotic.com"),
+    "Aurora":                    _gfav("aurora.tech"),
+    "BEA Sensors":               _gfav("beasensors.com"),
+    "Bosch":                     _gfav("bosch.com"),
+    "CapSen Robotics":           _gfav("capsenrobotics.com"),
+    "Carnegie Robotics":         _gfav("carnegierobotics.com"),
+    "Caterpillar":               _gfav("caterpillar.com"),
+    "ESTAT Actuation":           _gfav("estatactuation.com"),
+    "Edge Case Research":        _gfav("edgecaseresearch.com"),
+    "Eye-Bot Aerial Solutions":  _gfav("eye-bot.com"),
+    "Formant":                   _gfav("formant.io"),
+    "Fort Robotics":             _gfav("fortrobotics.com"),
+    "FuturHand Robotics":        _gfav("futurhand.com"),
+    "Gather AI":                 _gfav("gather.ai"),
+    "Hellbender":                _gfav("hellbenderindustries.com"),
+    "Hitachi":                   _gfav("hitachi.com"),
+    "Identified Technologies":   _gfav("identifiedtechnologies.com"),
+    "KEF Robotics":              _gfav("kefrobotics.com"),
+    "Latitude AI":               _gfav("lat.ai"),
+    "Matthews International":    _gfav("matthewsinternational.com"),
+    "Mine Vision Systems":       _gfav("minevision.ai"),
+    "Motional":                  _gfav("motional.com"),
+    "NREC":                      _gfav("nrec.ri.cmu.edu"),
+    "Near Earth Autonomy":       _gfav("nearearthautonomy.com"),
+    "Neuraville":                _gfav("neuraville.com"),
+    "Omnicell":                  _gfav("omnicell.com"),
+    "Onward Robotics":           _gfav("onwardrobotics.com"),
+    "Palladyne AI":              _gfav("palladyne.ai"),
+    "Phlux Technologies":        _gfav("phlux.com"),
+    "Pittsburgh Robotics Network": _gfav("robopgh.org"),
+    "ProtoInnovations":          _gfav("protoinnovations.com"),
+    "Qeexo, Co.":               _gfav("qeexo.com"),
+    "Smith &amp; Nephew":        _gfav("smith-nephew.com"),
+    "Stack AV":                  _gfav("stackav.com"),
+    "Waymo":                     _gfav("waymo.com"),
+    "iotaMotion":                _gfav("iotamotion.com"),
 }
 
 TEAM_COLORS = {
@@ -830,24 +895,42 @@ function getLocations(j) {{
 
 // ── For You scoring ──
 function scoreJob(j) {{
-  let s = 10;
   const title = (j.title || '').toLowerCase();
   const team  = (j.team  || '').toLowerCase();
   const exp   = (j.experience || '').toLowerCase();
 
-  // Role match — title
+  // Hard blocks — physical/non-tech roles score 0 regardless of team
+  if (/\\b(security[\\s-]*officer|police[\\s-]*officer|security[\\s-]*guard|armed[\\s-]*guard|unarmed[\\s-]*guard|warehouse[\\s-]*(worker|associate|operative|clerk|technician)|forklift|truck[\\s-]*driver|custodian|janitorial|janitor|correctional|food[\\s-]*service[\\s-]*(worker|associate)|assembl(er|y[\\s-]*worker|y[\\s-]*tech))\\b/.test(title)) return 0;
+
+  let s = 10;
+
+  // Data roles
   if (/data[\\s-]?(engineer|analyst|scientist|science|pipelin)/.test(title)) s += 40;
-  else if (/\\b(data|analytics|sql|\\bbi\\b|warehouse)/.test(title))          s += 22;
-  if (/\\b(software[\\s-]*(engineer|developer)|swe|sde|developer|programmer)/.test(title)) s += 40;
-  if (/\\b(machine[\\s-]*learning|\\bml\\b|\\bai\\b|artificial intel)/.test(title))        s += 35;
-  if (/\\b(backend|frontend|full[\\s-]?stack)/.test(title))                               s += 22;
-  if (/\\b(information tech|systems|infrastructure|devops|cloud|platform|\\bsre\\b)/.test(title)) s += 28;
+  else if (/\\b(data|analytics|sql|\\bbi\\b|business[\\s-]*intelligence|etl|data[\\s-]*warehouse)\\b/.test(title)) s += 22;
+
+  // Software / SWE
+  if (/\\b(software[\\s-]*(engineer|developer)|software\\s+\\w+\\s+(engineer|developer)|swe|sde|developer|programmer)\\b/.test(title)) s += 40;
+
+  // ML / AI
+  if (/\\b(machine[\\s-]*learning|\\bml\\b|\\bai\\b|artificial[\\s]*intel|deep[\\s]*learning|\\bllm\\b|gen[\\s-]*ai)\\b/.test(title)) s += 35;
+
+  // Frontend / Backend / Fullstack / Web / Mobile
+  if (/\\b(backend|frontend|full[\\s-]?stack|web[\\s-]*(dev(eloper)?|engineer)|mobile[\\s-]*(dev(eloper)?|engineer))\\b/.test(title)) s += 22;
+
+  // IT / DevOps / Cloud / Infra / Systems / Network / Database / Help Desk
+  if (/\\b(information[\\s-]*tech|\\bit\\b|devops|cloud|platform|\\bsre\\b|infrastructure|systems?[\\s-]*(admin(istrator)?|engineer|analyst)|network[\\s-]*(engineer|admin(istrator)?|architect|analyst|specialist|tech)|database[\\s-]*(admin(istrator)?|engineer|developer|analyst|architect)|help[\\s-]*desk|it[\\s-]*support|technical[\\s-]*support|service[\\s-]*desk|site[\\s-]*reliability)\\b/.test(title)) s += 28;
+
+  // Cybersecurity (security engineer/analyst — NOT officer/guard, blocked above)
+  if (/\\b(cyber(security)?|security[\\s-]*(engineer|analyst|architect|specialist|consultant)|application[\\s-]*security|pen[\\s-]*test(er|ing)?|penetration[\\s-]*test|soc[\\s-]*analyst|incident[\\s-]*response|threat[\\s-]*(intel|analyst)|vulnerability[\\s-]*(analyst|engineer)|information[\\s-]*security)\\b/.test(title)) s += 28;
+
+  // QA / Testing
+  if (/\\b(\\bqa\\b|\\bqe\\b|quality[\\s-]*(assurance|engineer|analyst)|test[\\s-]*(engineer|analyst|developer|automation)|\\bsdet\\b|automation[\\s-]*test(er|ing)?)\\b/.test(title)) s += 22;
 
   // Entry-level signals — generic
-  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|early[\\s-]*career|level\\s*i\\b)/.test(title)) s += 28;
+  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|early[\\s-]*career|level\\s*i\\b)\\b/.test(title)) s += 28;
   // "associate" only boosts when paired with a tech role word
-  if (/\\bassociate\\b/.test(title) && /\\b(software|engineer|developer|analyst|data|scientist|swe|sde|programmer|devops|cloud|it|security|architect)\\b/.test(title)) s += 28;
-  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|associate)/.test(exp)) s += 35;
+  if (/\\bassociate\\b/.test(title) && /\\b(software|engineer|developer|analyst|data|scientist|swe|sde|programmer|devops|cloud|it|security|architect|network|database|qa|systems?)\\b/.test(title)) s += 28;
+  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|associate)\\b/.test(exp)) s += 35;
 
   // ── Company-specific level systems ──
   // Google: L3=SWE II (entry), L4=SWE III (junior-mid), L5+=Senior (penalised below)
@@ -886,7 +969,7 @@ function scoreJob(j) {{
   if (/\\b(senior|staff|principal)/.test(exp)) s -= 30;
 
   // Team boost
-  if (/\\b(engineering|software|data|analytics|\\bml\\b|\\bai\\b|\\bit\\b|technology|infrastructure|platform|cloud|security)/.test(team)) s += 15;
+  if (/\\b(engineering|software|data|analytics|\\bml\\b|\\bai\\b|\\bit\\b|technology|infrastructure|platform|cloud|security|cyber|network|database|\\bqa\\b|devops|systems?)\\b/.test(team)) s += 15;
 
   return Math.max(0, Math.min(100, s));
 }}
@@ -1434,4 +1517,5 @@ with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
 print(f"Built index.html — {len(jobs)} jobs, {new_count} new")
-webbrowser.open("index.html")
+if not _args.no_open:
+    webbrowser.open("index.html")
