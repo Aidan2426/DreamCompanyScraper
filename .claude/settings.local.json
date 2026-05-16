@@ -208,7 +208,31 @@
       "Bash(grep -o '\"eagerLoadRefineSearch\".\\\\{0,200\\\\}')",
       "Bash(grep -o 'phApp\\\\.ddo\\\\s*=\\\\s*{.\\\\{0,100\\\\}')",
       "Bash(curl -s \"https://careers.ppg.com/us/en/search-results?m=3\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
-      "Bash(curl -s -X POST https://ppg.wd5.myworkdayjobs.com/wday/cxs/ppg/PPG_CAREERS/jobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{\"limit\":20,\"offset\":0,\"searchText\":\"\",\"locations\":[]}')"
+      "Bash(curl -s -X POST https://ppg.wd5.myworkdayjobs.com/wday/cxs/ppg/PPG_CAREERS/jobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{\"limit\":20,\"offset\":0,\"searchText\":\"\",\"locations\":[]}')",
+      "Bash(curl -s \"https://www.accenture.com/us-en/careers/jobsearch\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
+      "Bash(curl -sv 'https://www.accenture.com/api/jobs?country=us&language=en&start=0&rows=10' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json')",
+      "Bash(curl -sv 'https://www.accenture.com/us-en/careers/jobsearch?q=&rows=10&start=0' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json')",
+      "Bash(curl -s 'https://www.accenture.com/us-en/careers/jobsearch?q=&rows=10&start=0' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json')",
+      "Bash(curl -s \"https://www.accenture.com/etc.clientlibs/cio-sites/clientlibs/clientlib-rad.lc-40a61b0f822b5ab0ed4a4d8e98a56942-lc.min.js\")",
+      "Bash(curl -s -X POST https://www.accenture.com/api/accenture/elastic/findjobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{\"start\":0,\"rows\":10,\"country\":\"us\",\"language\":\"en\"}')",
+      "Bash(curl -s -X POST https://www.accenture.com/api/accenture/elastic/findjobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{\"startIndex\":0,\"maxResultSize\":10,\"jobCountry\":\"us\",\"jobLanguage\":\"en\",\"countrySite\":\"us-en\",\"sortBy\":\"relevant\"}')",
+      "Bash(curl -s https://www.accenture.com/libs/granite/csrf/token.json -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -sv https://www.accenture.com/us-en/careers/jobsearch -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -c /tmp/accenture_cookies.txt)",
+      "Bash(curl -s https://www.accenture.com/libs/granite/csrf/token.json -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -b /tmp/accenture_cookies.txt)",
+      "Bash(curl -s https://www.accenture.com/us-en/careers/jobsearch -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -s -X POST https://www.accenture.com/api/accenture/elastic/findjobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'CSRF-Token: fetch' -F startIndex=0 -F maxResultSize=12 -F jobKeyword= -F jobCountry=us -F jobLanguage=en -F countrySite=us-en -F sortBy=relevant -F searchType=vectorSearch -F totalHits=true)",
+      "Bash(curl -s -X POST https://www.accenture.com/api/accenture/elastic/findjobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'CSRF-Token: fetch' -F startIndex=0 -F maxResultSize=12 -F jobKeyword= -F jobCountry=us -F jobLanguage=en -F countrySite=us-en -F sortBy=relevant -F searchType=vectorSearch -F enableQueryBoost=true -F useCleanEmbedding=true -F score=true -F totalHits=true -F debugQuery=false -F minScore=0 -F getFeedbackJudgmentEnabled=true)",
+      "Bash(curl -s \"https://www.accenture.com/etc.clientlibs/cio-sites/clientlibs/clientlib-rad-base.lc-6305a0055e23338eb19e6edb5a8f3cea-lc.min.js\")",
+      "Bash(grep -o 'sortByLabelMapping[^,;\\)]{0,200}')",
+      "Bash(curl -sv https://www.accenture.com/us-en/careers/jobsearch -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -D - -o /dev/null)",
+      "Bash(curl -s -X POST https://www.accenture.com/api/accenture/elastic/findjobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'CSRF-Token: fetch' -F startIndex=0 -F maxResultSize=12 -F jobKeyword= -F jobCountry=us -F jobLanguage=en -F countrySite=us-en -F sortBy=2 -F searchType=vectorSearch -F enableQueryBoost=true -F useCleanEmbedding=true -F score=true -F totalHits=true -F debugQuery=false -F minScore=0 -F getFeedbackJudgmentEnabled=true -F sortByLabelMapping=)",
+      "Bash(curl -s 'https://www.accenture.com/us-en/careers/jobsearch?from=0&size=1' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(grep -o 'window\\\\.__[^=]*=.\\\\{0,100\\\\}')",
+      "Bash(curl -s -c /tmp/acc.txt https://www.accenture.com/us-en/careers/jobsearch -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -o /dev/null)",
+      "Bash(curl -s -b /tmp/acc.txt https://www.accenture.com/libs/granite/csrf/token.json -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl *)",
+      "Bash(grep -o '\\\\$.ajax[^;]*\\\\|url:.\\\\{0,100\\\\}')",
+      "Bash(sort -t= -k2 -n)"
     ]
   }
 }
