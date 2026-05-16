@@ -182,7 +182,14 @@
       "Bash(grep -v '//')",
       "Bash(curl -sv 'https://careers.fedex.com/jobs?page_number=2&page_size=25' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
       "Bash(curl -s 'https://careers.fedex.com/jobs?page_number=2&page_size=25' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
-      "Bash(curl -s 'https://careers.fedex.com/jobs?page_number=1&page_size=25' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')"
+      "Bash(curl -s 'https://careers.fedex.com/jobs?page_number=1&page_size=25' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -s \"https://jobs.gianteagle.com/us/en/search-results?keywords=\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
+      "Bash(curl -s -X POST https://jobs.gianteagle.com/api/jobs/search -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{\"keywords\":\"\",\"location\":\"\",\"page\":1,\"pageSize\":10}')",
+      "Bash(curl -sv 'https://jobs.gianteagle.com/us/en/search-results?keywords=&page=2' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -s 'https://jobs.gianteagle.com/us/en/search-results?keywords=&page=2' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -s 'https://jobs.gianteagle.com/us/en/search-results?keywords=&page=1' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -s https://jobs.gianteagle.com/us/en/search-results?keywords= -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -s -X POST https://gianteagle.wd503.myworkdayjobs.com/wday/cxs/gianteagle/GEExternalcareers/jobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{\"limit\":20,\"offset\":0,\"searchText\":\"\",\"locations\":[]}')"
     ]
   }
 }
