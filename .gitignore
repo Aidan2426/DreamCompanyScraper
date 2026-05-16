@@ -1,0 +1,8 @@
+jobs.db
+jobs.json
+index.html
+__pycache__/
+*.pyc
+.env
+debug_selectors.py
+debug_google.py
