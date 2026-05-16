@@ -165,7 +165,24 @@
       "WebFetch(domain:hdox.fa.us6.oraclecloud.com)",
       "Bash(wait)",
       "Bash(file python *)",
-      "Bash(head -c 100 python)"
+      "Bash(head -c 100 python)",
+      "Bash(curl -s \"https://careers.fedex.com/api/jobs?num=1&start=0&locale=en_US\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\" -H \"Accept: application/json\")",
+      "Bash(curl -s \"https://careers.fedex.com/api/jobs?num=1&start=0\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\" -H \"Accept: application/json\" -H \"Referer: https://careers.fedex.com/jobs\")",
+      "Bash(curl -s -L \"https://careers.fedex.com/jobs\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
+      "Bash(curl -s \"https://paradox-fedexapi.paradox.ai/api/v1/jobs?page=1&per_page=1\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\" -H \"Accept: application/json\")",
+      "Bash(curl -s \"https://careers.fedex.com/jobs\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
+      "Bash(curl -s \"https://careers.fedex.com/jobs?page=2\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
+      "Bash(curl -s \"https://cdn.sites.fedex.paradox.ai/fedex-prod-careersites/4f248aa1ca/main.bundle.js\")",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -sv \"https://careers.fedex.com/api/jobs?page=2&num=25\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\" -H \"Accept: application/json\" -H \"X-Requested-With: XMLHttpRequest\")",
+      "Bash(curl -s \"https://careers.fedex.com/jobs\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s \"https://cdn.sites.fedex.paradox.ai/fedex-prod-careersites/4f248aa1ca/jobs-pagination.bundle.js\")",
+      "Bash(curl -s \"https://careers.fedex.com/jobs/25/page/2\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
+      "Bash(curl -sv \"https://careers.fedex.com/jobs/25/page/2\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
+      "Bash(grep -v '//')",
+      "Bash(curl -sv 'https://careers.fedex.com/jobs?page_number=2&page_size=25' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -s 'https://careers.fedex.com/jobs?page_number=2&page_size=25' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
+      "Bash(curl -s 'https://careers.fedex.com/jobs?page_number=1&page_size=25' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')"
     ]
   }
 }
