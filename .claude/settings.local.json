@@ -206,7 +206,9 @@
       "Bash(curl -s 'https://careers.atimaterials.com/us/en/search-results?keywords=&from=0&size=1' -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
       "Bash(curl -s \"https://careers.atimaterials.com/us/en/search-results?keywords=&from=0&size=1\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
       "Bash(grep -o '\"eagerLoadRefineSearch\".\\\\{0,200\\\\}')",
-      "Bash(grep -o 'phApp\\\\.ddo\\\\s*=\\\\s*{.\\\\{0,100\\\\}')"
+      "Bash(grep -o 'phApp\\\\.ddo\\\\s*=\\\\s*{.\\\\{0,100\\\\}')",
+      "Bash(curl -s \"https://careers.ppg.com/us/en/search-results?m=3\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36\")",
+      "Bash(curl -s -X POST https://ppg.wd5.myworkdayjobs.com/wday/cxs/ppg/PPG_CAREERS/jobs -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36' -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{\"limit\":20,\"offset\":0,\"searchText\":\"\",\"locations\":[]}')"
     ]
   }
 }
