@@ -39,12 +39,14 @@ jobs:
         run: python main.py
 
       - name: Build index.html
-        run: python build.py --no-open
+        run: |
+          python build.py --no-open
+          mkdir -p dist
+          cp index.html dist/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: ./dist
           publish_branch: gh-pages
-          include_files: index.html
