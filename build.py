@@ -735,11 +735,13 @@ html = f"""<!DOCTYPE html>
     .fav-star {{
       position: absolute; top: 4px; right: 4px;
       background: none; border: none; cursor: pointer; padding: 0;
-      font-size: 12px; line-height: 1; color: rgba(255,255,255,0.2);
+      font-size: 13px; line-height: 1; color: rgba(255,255,255,0.15);
       transition: color 0.15s, transform 0.15s; z-index: 1;
     }}
-    .fav-star:hover {{ color: #ff9f0a; transform: scale(1.2); }}
+    .cs-grid-item:hover .fav-star {{ color: rgba(255,255,255,0.55); }}
+    .fav-star:hover {{ color: #ff9f0a !important; transform: scale(1.2); }}
     .fav-star.active {{ color: #ff9f0a; }}
+    .cs-grid-item:hover .fav-star.active {{ color: #ff9f0a; }}
   </style>
 </head>
 <body>
