@@ -245,7 +245,9 @@
       "WebFetch(domain:api.smartrecruiters.com)",
       "WebFetch(domain:2k.com)",
       "WebFetch(domain:mckinsey.wd12.myworkdayjobs.com)",
-      "WebFetch(domain:mckinsey.wd1.myworkdayjobs.com)"
+      "WebFetch(domain:mckinsey.wd1.myworkdayjobs.com)",
+      "WebFetch(domain:layoffs.fyi)",
+      "WebFetch(domain:airtable.com)"
     ]
   }
 }

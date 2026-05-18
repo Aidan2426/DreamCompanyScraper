@@ -725,6 +725,21 @@ html = f"""<!DOCTYPE html>
       background: #34c759; color: #fff; border-radius: 8px;
       font-size: 10px; font-weight: 700; padding: 1px 5px; min-width: 16px; text-align: center;
     }}
+    .pill-fav {{ position: relative; }}
+    .pill-fav-count {{
+      position: absolute; top: -6px; right: -6px;
+      background: #ff9f0a; color: #fff; border-radius: 8px;
+      font-size: 10px; font-weight: 700; padding: 1px 5px; min-width: 16px; text-align: center;
+    }}
+    .cs-grid-item {{ position: relative; }}
+    .fav-star {{
+      position: absolute; top: 4px; right: 4px;
+      background: none; border: none; cursor: pointer; padding: 0;
+      font-size: 12px; line-height: 1; color: rgba(255,255,255,0.2);
+      transition: color 0.15s, transform 0.15s; z-index: 1;
+    }}
+    .fav-star:hover {{ color: #ff9f0a; transform: scale(1.2); }}
+    .fav-star.active {{ color: #ff9f0a; }}
   </style>
 </head>
 <body>
@@ -748,6 +763,7 @@ html = f"""<!DOCTYPE html>
     <button class="pill active" data-new="all">All</button>
     <button class="pill" data-new="new">✦ New</button>
     <button class="pill pill-saved" id="pill-saved" data-new="saved" style="display:none">♥ Saved<span class="pill-saved-count" id="saved-count">0</span></button>
+    <button class="pill pill-fav" id="pill-fav">⭐ My Companies<span class="pill-fav-count" id="fav-count" style="display:none">0</span></button>
     <div class="fsep"></div>
     <button class="pill active" data-region="us">🇺🇸 US</button>
     <button class="pill" data-region="all">🌐 All</button>
@@ -999,6 +1015,19 @@ function makeDropdown(containerId, getItems, iconFn, gridMode) {{
         d.className = 'cs-grid-item' + (sel.has(v) ? ' selected' : '');
         if (icon) {{ const img=document.createElement('img'); img.className='cs-grid-logo'; img.src=icon; img.alt=''; d.appendChild(img); }}
         const lbl=document.createElement('span'); lbl.className='cs-grid-lbl'; lbl.textContent=v; lbl.title=v; d.appendChild(lbl);
+        const star = document.createElement('button');
+        star.className = 'fav-star' + (isFav(v) ? ' active' : '');
+        star.textContent = isFav(v) ? '★' : '☆';
+        star.title = isFav(v) ? 'Remove from My Companies' : 'Add to My Companies';
+        star.addEventListener('mousedown', e => {{
+          e.preventDefault(); e.stopPropagation();
+          toggleFav(v);
+          star.textContent = isFav(v) ? '★' : '☆';
+          star.classList.toggle('active', isFav(v));
+          star.title = isFav(v) ? 'Remove from My Companies' : 'Add to My Companies';
+          if (state.favOnly) render();
+        }});
+        d.appendChild(star);
         d.addEventListener('mousedown', e => {{
           e.preventDefault();
           sel.has(v) ? sel.delete(v) : sel.add(v);
@@ -1059,13 +1088,31 @@ const companyDrop = makeDropdown('cs-company', ()=>COMPANIES, v=>LOGOS[v], true)
 const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,     null,        false);
 const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES, null,      false);
 
-const state = {{ q:'', newOnly:false, savedOnly:false, sort:'newest', radiusCity:'', radiusMiles:0 }};
+const state = {{ q:'', newOnly:false, savedOnly:false, favOnly:false, sort:'newest', radiusCity:'', radiusMiles:0 }};
 
 // ── Saved jobs storage ──
 function getSaved()     {{ return new Set(JSON.parse(localStorage.getItem('swipe_saved')     || '[]')); }}
 function getDiscarded() {{ return new Set(JSON.parse(localStorage.getItem('swipe_discarded') || '[]')); }}
 function addSaved(id)     {{ const s=[...getSaved()];     if(!s.includes(id)) s.push(id); localStorage.setItem('swipe_saved',JSON.stringify(s));     updateSavedPill(); }}
 function addDiscarded(id) {{ const s=[...getDiscarded()]; if(!s.includes(id)) s.push(id); localStorage.setItem('swipe_discarded',JSON.stringify(s)); }}
+
+// ── Favorite companies storage ──
+function getFavs()       {{ return new Set(JSON.parse(localStorage.getItem('fav_companies') || '[]')); }}
+function setFavs(s)      {{ localStorage.setItem('fav_companies', JSON.stringify([...s])); }}
+function isFav(company)  {{ return getFavs().has(company); }}
+function toggleFav(company) {{
+  const s = getFavs();
+  s.has(company) ? s.delete(company) : s.add(company);
+  setFavs(s);
+  updateFavPill();
+}}
+function updateFavPill() {{
+  const n = getFavs().size;
+  const cnt = document.getElementById('fav-count');
+  cnt.textContent = n;
+  cnt.style.display = n > 0 ? '' : 'none';
+  document.getElementById('pill-fav').classList.toggle('active', state.favOnly);
+}}
 
 function updateSavedPill() {{
   const n = getSaved().size;
@@ -1091,6 +1138,7 @@ function filtered() {{
     if (state.q              && !j.title.toLowerCase().includes(state.q) && !(j.company||'').toLowerCase().includes(state.q)) return false;
     if (state.newOnly        && !j.is_new)                                 return false;
     if (state.savedOnly      && !getSaved().has(j.role_id))               return false;
+    if (state.favOnly        && !getFavs().has(j.company))                return false;
     if (companyDrop.sel.size && !companyDrop.sel.has(j.company))          return false;
     if (teamDrop.sel.size    && !teamDrop.sel.has(j.team))                return false;
     if (expDrop.sel.size     && !expDrop.sel.has(j.experience))           return false;
@@ -1323,6 +1371,14 @@ document.getElementById('pill-saved').addEventListener('click', function() {{
   else {{ state.newOnly = false; document.querySelector('[data-new="all"]').classList.add('active'); }}
   render();
 }});
+
+// ── "My Companies" pill ──
+document.getElementById('pill-fav').addEventListener('click', function() {{
+  state.favOnly = !state.favOnly;
+  this.classList.toggle('active', state.favOnly);
+  render();
+}});
+updateFavPill();
 
 // ── Swiper ──
 let swipeQueue = [];
