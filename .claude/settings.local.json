@@ -232,7 +232,20 @@
       "Bash(curl -s -b /tmp/acc.txt https://www.accenture.com/libs/granite/csrf/token.json -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36')",
       "Bash(curl *)",
       "Bash(grep -o '\\\\$.ajax[^;]*\\\\|url:.\\\\{0,100\\\\}')",
-      "Bash(sort -t= -k2 -n)"
+      "Bash(sort -t= -k2 -n)",
+      "Bash(grep -o '\"[A-Za-z0-9_-]\\\\{20,\\\\}\"')",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "WebFetch(domain:careers.americanexpress.com)",
+      "WebFetch(domain:www.mckinsey.com)",
+      "WebFetch(domain:careers.l3harris.com)",
+      "WebFetch(domain:jobs.northropgrumman.com)",
+      "WebFetch(domain:www.cdprojektred.com)",
+      "WebFetch(domain:bloomberg.avature.net)",
+      "WebFetch(domain:api.smartrecruiters.com)",
+      "WebFetch(domain:2k.com)",
+      "WebFetch(domain:mckinsey.wd12.myworkdayjobs.com)",
+      "WebFetch(domain:mckinsey.wd1.myworkdayjobs.com)"
     ]
   }
 }
