@@ -1,6 +1,6 @@
 # Session Context — Pick Up Here Next Time
 
-Last updated: 2026-05-17
+Last updated: 2026-05-19
 
 ---
 
@@ -14,44 +14,58 @@ Live site: https://aidan2426.github.io/DreamCompanyScraper/
 
 ## Git State Right Now
 
-Branch: `main`. Everything committed and pushed. Recent commits:
-- `de847f5` — favorites feature (build.py: ⭐ My Companies pill + star buttons)
-- `f917c0e` — bloomberg, cdpr, l3harris scrapers
-- `a2f6048` — moderna, booz allen, j&j, pfizer, merck scrapers
-- `7ece0dd` — aurora, datadog, 2k scrapers
+Branch: `main`. Everything committed. **Not pushed this session** — run `git push` before deploying.
 
-**Unpushed:** Nothing known. Confirm with `git status`.
+Recent commits:
+- `0d1e29d` — fix(stats): light background, fix sort descending by default
+- `6fe4945` — feat(ui): add Stats panel — per-company total, new today, posted 24h
+- `68e7dd3` — fix(apple): append ', United States' to locations for UI US-filter
+- `33e8088` — fix(apple): replace broken Playwright scraper with direct API
+- `06c4eb9` — session context update
+- `de847f5` — favorites feature
 
 ---
 
 ## What Was Built This Session
 
-### New Scrapers (all tested, committed)
+### Apple Scraper Rewrite (`scrapers/apple.py`)
 
-| Company | File | Platform | Jobs | Status |
-|---|---|---|---|---|
-| Aurora | `scrapers/aurora.py` | Algolia→Greenhouse | 165 | ✅ |
-| Datadog | `scrapers/datadog.py` | Greenhouse | 409 | ✅ |
-| 2K | `scrapers/twok.py` | Greenhouse | 111 | ✅ |
-| Moderna | `scrapers/moderna.py` | Workday | 155 | ✅ |
-| Booz Allen | `scrapers/boozallen.py` | Workday | 1847 | ✅ |
-| J&J | `scrapers/jnj.py` | Workday | 1740 | ✅ |
-| Pfizer | `scrapers/pfizer.py` | Workday | 535 | ✅ |
-| Merck | `scrapers/merck.py` | Phenom | 287 | ✅ |
-| CD Projekt Red | `scrapers/cdpr.py` | SmartRecruiters | 61 | ✅ |
-| Bloomberg | `scrapers/bloomberg.py` | Avature HTML (42 pages) | 501 | ✅ |
-| L3Harris | `scrapers/l3harris.py` | TalentBrew HTML (111 pages) | 1661 | ✅ |
+**Problem:** Old Playwright scraper intercepted first XHR (15 jobs) and returned immediately — no pagination.
 
-### Frontend Feature: My Companies (Favorites)
+**Fix:** Direct `POST https://jobs.apple.com/api/v1/search` with session cookies + pagination.
 
-Added to `build.py`:
-- **⭐ My Companies pill** in filter bar — toggles `state.favOnly`
-- **★ star button** on each company tile in Company dropdown grid
-- Click ☆ → turns ★ gold, adds to `localStorage.fav_companies`
-- When pill active: filters to show only favorited company jobs
-- Works with all sorts (Newest, For You, A-Z) and other filters
-- Count badge on pill shows how many companies are favorited
-- Persists across page refreshes via localStorage
+Key discovery path:
+- `/api/role/search` → 404; `/api/v1/role/search` → 401
+- Found real endpoint by grepping JS bundle (`jobsite.main.*.js`) for `"/search"` → `l="/api/v1"`, `search.search.url = l+"/search"`
+- Correct payload: `{query, filters:{}, locale:"en-us", sort:"newest", page:N, format:{...}}`
+- Must GET main page first to seed session cookies; empty CSRF token works
+- Location filter (`locationIds`, `locations`, etc.) does NOT work via API — filter US client-side by `countryName == "United States of America"`
+- **Location bug:** API returns bare city names ("Sunnyvale"), `normalizeLocation` marks `isUS:false`, `_usOnly=true` default hides all Apple jobs → fix: append `", United States"` to location string so `normalizeLocation` returns `isUS:true`
+- Also ran SQL UPDATE on existing DB rows to fix old location strings
+
+**Result:** ~3,737 US jobs per run (was 15).
+
+```python
+# Apple API pattern
+POST https://jobs.apple.com/api/v1/search
+# Seed cookies first: GET https://jobs.apple.com/en-us/search?location=united-states-USA&sort=newest
+# Headers: Content-Type: application/json, X-Apple-CSRF-Token: "", locale: en-us
+# Payload: {query:"", filters:{}, locale:"en-us", sort:"newest", page:N, format:{longDate:"MMMM D, YYYY", mediumDate:"MMM D, YYYY"}}
+# Response: {res: {searchResults:[...], totalRecords:N}}
+# Fields: positionId, postingTitle, team.teamName/teamCode, locations[0].name, postingDate
+# Job URL: https://jobs.apple.com/en-us/details/{positionId}
+# Page size: 20, paginate page=1..N
+# Location format: append ", United States" to city name for _usOnly filter to pass
+```
+
+### UI: Stats Panel (`build.py`)
+
+Added **📊 Stats** button in filter strip. Opens a light-themed modal showing per-company:
+- **Total Jobs** — all jobs in DB (sorted descending by default)
+- **New Today** — `is_new=True` count (green)
+- **Posted 24h** — `posted_date` within 48h (blue)
+
+Features: sortable columns (click header), searchable by company name, click row → filters main view to that company. Primary use: diagnose broken scrapers (Apple had 15 → now shows 9907).
 
 ---
 
@@ -63,7 +77,7 @@ from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, an
 
 ---
 
-## Investigated But Blocked / Skipped This Session
+## Investigated But Blocked
 
 | Company | Platform | Reason |
 |---|---|---|
@@ -76,16 +90,12 @@ from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, an
 
 ## Companies Still Remaining (To Do List)
 
-From the user's list that were NOT started:
-- **Bloomberg** — ✅ Done this session
 - **Square Enix** — Not investigated yet
-- **CD Projekt Red** — ✅ Done this session
-- **L3Harris** — ✅ Done this session
+- **BCG** — Not investigated yet (might be SmartRecruiters)
 - **McKinsey** — Blocked (timeout, unknown ATS)
-- **BCG** — Not investigated yet
-- **MSA Safety** — Not investigated yet
+- **MSA Safety** — Not investigated yet (Pittsburgh)
 - **ExlService** — Not investigated yet
-- **Koppers** — Not investigated yet
+- **Koppers** — Not investigated yet (Pittsburgh)
 
 From "Broke" list worth fixing:
 - Databricks, Snowflake, Zoom — probably Greenhouse/Lever
@@ -93,6 +103,8 @@ From "Broke" list worth fixing:
 - Raytheon — defense portal
 - Goldman Sachs — own portal
 - Blizzard — under Microsoft/Activision now
+
+**Tip:** Use the new 📊 Stats panel to spot broken scrapers — companies with far fewer jobs than expected.
 
 ---
 
@@ -104,6 +116,30 @@ From "Broke" list worth fixing:
 - Caches `jobs.db` between runs (key: `jobs-db-{run_id}`, restore-keys: `jobs-db-`)
 - Deploys to `dist/` folder (NOT root — peaceiris respects .gitignore)
 - Manual trigger: Actions tab → "Daily Job Scrape" → Run workflow
+
+### _usOnly Filter (CRITICAL)
+The UI defaults `_usOnly = true`. Jobs pass only if `normalizeLocation(location)` returns `isUS: true`.
+
+`normalizeLocation` returns `isUS: true` when:
+- Location has `, StateAbbrev` (e.g., "Pittsburgh, PA")
+- Location has `, United States` / `, USA` / `, US` (e.g., "Sunnyvale, United States")
+- Location matches `"City ST"` pattern (e.g., "Pittsburgh PA")
+
+**If scraper returns bare city names → all jobs hidden.** Fix: append `", United States"` to location.
+
+When fixing an existing scraper with bad locations, also UPDATE the DB:
+```python
+import sqlite3
+conn = sqlite3.connect('jobs.db')
+conn.execute("""
+    UPDATE jobs SET location = location || ', United States'
+    WHERE company = 'CompanyName'
+      AND location != ''
+      AND location NOT LIKE '%, United%'
+      AND location NOT LIKE '%, US%'
+""")
+conn.commit()
+```
 
 ### Platform Patterns Learned
 
@@ -125,6 +161,17 @@ body: {"limit": 20, "offset": offset, "searchText": "", "locations": []}
 # Max limit = 20, paginate with offset
 ```
 Tenants: `ppg/PPG_CAREERS`, `gianteagle/GEExternalcareers`, `modernatx/M_tx`, `bah/BAH_Jobs`, `jj/JJ` (wd5), `pfizer/PfizerCareers`
+
+**Apple Jobs API:**
+```python
+POST https://jobs.apple.com/api/v1/search
+# Seed: GET https://jobs.apple.com/en-us/search?location=united-states-USA&sort=newest
+# Headers: Content-Type:application/json, X-Apple-CSRF-Token:"", locale:en-us
+# Payload: {query:"", filters:{}, locale:"en-us", sort:"newest", page:N, format:{longDate:"MMMM D, YYYY",mediumDate:"MMM D, YYYY"}}
+# Response: {res:{searchResults:[...], totalRecords:N}} — page size 20
+# Filter US: countryName=="United States of America"; location += ", United States"
+# Job URL: https://jobs.apple.com/en-us/details/{positionId}
+```
 
 **Phenom People (eagerLoadRefineSearch):**
 ```python
@@ -186,8 +233,7 @@ GET https://careers.l3harris.com/en/search-jobs?p={page}
 **Umbraco/server-rendered HTML (GM):**
 ```python
 GET https://search-careers.gm.com/en/jobs/?search=&location=&page=N
-# Parse HTML with regex — splits on card divs
-# 42 pages
+# Parse HTML with regex — splits on card divs, 42 pages
 ```
 
 **Paradox.ai (FedEx):**
@@ -211,35 +257,12 @@ GET https://careers.fedex.com/jobs?page_number=N&page_size=25
 
 ## How to Continue Next Time
 
-1. Check git status: `git status`
-
-2. If any untracked scrapers exist, test first:
-   ```
-   python main.py --company <name>
-   ```
-
-3. Next companies to investigate:
+1. `git status` — verify clean
+2. `git push` — push this session's commits if not done
+3. Use **📊 Stats** panel to identify other broken scrapers
+4. Next companies to investigate:
    - **Square Enix** — find their ATS
-   - **BCG** — find their ATS (might be SmartRecruiters)
-   - **L3Harris** — ✅ done
-   - **MSA Safety** — small Pittsburgh company, easy to check
-   - **Koppers** — Pittsburgh company
-
-4. Fix broken scrapers:
-   - Databricks, Snowflake, Zoom — check if still Greenhouse/Lever
-   - JP Morgan Chase — try Workday variants
-
-5. Build new scraper template (Workday pattern from ppg.py):
-   ```python
-   # Copy scrapers/ppg.py, change:
-   API_URL  = "https://{tenant}.wd{N}.myworkdayjobs.com/wday/cxs/{tenant}/{SITE}/jobs"
-   JOB_BASE = "https://{tenant}.wd{N}.myworkdayjobs.com/en-US/{SITE}"
-   # Update role_id prefix and company name
-   # Print statement: [companyname]
-   ```
-
-6. After adding scrapers, always wire into main.py:
-   - Add to import line
-   - Add to `all_scrapers` dict in `run()`
-   - Test: `python main.py --company <name>`
-   - Commit + push
+   - **BCG** — find their ATS
+   - **MSA Safety**, **Koppers** — Pittsburgh companies, likely small/easy
+5. Fix broken scrapers (Databricks, Snowflake, Zoom, JP Morgan Chase)
+6. After adding scrapers, always wire into main.py import + `all_scrapers` dict + test + commit
