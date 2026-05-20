@@ -746,57 +746,58 @@ html = f"""<!DOCTYPE html>
     /* ── Stats overlay ── */
     .stats-overlay {{
       display: none; position: fixed; inset: 0; z-index: 1000;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
       align-items: center; justify-content: center;
     }}
     .stats-overlay.open {{ display: flex; }}
     .stats-modal {{
-      background: #1c1c1e; border: 1px solid rgba(255,255,255,0.1);
+      background: #f5f5f7; color: #1d1d1f;
       border-radius: 16px; width: min(880px,96vw); max-height: 82vh;
       display: flex; flex-direction: column; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
     }}
     .stats-header {{
       display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
-      font-weight: 600; font-size: 16px;
+      padding: 16px 20px; border-bottom: 1px solid #d1d1d6;
+      font-weight: 600; font-size: 16px; color: #1d1d1f;
     }}
     .stats-header-right {{ display: flex; align-items: center; gap: 12px; }}
     .stats-search {{
-      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 8px; color: #fff; padding: 6px 12px; font-size: 13px; width: 200px;
+      background: #fff; border: 1px solid #c7c7cc;
+      border-radius: 8px; color: #1d1d1f; padding: 6px 12px; font-size: 13px; width: 200px;
     }}
     .stats-search:focus {{ outline: none; border-color: var(--blue); }}
     .stats-close {{
-      background: none; border: none; color: var(--muted); font-size: 18px;
+      background: none; border: none; color: #6e6e73; font-size: 18px;
       cursor: pointer; padding: 4px 8px; border-radius: 6px;
     }}
-    .stats-close:hover {{ color: #fff; background: rgba(255,255,255,0.08); }}
+    .stats-close:hover {{ color: #1d1d1f; background: rgba(0,0,0,0.07); }}
     .stats-table-wrap {{ overflow-y: auto; flex: 1; }}
     .stats-table {{
       width: 100%; border-collapse: collapse; font-size: 13px;
     }}
     .stats-table thead th {{
-      position: sticky; top: 0; background: #1c1c1e;
-      padding: 10px 14px; text-align: left; color: var(--muted);
-      font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky; top: 0; background: #f5f5f7;
+      padding: 10px 14px; text-align: left; color: #6e6e73;
+      font-weight: 600; border-bottom: 1px solid #d1d1d6;
       cursor: pointer; white-space: nowrap; user-select: none;
     }}
-    .stats-table thead th:hover {{ color: #fff; }}
+    .stats-table thead th:hover {{ color: #1d1d1f; }}
     .stats-table thead th.sort-asc::after  {{ content: ' ▲'; color: var(--blue); }}
     .stats-table thead th.sort-desc::after {{ content: ' ▼'; color: var(--blue); }}
-    .stats-table tbody tr {{ border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; }}
-    .stats-table tbody tr:hover {{ background: rgba(255,255,255,0.04); }}
-    .stats-table td {{ padding: 9px 14px; vertical-align: middle; }}
-    .stats-company-cell {{ display: flex; align-items: center; gap: 10px; font-weight: 500; }}
+    .stats-table tbody tr {{ border-bottom: 1px solid #e5e5ea; cursor: pointer; }}
+    .stats-table tbody tr:hover {{ background: #ebebf0; }}
+    .stats-table td {{ padding: 9px 14px; vertical-align: middle; color: #1d1d1f; }}
+    .stats-company-cell {{ display: flex; align-items: center; gap: 10px; font-weight: 500; color: #1d1d1f; }}
     .stats-logo {{ width: 22px; height: 22px; object-fit: contain; border-radius: 4px; }}
-    .stats-total {{ font-weight: 600; color: #fff; }}
-    .stats-new {{ color: #30d158; font-weight: 600; }}
-    .stats-new.zero {{ color: var(--muted); font-weight: 400; }}
-    .stats-posted {{ color: #0a84ff; font-weight: 600; }}
-    .stats-posted.zero {{ color: var(--muted); font-weight: 400; }}
+    .stats-total {{ font-weight: 600; color: #1d1d1f; }}
+    .stats-new {{ color: #1a7f37; font-weight: 600; }}
+    .stats-new.zero {{ color: #aeaeb2; font-weight: 400; }}
+    .stats-posted {{ color: #0071e3; font-weight: 600; }}
+    .stats-posted.zero {{ color: #aeaeb2; font-weight: 400; }}
     .stats-footer {{
-      padding: 10px 20px; border-top: 1px solid rgba(255,255,255,0.08);
-      font-size: 12px; color: var(--muted); text-align: right;
+      padding: 10px 20px; border-top: 1px solid #d1d1d6;
+      font-size: 12px; color: #6e6e73; text-align: right;
     }}
   </style>
 </head>
@@ -1654,7 +1655,7 @@ render();
 
 // ── Stats panel ──
 (function() {{
-  let statsSort = {{ col: 'total', dir: -1 }};
+  let statsSort = {{ col: 'total', dir: 1 }};  // dir:1 = desc for numbers (bv-av)
   let statsQ = '';
 
   function buildStatsData() {{
@@ -1699,7 +1700,9 @@ render();
     document.querySelectorAll('.stats-table thead th').forEach(th => {{
       th.classList.remove('sort-asc','sort-desc');
       if (th.dataset.col === statsSort.col) {{
-        th.classList.add(statsSort.dir === -1 ? 'sort-desc' : 'sort-asc');
+        // numbers: dir=1→descending, dir=-1→ascending; company: dir=1→ascending
+        const isNum = th.dataset.col !== 'company';
+        th.classList.add((isNum ? statsSort.dir === 1 : statsSort.dir === 1) ? 'sort-desc' : 'sort-asc');
       }}
     }});
   }}
@@ -1724,7 +1727,7 @@ render();
       if (statsSort.col === th.dataset.col) {{
         statsSort.dir *= -1;
       }} else {{
-        statsSort = {{ col: th.dataset.col, dir: th.dataset.col === 'company' ? 1 : -1 }};
+        statsSort = {{ col: th.dataset.col, dir: th.dataset.col === 'company' ? 1 : 1 }};
       }}
       renderStats();
     }});
