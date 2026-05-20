@@ -742,6 +742,62 @@ html = f"""<!DOCTYPE html>
     .fav-star:hover {{ color: #ff9f0a !important; transform: scale(1.2); }}
     .fav-star.active {{ color: #ff9f0a; }}
     .cs-grid-item:hover .fav-star.active {{ color: #ff9f0a; }}
+
+    /* ── Stats overlay ── */
+    .stats-overlay {{
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+    }}
+    .stats-overlay.open {{ display: flex; }}
+    .stats-modal {{
+      background: #1c1c1e; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; width: min(880px,96vw); max-height: 82vh;
+      display: flex; flex-direction: column; overflow: hidden;
+    }}
+    .stats-header {{
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-weight: 600; font-size: 16px;
+    }}
+    .stats-header-right {{ display: flex; align-items: center; gap: 12px; }}
+    .stats-search {{
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; color: #fff; padding: 6px 12px; font-size: 13px; width: 200px;
+    }}
+    .stats-search:focus {{ outline: none; border-color: var(--blue); }}
+    .stats-close {{
+      background: none; border: none; color: var(--muted); font-size: 18px;
+      cursor: pointer; padding: 4px 8px; border-radius: 6px;
+    }}
+    .stats-close:hover {{ color: #fff; background: rgba(255,255,255,0.08); }}
+    .stats-table-wrap {{ overflow-y: auto; flex: 1; }}
+    .stats-table {{
+      width: 100%; border-collapse: collapse; font-size: 13px;
+    }}
+    .stats-table thead th {{
+      position: sticky; top: 0; background: #1c1c1e;
+      padding: 10px 14px; text-align: left; color: var(--muted);
+      font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer; white-space: nowrap; user-select: none;
+    }}
+    .stats-table thead th:hover {{ color: #fff; }}
+    .stats-table thead th.sort-asc::after  {{ content: ' ▲'; color: var(--blue); }}
+    .stats-table thead th.sort-desc::after {{ content: ' ▼'; color: var(--blue); }}
+    .stats-table tbody tr {{ border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; }}
+    .stats-table tbody tr:hover {{ background: rgba(255,255,255,0.04); }}
+    .stats-table td {{ padding: 9px 14px; vertical-align: middle; }}
+    .stats-company-cell {{ display: flex; align-items: center; gap: 10px; font-weight: 500; }}
+    .stats-logo {{ width: 22px; height: 22px; object-fit: contain; border-radius: 4px; }}
+    .stats-total {{ font-weight: 600; color: #fff; }}
+    .stats-new {{ color: #30d158; font-weight: 600; }}
+    .stats-new.zero {{ color: var(--muted); font-weight: 400; }}
+    .stats-posted {{ color: #0a84ff; font-weight: 600; }}
+    .stats-posted.zero {{ color: var(--muted); font-weight: 400; }}
+    .stats-footer {{
+      padding: 10px 20px; border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px; color: var(--muted); text-align: right;
+    }}
   </style>
 </head>
 <body>
@@ -800,6 +856,7 @@ html = f"""<!DOCTYPE html>
     <button class="pill" data-sort="foryou">✦ For You</button>
     <div class="fsep"></div>
     <button class="pill" id="swipe-open-btn">🃏 Swipe</button>
+    <button class="pill" id="stats-btn">📊 Stats</button>
   </div>
 </div>
 
@@ -820,6 +877,33 @@ html = f"""<!DOCTYPE html>
   <div class="swiper-actions">
     <button class="swiper-btn swiper-btn-skip" id="swiper-skip" title="Skip">✕</button>
     <button class="swiper-btn swiper-btn-save" id="swiper-save" title="Save">♥</button>
+  </div>
+</div>
+
+<!-- Stats modal -->
+<div class="stats-overlay" id="stats-overlay">
+  <div class="stats-modal">
+    <div class="stats-header">
+      <span>📊 Company Stats</span>
+      <div class="stats-header-right">
+        <input class="stats-search" id="stats-search" placeholder="Search companies…" autocomplete="off"/>
+        <button class="stats-close" id="stats-close">✕</button>
+      </div>
+    </div>
+    <div class="stats-table-wrap">
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th data-col="company">Company</th>
+            <th data-col="total" class="sort-desc">Total Jobs</th>
+            <th data-col="new">New Today</th>
+            <th data-col="posted">Posted 24h</th>
+          </tr>
+        </thead>
+        <tbody id="stats-tbody"></tbody>
+      </table>
+    </div>
+    <div class="stats-footer" id="stats-footer"></div>
   </div>
 </div>
 
@@ -1567,6 +1651,85 @@ document.addEventListener('keydown', e => {{
 }});
 
 render();
+
+// ── Stats panel ──
+(function() {{
+  let statsSort = {{ col: 'total', dir: -1 }};
+  let statsQ = '';
+
+  function buildStatsData() {{
+    const now = Date.now();
+    const ms24h = 86400 * 1000;
+    const map = {{}};
+    for (const j of JOBS) {{
+      const c = j.company || 'Unknown';
+      if (!map[c]) map[c] = {{ company: c, total: 0, newToday: 0, posted24h: 0 }};
+      map[c].total++;
+      if (j.is_new) map[c].newToday++;
+      const pd = parseDate(j.posted_date);
+      if (pd && (now - pd) < ms24h * 2) map[c].posted24h++;
+    }}
+    return Object.values(map);
+  }}
+
+  function renderStats() {{
+    const rows = buildStatsData()
+      .filter(r => !statsQ || r.company.toLowerCase().includes(statsQ))
+      .sort((a, b) => {{
+        const av = statsSort.col === 'company' ? a.company : a[statsSort.col === 'new' ? 'newToday' : statsSort.col === 'posted' ? 'posted24h' : 'total'];
+        const bv = statsSort.col === 'company' ? b.company : b[statsSort.col === 'new' ? 'newToday' : statsSort.col === 'posted' ? 'posted24h' : 'total'];
+        if (typeof av === 'string') return statsSort.dir * av.localeCompare(bv);
+        return statsSort.dir * (bv - av);
+      }});
+
+    const tbody = document.getElementById('stats-tbody');
+    tbody.innerHTML = rows.map(r => {{
+      const logo = LOGOS[r.company] ? `<img class="stats-logo" src="${{LOGOS[r.company]}}" alt=""/>` : '<span style="width:22px;display:inline-block"></span>';
+      return `<tr onclick="companyDrop.sel.clear();companyDrop.sel.add('${{r.company.replace(/'/g,"\\'")}}');document.getElementById('stats-overlay').classList.remove('open');render();">
+        <td><div class="stats-company-cell">${{logo}}<span>${{r.company}}</span></div></td>
+        <td class="stats-total">${{r.total.toLocaleString()}}</td>
+        <td class="stats-new${{r.newToday ? '' : ' zero'}}">${{r.newToday || '—'}}</td>
+        <td class="stats-posted${{r.posted24h ? '' : ' zero'}}">${{r.posted24h || '—'}}</td>
+      </tr>`;
+    }}).join('');
+
+    document.getElementById('stats-footer').textContent = `${{rows.length}} companies · click a row to filter`;
+
+    // Update sort indicators
+    document.querySelectorAll('.stats-table thead th').forEach(th => {{
+      th.classList.remove('sort-asc','sort-desc');
+      if (th.dataset.col === statsSort.col) {{
+        th.classList.add(statsSort.dir === -1 ? 'sort-desc' : 'sort-asc');
+      }}
+    }});
+  }}
+
+  document.getElementById('stats-btn').addEventListener('click', () => {{
+    document.getElementById('stats-overlay').classList.add('open');
+    renderStats();
+  }});
+  document.getElementById('stats-close').addEventListener('click', () => {{
+    document.getElementById('stats-overlay').classList.remove('open');
+  }});
+  document.getElementById('stats-overlay').addEventListener('click', e => {{
+    if (e.target === document.getElementById('stats-overlay'))
+      document.getElementById('stats-overlay').classList.remove('open');
+  }});
+  document.getElementById('stats-search').addEventListener('input', function() {{
+    statsQ = this.value.toLowerCase();
+    renderStats();
+  }});
+  document.querySelectorAll('.stats-table thead th').forEach(th => {{
+    th.addEventListener('click', () => {{
+      if (statsSort.col === th.dataset.col) {{
+        statsSort.dir *= -1;
+      }} else {{
+        statsSort = {{ col: th.dataset.col, dir: th.dataset.col === 'company' ? 1 : -1 }};
+      }}
+      renderStats();
+    }});
+  }});
+}})();
 </script>
 </body>
 </html>"""
