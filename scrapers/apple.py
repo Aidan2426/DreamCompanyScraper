@@ -76,7 +76,9 @@ def _collect(results: list, jobs: list, seen: set) -> None:
         team = j.get("team") or {}
         team_name = (team.get("teamName") or team.get("teamCode") or "") if isinstance(team, dict) else str(team)
 
-        loc_name = locs[0].get("name", "") if locs else ""
+        raw_loc = locs[0].get("name", "") if locs else ""
+        # Append ", United States" so the UI's US-only filter (normalizeLocation) marks isUS=true
+        loc_name = f"{raw_loc}, United States" if raw_loc else ""
 
         jobs.append({
             "role_id":     f"apple_{pos_id}",
