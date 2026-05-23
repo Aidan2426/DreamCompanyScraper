@@ -1,6 +1,6 @@
 # Session Context — Pick Up Here Next Time
 
-Last updated: 2026-05-19
+Last updated: 2026-05-22
 
 ---
 
@@ -17,12 +17,13 @@ Live site: https://aidan2426.github.io/DreamCompanyScraper/
 Branch: `main`. Everything committed. **Not pushed this session** — run `git push` before deploying.
 
 Recent commits:
+- `1c705f1` — feat(scrapers): add Dolby; rewrite Spotify to use bulk Lever API
+- `29152fd` — crowdstrike/mondaydotcom/mongodb/zetaglobal
+- `983f893` — palo alto
 - `0d1e29d` — fix(stats): light background, fix sort descending by default
 - `6fe4945` — feat(ui): add Stats panel — per-company total, new today, posted 24h
-- `68e7dd3` — fix(apple): append ', United States' to locations for UI US-filter
-- `33e8088` — fix(apple): replace broken Playwright scraper with direct API
-- `06c4eb9` — session context update
-- `de847f5` — favorites feature
+
+**Uncommitted this session:** Zscaler, UiPath scrapers + main.py wiring. Run `git push` after committing.
 
 ---
 
@@ -72,7 +73,7 @@ Features: sortable columns (click header), searchable by company name, click row
 ## main.py Current Import Line
 
 ```python
-from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, anthropic, disney, nvidia, hershey, ibm, cisco, oracle, universal, duolingo, hp, intel, qualcomm, micron, paramount, adobe, motorola, samsung, analogdevices, ebay, gecko, westerndigital, nps, xai, palantir, sony, nintendo, ea, epicgames, roblox, ubisoft, pinterest, linkedin, supercell, pwc, spotify, verizon, amd, salesforce, uber, airbnb, dropbox, twitch, yahoo, riotgames, fujifilm, pnc, upmc, natgeo, panasonic, snap, logitech, cloudflare, peloton, zillow, garmin, autodesk, deloitte, wesco, viatris, dsg, alcoa, arconic, westinghouse, eqt, howmet, americaneagle, coherent, nike, adidas, razer, stripe, notion, workatastartup, visa, bny, mastercard, generaldynamics, ford, sandisk, figma, capitalone, crowdstrike, boeing, wabtec, lenovo, tesla, spacex, lockheed, paypal, dell, broadcom, robopgh, aqua, cmu, covestro, fnb, bechtel, highmark, kennametal, leidos, servicenow, united, armada, bytedance, wbd, seatgeek, ticketmaster, stubhub, cgi, indeed, affirm, formenergy, gevernova, bdo, emerson, questdiagnostics, ey, fedex, gianteagle, atimaterials, ppg, gm, rivian, hubspot, github, discord, aurora, datadog, twok, moderna, boozallen, jnj, pfizer, merck, cdpr, bloomberg, l3harris
+from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, anthropic, disney, nvidia, hershey, ibm, cisco, oracle, universal, duolingo, hp, intel, qualcomm, micron, paramount, adobe, motorola, samsung, analogdevices, ebay, gecko, westerndigital, nps, xai, palantir, sony, nintendo, ea, epicgames, roblox, ubisoft, pinterest, linkedin, supercell, pwc, spotify, verizon, amd, salesforce, uber, airbnb, dropbox, twitch, yahoo, riotgames, fujifilm, pnc, upmc, natgeo, panasonic, snap, logitech, cloudflare, peloton, zillow, garmin, autodesk, deloitte, wesco, viatris, dsg, alcoa, arconic, westinghouse, eqt, howmet, americaneagle, coherent, nike, adidas, razer, stripe, notion, workatastartup, visa, bny, mastercard, generaldynamics, ford, sandisk, figma, capitalone, crowdstrike, boeing, wabtec, lenovo, tesla, spacex, lockheed, paypal, dell, broadcom, robopgh, aqua, cmu, covestro, fnb, bechtel, highmark, kennametal, leidos, servicenow, united, armada, bytedance, wbd, seatgeek, ticketmaster, stubhub, cgi, indeed, affirm, formenergy, gevernova, bdo, emerson, questdiagnostics, ey, fedex, gianteagle, atimaterials, ppg, gm, rivian, hubspot, github, discord, aurora, datadog, twok, moderna, boozallen, jnj, pfizer, merck, cdpr, bloomberg, l3harris, paloalto, zetaglobal, mondaydotcom, mongodb, dolby, zscaler, uipath
 ```
 
 ---
@@ -85,6 +86,8 @@ from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, an
 | **McKinsey** | Unknown | Page times out. Workday tenant not found. |
 | **American Express** | Oracle HCM | 403 Forbidden |
 | **layoffs.fyi** | Airtable embed | iframe with Airtable data, server-side auth. Abandoned. |
+| **Atlassian** | Custom (imkt-jsx) | AWS WAF blocks curl_cffi; urllib gets real HTML but jobs load client-side from lazy JS chunk. GraphQL gateway at `/gateway/api/graphql` exists but `careers` field not exposed. Abandoned. |
+| **Dolby (jobs.dolby.com)** | Eightfold AI | 403 on `/api/apply/v2/jobs` even with CSRF token. Used `careers.dolby.com` (SuccessFactors) instead. |
 
 ---
 
