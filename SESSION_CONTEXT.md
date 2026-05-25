@@ -326,5 +326,3 @@ GET https://api.lever.co/v0/postings/{company}?mode=json&limit=500
 | Spotify | `scrapers/spotify.py` | Lever bulk API (rewrite) | 202 |
 | Zscaler | `scrapers/zscaler.py` | Greenhouse (`zscaler`) | 345 |
 | UiPath | `scrapers/uipath.py` | Ashby (`uipath`) | 80 |
-
-
