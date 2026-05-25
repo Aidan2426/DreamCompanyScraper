@@ -99,6 +99,7 @@ from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, an
 - **MSA Safety** — Not investigated yet (Pittsburgh)
 - **ExlService** — Not investigated yet
 - **Koppers** — Not investigated yet (Pittsburgh)
+- **Atlassian** — Blocked (AWS WAF + client-side JS jobs). Skip for now.
 
 From "Broke" list worth fixing:
 - Databricks, Snowflake, Zoom — probably Greenhouse/Lever
@@ -152,7 +153,7 @@ GET https://boards-api.greenhouse.io/v1/boards/{board}/jobs?content=true
 # Returns {"jobs": [...]}  — all jobs in one shot
 # Fields: id, title, location.name, departments[0].name, first_published, absolute_url
 ```
-Board names: `discord`, `hubspot`, `2k`, `datadog`, `bungie`
+Board names: `discord`, `hubspot`, `2k`, `datadog`, `bungie`, `mongodb`, `zscaler`
 
 **Workday POST API:**
 ```python
@@ -245,6 +246,49 @@ GET https://careers.fedex.com/jobs?page_number=N&page_size=25
 # NOTE: ?page=N doesn't work — must use page_number + page_size
 ```
 
+**Greenhouse — offices[0].location trick:** Some boards (MongoDB, Zscaler) return bare city names in `location.name` but full "City, ST, Country" strings in `offices[0].location`. Always prefer `offices[0].location` when available.
+
+**Comeet (monday.com):**
+```python
+GET https://www.comeet.co/careers-api/2.0/company/{companyUid}/positions?token={token}
+# Returns list of position dicts — all positions in one shot
+# Fields: uid, name (title), department, location{city,state,country}, time_updated, url_comeet_hosted_page
+# Token + companyUid found embedded in careers page HTML
+# monday.com: companyUid=41.00B, token=14B52C52C67790D3E1296BA37C20
+# Job URL: https://monday.com/careers/{uid}
+# US location: f"{city}, {state}" if state else f"{city}, United States"
+```
+
+**SAP SuccessFactors CSB (Dolby careers.dolby.com):**
+```python
+# Sitemap has all job URLs: GET https://careers.dolby.com/sitemap.xml
+# Parse: <loc>https://careers.dolby.com/job/{slug}/{id}/</loc>
+# Individual job pages have microdata:
+#   addressLocality, addressRegion, addressCountry, datePosted
+# Fetch all in parallel (semaphore=10), parse microdata per page
+# Page title: "<title>{Job Title} Job Details | ..."
+# urllib works; curl_cffi times out on this host
+```
+
+**Ashby (UiPath):**
+```python
+GET https://api.ashbyhq.com/posting-api/job-board/{orgSlug}
+# Returns {"jobs": [...]} — all jobs in one shot
+# Fields: id, title, department, team, location, address.postalAddress{addressCountry,addressRegion}, publishedAt, jobUrl
+# US detection: address.postalAddress.addressCountry == "United States"
+# Location fix: append ", United States" to location string for _usOnly filter
+# UiPath slug: uipath
+```
+
+**Lever bulk API:**
+```python
+GET https://api.lever.co/v0/postings/{company}?mode=json&limit=500
+# Returns list — all postings in one shot (NOT paginated)
+# Fields: id, text (title), categories{department,team,location}, createdAt, hostedUrl
+# Old scraper fetched individual endpoints — always use ?mode=json&limit=500 instead
+# Spotify slug: spotify
+```
+
 ### Broken/Blocked Companies
 - **Accenture** — AEM/Adobe CSRF, requires JS execution. Skip.
 - **LinkedIn** — In ALWAYS_SKIP set (requires auth)
@@ -261,11 +305,26 @@ GET https://careers.fedex.com/jobs?page_number=N&page_size=25
 ## How to Continue Next Time
 
 1. `git status` — verify clean
-2. `git push` — push this session's commits if not done
-3. Use **📊 Stats** panel to identify other broken scrapers
-4. Next companies to investigate:
+2. Commit pending: Zscaler + UiPath scrapers + main.py wiring (not yet committed as of session end)
+3. `git push` — push all commits
+4. Use **📊 Stats** panel to identify other broken scrapers
+5. Next companies to investigate:
    - **Square Enix** — find their ATS
-   - **BCG** — find their ATS
+   - **BCG** — find their ATS (possibly SmartRecruiters)
    - **MSA Safety**, **Koppers** — Pittsburgh companies, likely small/easy
-5. Fix broken scrapers (Databricks, Snowflake, Zoom, JP Morgan Chase)
-6. After adding scrapers, always wire into main.py import + `all_scrapers` dict + test + commit
+6. Fix broken scrapers (Databricks, Snowflake, Zoom, JP Morgan Chase)
+7. After adding scrapers, always wire into main.py import + `all_scrapers` dict + test + commit
+
+### Scrapers Added This Session (2026-05-22)
+| Company | File | Platform | Jobs |
+|---|---|---|---|
+| CrowdStrike | `scrapers/crowdstrike.py` | Workday (fixed: added postedOn, stable ID) | 471 |
+| Zeta Global | `scrapers/zetaglobal.py` | Greenhouse (`zetaglobal`) | 154 |
+| monday.com | `scrapers/mondaydotcom.py` | Comeet | 134 |
+| MongoDB | `scrapers/mongodb.py` | Greenhouse (`mongodb`) | 418 |
+| Dolby | `scrapers/dolby.py` | SuccessFactors CSB via sitemap | 76 |
+| Spotify | `scrapers/spotify.py` | Lever bulk API (rewrite) | 202 |
+| Zscaler | `scrapers/zscaler.py` | Greenhouse (`zscaler`) | 345 |
+| UiPath | `scrapers/uipath.py` | Ashby (`uipath`) | 80 |
+
+
