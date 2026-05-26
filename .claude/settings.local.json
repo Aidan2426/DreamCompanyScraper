@@ -249,7 +249,9 @@
       "WebFetch(domain:layoffs.fyi)",
       "WebFetch(domain:airtable.com)",
       "WebFetch(domain:jobs.paloaltonetworks.com)",
-      "Bash(gh run *)"
+      "Bash(gh run *)",
+      "WebFetch(domain:www.lyft.com)",
+      "WebFetch(domain:boards-api.greenhouse.io)"
     ]
   }
 }
