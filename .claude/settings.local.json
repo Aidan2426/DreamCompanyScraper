@@ -251,7 +251,9 @@
       "WebFetch(domain:jobs.paloaltonetworks.com)",
       "Bash(gh run *)",
       "WebFetch(domain:www.lyft.com)",
-      "WebFetch(domain:boards-api.greenhouse.io)"
+      "WebFetch(domain:boards-api.greenhouse.io)",
+      "Bash(Select-String -Pattern '\"company\"' scrapers\\\\boozallen.py, scrapers\\\\jnj.py, scrapers\\\\twok.py, scrapers\\\\paloalto.py, scrapers\\\\datadog.py, scrapers\\\\gm.py, scrapers\\\\fedex.py, scrapers\\\\moderna.py, scrapers\\\\atimaterials.py, scrapers\\\\ppg.py, scrapers\\\\indeed.py, scrapers\\\\affirm.py, scrapers\\\\bdo.py, scrapers\\\\ey.py, scrapers\\\\emerson.py, scrapers\\\\questdiagnostics.py, scrapers\\\\gevernova.py, scrapers\\\\formenergy.py, scrapers\\\\gianteagle.py, scrapers\\\\rivian.py, scrapers\\\\hubspot.py, scrapers\\\\github.py, scrapers\\\\discord.py, scrapers\\\\aurora.py, scrapers\\\\mondaydotcom.py, scrapers\\\\cdpr.py, scrapers\\\\bloomberg.py, scrapers\\\\l3harris.py, scrapers\\\\zetaglobal.py, scrapers\\\\mongodb.py, scrapers\\\\dolby.py, scrapers\\\\workatastartup.py)",
+      "Bash(Select-Object -ExpandProperty Line)"
     ]
   }
 }

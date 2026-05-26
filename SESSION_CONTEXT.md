@@ -1,6 +1,6 @@
 # Session Context — Pick Up Here Next Time
 
-Last updated: 2026-05-22
+Last updated: 2026-05-25
 
 ---
 
@@ -326,3 +326,133 @@ GET https://api.lever.co/v0/postings/{company}?mode=json&limit=500
 | Spotify | `scrapers/spotify.py` | Lever bulk API (rewrite) | 202 |
 | Zscaler | `scrapers/zscaler.py` | Greenhouse (`zscaler`) | 345 |
 | UiPath | `scrapers/uipath.py` | Ashby (`uipath`) | 80 |
+
+---
+
+## Session 2026-05-25
+
+### Cron Schedule Change
+Changed GitHub Actions cron from `0 8 * * *` (3am EST) to `45 3 * * *` (11:45pm EDT). File: `.github/workflows/scrape.yml`. Note: `45 4 * * *` in winter (EST), `45 3 * * *` in summer (EDT).
+
+### main.py Current Import Line (updated)
+```python
+from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, anthropic, disney, nvidia, hershey, ibm, cisco, oracle, universal, duolingo, hp, intel, qualcomm, micron, paramount, adobe, motorola, samsung, analogdevices, ebay, gecko, westerndigital, nps, xai, palantir, sony, nintendo, ea, epicgames, roblox, ubisoft, pinterest, linkedin, supercell, pwc, spotify, verizon, amd, salesforce, uber, airbnb, dropbox, twitch, yahoo, riotgames, fujifilm, pnc, upmc, natgeo, panasonic, snap, logitech, cloudflare, peloton, zillow, garmin, autodesk, deloitte, wesco, viatris, dsg, alcoa, arconic, westinghouse, eqt, howmet, americaneagle, coherent, nike, adidas, razer, stripe, notion, workatastartup, visa, bny, mastercard, generaldynamics, ford, sandisk, figma, capitalone, crowdstrike, boeing, wabtec, lenovo, tesla, spacex, lockheed, paypal, dell, broadcom, robopgh, aqua, cmu, covestro, fnb, bechtel, highmark, kennametal, leidos, servicenow, united, armada, bytedance, wbd, seatgeek, ticketmaster, stubhub, cgi, indeed, affirm, formenergy, gevernova, bdo, emerson, questdiagnostics, ey, fedex, gianteagle, atimaterials, ppg, gm, rivian, hubspot, github, discord, aurora, datadog, twok, moderna, boozallen, jnj, pfizer, merck, cdpr, bloomberg, l3harris, paloalto, zetaglobal, mondaydotcom, mongodb, dolby, zscaler, uipath, doordash, reddit, twilio, lyft, elastic, brex, vercel, robinhood, okta, instacart, planetlabs
+```
+
+### Scrapers Added This Session (2026-05-25)
+| Company | File | Platform | Jobs |
+|---|---|---|---|
+| DoorDash | `scrapers/doordash.py` | Greenhouse (`doordashusa`) | 448 |
+| Reddit | `scrapers/reddit.py` | Greenhouse (`reddit`) | 162 |
+| Twilio | `scrapers/twilio.py` | Greenhouse (`twilio`) | 151 |
+| Lyft | `scrapers/lyft.py` | Greenhouse (`lyft`) | 125 |
+| Elastic | `scrapers/elastic.py` | Greenhouse (`elastic`) | 159 |
+| Brex | `scrapers/brex.py` | Greenhouse (`brex`) | 221 |
+| Vercel | `scrapers/vercel.py` | Greenhouse (`vercel`) | 79 |
+| Robinhood | `scrapers/robinhood.py` | Greenhouse (`robinhood`) | 134 |
+| Okta | `scrapers/okta.py` | Greenhouse (`okta`) | 367 |
+| Instacart | `scrapers/instacart.py` | Greenhouse (`instacart`) | 121 |
+| Planet Labs | `scrapers/planetlabs.py` | Greenhouse (`planetlabs`) | 78 |
+
+### Probed But Not Greenhouse
+| Company | Slug tried | Status |
+|---|---|---|
+| Coinbase | `coinbase` | 404 — different ATS |
+| Shopify | `shopify` | 404 — different ATS |
+| Plaid | `plaid` | 404 — different ATS |
+| Confluent | `confluent` | 404 — different ATS |
+
+Nature companies probed (Greenhouse + Lever + Ashby) — all 404 except Planet Labs. Sierra Club has 1 Lever job (not worth it). The Nature Conservancy, WWF, REI, Patagonia, Audubon all on custom/enterprise ATS not accessible.
+
+### Frontend Revamp — PLANNED BUT NOT YET IMPLEMENTED
+Session was interrupted before implementation. Full plan documented here to pick up next time.
+
+**Scope of changes needed in `build.py`:**
+
+1. **Missing logos in COMPANY_LOGOS** — Many scrapers added after the logos dict was last updated. Full verified company name → domain mapping:
+   - `"Affirm": _gfav("affirm.com")`
+   - `"ATI Materials": _gfav("atimaterials.com")`
+   - `"Aurora Innovation": _gfav("aurora.tech")` ← NOTE: scraper uses "Aurora Innovation" not "Aurora"
+   - `"BDO USA": _gfav("bdo.com")`
+   - `"Bloomberg": _gfav("bloomberg.com")`
+   - `"Booz Allen Hamilton": _gfav("boozallen.com")`
+   - `"Brex": _gfav("brex.com")`
+   - `"CD Projekt Red": _gfav("cdprojektred.com")`
+   - `"Datadog": _gfav("datadoghq.com")` ← scraper uses "Datadog" not "DataDog"
+   - `"Discord": _gfav("discord.com")`
+   - `"DoorDash": _gfav("doordash.com")`
+   - `"EY": _gfav("ey.com")`
+   - `"Elastic": _gfav("elastic.co")`
+   - `"Emerson": _gfav("emerson.com")`
+   - `"FedEx": _gfav("fedex.com")`
+   - `"Form Energy": _gfav("formenergy.com")`
+   - `"GE Vernova": _gfav("gevernova.com")`
+   - `"GE Vernova": _gfav("gevernova.com")`
+   - `"General Motors": _gfav("gm.com")` ← scraper uses "General Motors"
+   - `"Giant Eagle": _gfav("gianteagle.com")`
+   - `"GitHub": _gfav("github.com")`
+   - `"HubSpot": _gfav("hubspot.com")`
+   - `"Indeed": _gfav("indeed.com")`
+   - `"Instacart": _gfav("instacart.com")`
+   - `"Johnson & Johnson": _gfav("jnj.com")` ← scraper uses "Johnson & Johnson"
+   - `"L3Harris": _gfav("l3harris.com")`
+   - `"Lyft": _gfav("lyft.com")`
+   - `"Merck": _gfav("merck.com")`
+   - `"Moderna": _gfav("modernatx.com")`
+   - `"MongoDB": _gfav("mongodb.com")`
+   - `"Okta": _gfav("okta.com")`
+   - `"PPG Industries": _gfav("ppg.com")` ← scraper uses "PPG Industries"
+   - `"Palo Alto Networks": _gfav("paloaltonetworks.com")`
+   - `"Pfizer": _gfav("pfizer.com")`
+   - `"Planet Labs": _gfav("planet.com")`
+   - `"Quest Diagnostics": _gfav("questdiagnostics.com")`
+   - `"Reddit": _gfav("reddit.com")`
+   - `"Rivian": _gfav("rivian.com")`
+   - `"Robinhood": _gfav("robinhood.com")`
+   - `"Twilio": _gfav("twilio.com")`
+   - `"UiPath": _gfav("uipath.com")`
+   - `"Vercel": _gfav("vercel.com")`
+   - `"Zeta Global": _gfav("zetaglobal.com")`
+   - `"Zscaler": _gfav("zscaler.com")`
+   - `"2K Games": _gfav("2k.com")` ← scraper uses "2K Games"
+   - `"monday.com": _gfav("monday.com")`
+   - `"Dolby": _gfav("dolby.com")`
+
+2. **Title/branding**: `Dream Jobs` → `Dream Companies` everywhere (title tag, nav, hero). Remove hero `<h1>Dream Jobs</h1>` entirely (keep the stats `<p>`).
+
+3. **Favicon**: Current `free-simpmle-star-clipart-01-1.jpg` not deploying to GitHub Pages → shows globe. Fix:
+   ```html
+   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>"/>
+   ```
+   Also remove the `<img src="free-simpmle-star-clipart-01-1.jpg">` from nav, replace with `⭐` emoji in nav brand span.
+
+4. **Remove A-Z sort**: Delete `<button class="pill" data-sort="title">A–Z</button>` from filter strip.
+
+5. **Remove Swipe**: Delete swipe button, swiper overlay HTML, all `.swiper-*` CSS, all swiper JS (the big `openSwiper`, `buildSwipeQueue`, `renderSwipeStack`, `doSwipe`, `attachDrag` block + event listeners).
+
+6. **City selector → multi-select dropdown**: Replace the `<div class="radius-wrap">` block (text input + clear button + datalist + distance select) with a `<div class="custom-select" id="cs-city">` custom dropdown. Cities come from `Object.keys(CITY_COORDS).sort()`. Keep the distance `<select id="radius-miles">` alongside it. Update `filtered()` to use `cityDrop.sel` (Set of selected cities) instead of `state.radiusCity`. Filter: job passes if any job location matches any selected city (exact), OR within N miles of any selected city if radius set.
+
+7. **Fix Level filter**: In build.py Python section, before `experiences_json` line, filter out salary strings:
+   ```python
+   import re
+   experiences = sorted({
+       j["experience"] for j in jobs
+       if j.get("experience") and not re.search(r'[\$]|\bGS-\d|\b\d{4,}\b', j["experience"])
+   })
+   ```
+
+8. **Fix NEW badge for old jobs**: In `renderPage`, only show NEW badge if post is recent:
+   ```js
+   const postedTs = parseDate(j.posted_date);
+   const isRecentPost = !j.posted_date || (postedTs > 0 && (Date.now() - postedTs) < 14 * 86400 * 1000);
+   ${j.is_new && isRecentPost ? '<span class="new-badge">NEW</span>' : ''}
+   ```
+
+9. **scoreJob improvements**:
+   - Add intern/co-op boost: `if (/\b(intern|internship|co-?op)\b/.test(title)) s += 50;`
+   - Add research boost: `if (/\b(research\s*(scientist|engineer)|applied\s*research)\b/.test(title)) s += 20;`
+   - Add CV/NLP boost: `if (/\b(computer\s*vision|nlp|natural\s*language\s*processing)\b/.test(title)) s += 20;`
+   - Add non-tech penalties: sales exec, legal, HR, marketing, finance/accounting (when not paired with tech words)
+   - Add to HIDDEN_TITLES: `park\s+ranger|trail\s+crew|visitor\s+services|law\s+enforcement\s+ranger` (for NPS jobs)
+
+10. **City favorites** (stretch goal): Mirror "My Companies" pattern for cities with `fav_cities` localStorage key. Can defer to later session.
