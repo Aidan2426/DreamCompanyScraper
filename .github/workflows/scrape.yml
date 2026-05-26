@@ -2,7 +2,7 @@ name: Daily Job Scrape
 
 on:
   schedule:
-    - cron: "0 8 * * *"   # 3am EST (UTC-5)
+    - cron: "45 3 * * *"  # 11:45pm EDT (UTC-4)
   workflow_dispatch:        # manual trigger
 
 permissions:
