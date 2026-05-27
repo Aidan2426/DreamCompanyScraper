@@ -364,10 +364,9 @@ from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, an
 
 Nature companies probed (Greenhouse + Lever + Ashby) — all 404 except Planet Labs. Sierra Club has 1 Lever job (not worth it). The Nature Conservancy, WWF, REI, Patagonia, Audubon all on custom/enterprise ATS not accessible.
 
-### Frontend Revamp — PLANNED BUT NOT YET IMPLEMENTED
-Session was interrupted before implementation. Full plan documented here to pick up next time.
+### Frontend Revamp — IMPLEMENTED (2026-05-26)
 
-**Scope of changes needed in `build.py`:**
+All 9 items complete. Changes in `build.py`:
 
 1. **Missing logos in COMPANY_LOGOS** — Many scrapers added after the logos dict was last updated. Full verified company name → domain mapping:
    - `"Affirm": _gfav("affirm.com")`

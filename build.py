@@ -176,6 +176,53 @@ COMPANY_LOGOS = {
     "Stack AV":                  _gfav("stackav.com"),
     "Waymo":                     _gfav("waymo.com"),
     "iotaMotion":                _gfav("iotamotion.com"),
+    # Additional companies
+    "Affirm":                    _gfav("affirm.com"),
+    "ATI Materials":             _gfav("atimaterials.com"),
+    "Aurora Innovation":         _gfav("aurora.tech"),
+    "BDO USA":                   _gfav("bdo.com"),
+    "Bloomberg":                 _gfav("bloomberg.com"),
+    "Booz Allen Hamilton":       _gfav("boozallen.com"),
+    "Brex":                      _gfav("brex.com"),
+    "CD Projekt Red":            _gfav("cdprojektred.com"),
+    "Datadog":                   _gfav("datadoghq.com"),
+    "Discord":                   _gfav("discord.com"),
+    "DoorDash":                  _gfav("doordash.com"),
+    "EY":                        _gfav("ey.com"),
+    "Elastic":                   _gfav("elastic.co"),
+    "Emerson":                   _gfav("emerson.com"),
+    "FedEx":                     _gfav("fedex.com"),
+    "Form Energy":               _gfav("formenergy.com"),
+    "GE Vernova":                _gfav("gevernova.com"),
+    "General Motors":            _gfav("gm.com"),
+    "Giant Eagle":               _gfav("gianteagle.com"),
+    "GitHub":                    _gfav("github.com"),
+    "HubSpot":                   _gfav("hubspot.com"),
+    "Indeed":                    _gfav("indeed.com"),
+    "Instacart":                 _gfav("instacart.com"),
+    "Johnson & Johnson":         _gfav("jnj.com"),
+    "L3Harris":                  _gfav("l3harris.com"),
+    "Lyft":                      _gfav("lyft.com"),
+    "Merck":                     _gfav("merck.com"),
+    "Moderna":                   _gfav("modernatx.com"),
+    "MongoDB":                   _gfav("mongodb.com"),
+    "Okta":                      _gfav("okta.com"),
+    "PPG Industries":            _gfav("ppg.com"),
+    "Palo Alto Networks":        _gfav("paloaltonetworks.com"),
+    "Pfizer":                    _gfav("pfizer.com"),
+    "Planet Labs":               _gfav("planet.com"),
+    "Quest Diagnostics":         _gfav("questdiagnostics.com"),
+    "Reddit":                    _gfav("reddit.com"),
+    "Rivian":                    _gfav("rivian.com"),
+    "Robinhood":                 _gfav("robinhood.com"),
+    "Twilio":                    _gfav("twilio.com"),
+    "UiPath":                    _gfav("uipath.com"),
+    "Vercel":                    _gfav("vercel.com"),
+    "Zeta Global":               _gfav("zetaglobal.com"),
+    "Zscaler":                   _gfav("zscaler.com"),
+    "2K Games":                  _gfav("2k.com"),
+    "monday.com":                _gfav("monday.com"),
+    "Dolby":                     _gfav("dolby.com"),
 }
 
 TEAM_COLORS = {
@@ -309,7 +356,10 @@ scraped_at = jobs_data.get("scraped_at", "")
 new_count  = sum(1 for j in jobs if j.get("is_new"))
 teams      = sorted({j["team"] for j in jobs if j.get("team")})
 companies  = sorted({j["company"] for j in jobs if j.get("company")})
-experiences = sorted({j["experience"] for j in jobs if j.get("experience")})
+experiences = sorted({
+    j["experience"] for j in jobs
+    if j.get("experience") and not re.search(r'[\$]|\bGS-\d|\b\d{4,}\b', j["experience"])
+})
 
 city_counts  = _extract_job_us_cities(jobs)
 city_counts  = {c: n for c, n in city_counts.items() if n >= 2}
@@ -328,8 +378,8 @@ html = f"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dream Jobs</title>
-  <link rel="icon" type="image/jpeg" href="free-simpmle-star-clipart-01-1.jpg"/>
+  <title>Dream Companies</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>"/>
   <style>
     *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
     :root {{
@@ -505,26 +555,6 @@ html = f"""<!DOCTYPE html>
     .cs-empty {{ font-size: 13px; color: rgba(255,255,255,0.3); padding: 12px 8px; text-align: center; }}
 
     /* ── Radius filter ── */
-    .radius-wrap {{
-      display: inline-flex; align-items: center; gap: 4px;
-    }}
-    .radius-city-input {{
-      font-size: 12.5px; padding: 5px 12px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 980px; color: rgba(255,255,255,0.55);
-      outline: none; width: 138px; font-weight: 500;
-      transition: all 0.15s;
-    }}
-    .radius-city-input::placeholder {{ color: rgba(255,255,255,0.3); }}
-    .radius-city-input:focus {{ background: rgba(255,255,255,0.09); border-color: rgba(0,113,227,0.65); color: #fff; }}
-    .radius-city-input.active {{ border-color: var(--blue); color: #fff; background: rgba(0,113,227,0.10); }}
-    .radius-clear {{
-      background: none; border: none; cursor: pointer; padding: 0 2px;
-      color: rgba(255,255,255,0.4); font-size: 13px; line-height: 1;
-      transition: color 0.15s;
-    }}
-    .radius-clear:hover {{ color: #fff; }}
     .radius-select {{
       font-size: 12.5px; padding: 5px 28px 5px 11px;
       background: rgba(255,255,255,0.06);
@@ -621,97 +651,6 @@ html = f"""<!DOCTYPE html>
     .page-btn.active {{ background: var(--blue); border-color: var(--blue); color: #fff; }}
     .page-label {{ font-size: 13px; color: var(--muted); padding: 0 6px; }}
 
-    /* ── Swiper modal ── */
-    .swiper-overlay {{
-      display: none; position: fixed; inset: 0; z-index: 1000;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
-      flex-direction: column; align-items: center; justify-content: center;
-    }}
-    .swiper-overlay.open {{ display: flex; }}
-    .swiper-header {{
-      width: 100%; max-width: 420px; display: flex; align-items: center;
-      justify-content: space-between; padding: 0 4px 16px;
-    }}
-    .swiper-header-left {{ display: flex; align-items: center; gap: 10px; }}
-    .swiper-close {{
-      background: none; border: none; color: rgba(255,255,255,0.5);
-      font-size: 22px; cursor: pointer; line-height: 1; padding: 0;
-    }}
-    .swiper-close:hover {{ color: #fff; }}
-    .swiper-progress {{ font-size: 13px; color: rgba(255,255,255,0.5); }}
-    .swiper-saved-btn {{
-      background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
-      color: rgba(255,255,255,0.6); font-size: 12px; padding: 4px 12px; cursor: pointer;
-    }}
-    .swiper-saved-btn:hover {{ color: #fff; border-color: rgba(255,255,255,0.5); }}
-    .swiper-stack {{
-      width: 100%; max-width: 420px; height: 520px; position: relative;
-    }}
-    .swiper-card {{
-      position: absolute; inset: 0; background: #1c1c1e; border-radius: 20px;
-      padding: 28px 24px 24px; display: flex; flex-direction: column;
-      user-select: none; touch-action: none; cursor: grab;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      transition: transform 0.08s ease;
-    }}
-    .swiper-card:active {{ cursor: grabbing; }}
-    .swiper-card.swipe-left  {{ transition: transform 0.35s ease, opacity 0.35s ease; }}
-    .swiper-card.swipe-right {{ transition: transform 0.35s ease, opacity 0.35s ease; }}
-    .swiper-card-back {{
-      position: absolute; inset: 0; background: #1c1c1e; border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      transform: scale(0.96) translateY(8px); z-index: -1;
-    }}
-    .swiper-card-back2 {{
-      position: absolute; inset: 0; background: #1c1c1e; border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      transform: scale(0.92) translateY(16px); z-index: -2; opacity: 0.5;
-    }}
-    .swipe-indicator {{
-      position: absolute; top: 24px; border-radius: 8px;
-      font-size: 15px; font-weight: 800; padding: 6px 14px;
-      opacity: 0; transition: opacity 0.1s; pointer-events: none;
-      letter-spacing: 1px; text-transform: uppercase;
-    }}
-    .swipe-save-ind  {{ left: 20px;  background: rgba(52,199,89,0.25);  color: #34c759; border: 2px solid #34c759; }}
-    .swipe-skip-ind  {{ right: 20px; background: rgba(255,59,48,0.25);  color: #ff3b30; border: 2px solid #ff3b30; }}
-    .swiper-logo-wrap {{
-      display: flex; flex-direction: column; align-items: center; margin-bottom: 18px;
-    }}
-    .swiper-logo {{
-      width: 72px; height: 72px; object-fit: contain; border-radius: 14px;
-      background: #2c2c2e; padding: 8px;
-    }}
-    .swiper-logo-placeholder {{
-      width: 72px; height: 72px; border-radius: 14px;
-      background: linear-gradient(135deg,#2c2c2e,#3a3a3c);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 26px; font-weight: 700; color: rgba(255,255,255,0.4);
-    }}
-    .swiper-company {{ font-size: 12px; color: var(--muted); margin-top: 6px; letter-spacing: 0.5px; text-transform: uppercase; }}
-    .swiper-title {{ font-size: 19px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 16px; line-height: 1.3; }}
-    .swiper-meta {{ display: flex; flex-direction: column; gap: 7px; flex: 1; }}
-    .swiper-meta-row {{ display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.7); }}
-    .swiper-meta-icon {{ font-size: 13px; min-width: 16px; text-align: center; }}
-    .swiper-badges {{ display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; justify-content: center; }}
-    .swiper-badge-new  {{ background: var(--blue); color: #fff; border-radius: 6px; padding: 3px 9px; font-size: 11px; font-weight: 700; }}
-    .swiper-badge-pct  {{ border-radius: 6px; padding: 3px 9px; font-size: 11px; font-weight: 700; color: #fff; }}
-    .swiper-actions {{
-      display: flex; gap: 16px; justify-content: center; margin-top: 20px;
-    }}
-    .swiper-btn {{
-      width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer;
-      font-size: 26px; display: flex; align-items: center; justify-content: center;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }}
-    .swiper-btn:hover {{ transform: scale(1.1); }}
-    .swiper-btn-skip {{ background: rgba(255,59,48,0.15); color: #ff3b30; }}
-    .swiper-btn-save {{ background: rgba(52,199,89,0.15); color: #34c759; }}
-    .swiper-done {{
-      text-align: center; color: rgba(255,255,255,0.5);
-      font-size: 16px; padding: 40px 20px;
-    }}
-    .swiper-done-title {{ font-size: 24px; color: #fff; margin-bottom: 10px; }}
     .card-save-btn {{
       background: none; border: none; cursor: pointer; padding: 2px 4px;
       font-size: 15px; color: rgba(255,255,255,0.45); line-height: 1;
@@ -804,12 +743,11 @@ html = f"""<!DOCTYPE html>
 <body>
 
 <nav>
-  <span class="nav-brand"><img src="free-simpmle-star-clipart-01-1.jpg" style="height:26px;width:26px;object-fit:contain;vertical-align:middle;margin-right:7px;border-radius:4px;"/>Dream Jobs</span>
+  <span class="nav-brand">⭐ Dream Companies</span>
   <span class="nav-meta" id="nav-meta">{len(jobs)} jobs · {new_count} new today</span>
 </nav>
 
 <div class="hero">
-  <h1>Dream Jobs</h1>
   <p>{len(jobs):,} jobs tracked{' · ' + str(new_count) + ' new today' if new_count else ''}{' · Updated ' + scraped_at if scraped_at else ''}</p>
 </div>
 
@@ -835,28 +773,25 @@ html = f"""<!DOCTYPE html>
       <button class="cs-btn"><span class="cs-btn-label">Team</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
       <div class="cs-panel"><input class="cs-search" placeholder="Search…" autocomplete="off"/><div class="cs-list"></div></div>
     </div>
-    <div class="radius-wrap">
-      <input class="radius-city-input" id="radius-city" type="text" placeholder="City, ST" list="city-datalist" autocomplete="off"/>
-      <button class="radius-clear" id="radius-clear" title="Clear city" style="display:none">✕</button>
-      <datalist id="city-datalist"></datalist>
-      <select class="radius-select" id="radius-miles">
-        <option value="">Any dist</option>
-        <option value="25">25 mi</option>
-        <option value="50">50 mi</option>
-        <option value="100">100 mi</option>
-        <option value="200">200 mi</option>
-      </select>
+    <div class="custom-select" id="cs-city">
+      <button class="cs-btn"><span class="cs-btn-label">City</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
+      <div class="cs-panel"><input class="cs-search" placeholder="Search cities…" autocomplete="off"/><div class="cs-list"></div></div>
     </div>
+    <select class="radius-select" id="radius-miles">
+      <option value="">Any dist</option>
+      <option value="25">25 mi</option>
+      <option value="50">50 mi</option>
+      <option value="100">100 mi</option>
+      <option value="200">200 mi</option>
+    </select>
     <div class="custom-select" id="cs-exp">
       <button class="cs-btn"><span class="cs-btn-label">Level</span><span class="cs-badge"></span><svg class="cs-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></button>
       <div class="cs-panel"><div class="cs-list"></div></div>
     </div>
     <div class="fsep"></div>
     <button class="pill active" data-sort="newest">Newest</button>
-    <button class="pill" data-sort="title">A–Z</button>
     <button class="pill" data-sort="foryou">✦ For You</button>
     <div class="fsep"></div>
-    <button class="pill" id="swipe-open-btn">🃏 Swipe</button>
     <button class="pill" id="stats-btn">📊 Stats</button>
   </div>
 </div>
@@ -864,22 +799,6 @@ html = f"""<!DOCTYPE html>
 <div class="count-bar"><span id="count-label"></span></div>
 <div class="grid" id="grid"></div>
 <div class="pagination" id="pagination"></div>
-
-<!-- Swiper modal -->
-<div class="swiper-overlay" id="swiper-overlay">
-  <div class="swiper-header">
-    <div class="swiper-header-left">
-      <button class="swiper-close" id="swiper-close">✕</button>
-      <span class="swiper-progress" id="swiper-progress"></span>
-    </div>
-    <button class="swiper-saved-btn" id="swiper-view-saved">♥ View Saved</button>
-  </div>
-  <div class="swiper-stack" id="swiper-stack"></div>
-  <div class="swiper-actions">
-    <button class="swiper-btn swiper-btn-skip" id="swiper-skip" title="Skip">✕</button>
-    <button class="swiper-btn swiper-btn-save" id="swiper-save" title="Save">♥</button>
-  </div>
-</div>
 
 <!-- Stats modal -->
 <div class="stats-overlay" id="stats-overlay">
@@ -1007,6 +926,15 @@ function scoreJob(j) {{
 
   let s = 10;
 
+  // Intern / co-op boost
+  if (/\\b(intern|internship|co-?op)\\b/.test(title)) s += 50;
+
+  // Research boost
+  if (/\\b(research\\s*(scientist|engineer)|applied\\s*research)\\b/.test(title)) s += 20;
+
+  // Computer vision / NLP boost
+  if (/\\b(computer\\s*vision|\\bnlp\\b|natural\\s*language\\s*processing)\\b/.test(title)) s += 20;
+
   // Data roles
   if (/data[\\s-]?(engineer|analyst|scientist|science|pipelin)/.test(title)) s += 40;
   else if (/\\b(data|analytics|sql|\\bbi\\b|business[\\s-]*intelligence|etl|data[\\s-]*warehouse)\\b/.test(title)) s += 22;
@@ -1073,6 +1001,16 @@ function scoreJob(j) {{
 
   // Team boost
   if (/\\b(engineering|software|data|analytics|\\bml\\b|\\bai\\b|\\bit\\b|technology|infrastructure|platform|cloud|security|cyber|network|database|\\bqa\\b|devops|systems?)\\b/.test(team)) s += 15;
+
+  // Non-tech role penalties (when not paired with tech words)
+  const hasTech = /\\b(software|engineer|developer|data|analyst|science|\\bit\\b|tech|digital|analytics|automation|platform|cloud|devops|security|network|database|\\bqa\\b|systems?|\\bsre\\b|\\bswe\\b|\\bsde\\b|programmer|architect|\\bml\\b|\\bai\\b)\\b/.test(title);
+  if (!hasTech) {{
+    if (/\\b(sales\\s+(executive|director|manager|lead)|account\\s+(executive|manager))\\b/.test(title)) s -= 30;
+    if (/\\b(legal|attorney|counsel|paralegal|compliance\\s+officer)\\b/.test(title)) s -= 25;
+    if (/\\b(human\\s+resources?|\\bhr\\s+(manager|coordinator|specialist|generalist|business\\s+partner)|\\bhrbp\\b)\\b/.test(title)) s -= 25;
+    if (/\\b(marketing\\s+(manager|director|specialist|coordinator|strategist)|brand\\s+manager|growth\\s+marketer|content\\s+(marketer|writer|strategist)|\\bseo\\b|social\\s+media)\\b/.test(title)) s -= 20;
+    if (/\\b(finance\\s+(manager|analyst|director)|financial\\s+(analyst|advisor|planner|controller)|\\baccounting\\b|accountant|\\bcpa\\b|\\bcontroller\\b|bookkeeper|payroll\\s+(specialist|coordinator))\\b/.test(title)) s -= 20;
+  }}
 
   return Math.max(0, Math.min(100, s));
 }}
@@ -1171,11 +1109,12 @@ const PAGE_SIZE = 100;
 let currentPage = 1;
 let _usOnly = true;
 
-const companyDrop = makeDropdown('cs-company', ()=>COMPANIES, v=>LOGOS[v], true);
-const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,     null,        false);
-const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES, null,      false);
+const companyDrop = makeDropdown('cs-company', ()=>COMPANIES,                       v=>LOGOS[v], true);
+const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,                           null,        false);
+const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES,                     null,        false);
+const cityDrop    = makeDropdown('cs-city',    ()=>Object.keys(CITY_COORDS).sort(), null,        false);
 
-const state = {{ q:'', newOnly:false, savedOnly:false, favOnly:false, sort:'newest', radiusCity:'', radiusMiles:0 }};
+const state = {{ q:'', newOnly:false, savedOnly:false, favOnly:false, sort:'newest' }};
 
 // ── Saved jobs storage ──
 function getSaved()     {{ return new Set(JSON.parse(localStorage.getItem('swipe_saved')     || '[]')); }}
@@ -1209,15 +1148,7 @@ function updateSavedPill() {{
   cnt.textContent = n;
 }}
 
-// Populate city datalist from geocoded cities
-const _cityDatalist = document.getElementById('city-datalist');
-Object.keys(CITY_COORDS).sort().forEach(c => {{
-  const opt = document.createElement('option');
-  opt.value = c;
-  _cityDatalist.appendChild(opt);
-}});
-
-const HIDDEN_TITLES = /\b(retail\s+sales|sales\s+associate|cashier|store\s+(manager|associate|leader|supervisor)|sales\s+rep(resentative)?|retail\s+associate|floor\s+(associate|supervisor)|merchandise|barista|bank\s+teller|teller\b)\b/i;
+const HIDDEN_TITLES = /\b(retail\s+sales|sales\s+associate|cashier|store\s+(manager|associate|leader|supervisor)|sales\s+rep(resentative)?|retail\s+associate|floor\s+(associate|supervisor)|merchandise|barista|bank\s+teller|teller\b|park\s+ranger|trail\s+crew|visitor\s+services|law\s+enforcement\s+ranger)\b/i;
 
 function filtered() {{
   return JOBS.filter(j => {{
@@ -1234,19 +1165,24 @@ function filtered() {{
       const locs = getLocations(j);
       if (locs.length > 0 && !locs.some(n => n.isUS)) return false;
     }}
-    if (state.radiusCity) {{
+    if (cityDrop.sel.size) {{
+      const miles = parseInt(document.getElementById('radius-miles').value) || 0;
       const locs = getLocations(j);
-      if (state.radiusMiles) {{
-        const center = CITY_COORDS[state.radiusCity];
-        if (center) {{
-          const inRange = locs.some(n => {{
+      if (miles) {{
+        const inRange = [...cityDrop.sel].some(city => {{
+          const center = CITY_COORDS[city];
+          if (!center) return false;
+          return locs.some(n => {{
             const c = CITY_COORDS[n.display];
-            return c && haversine(center.lat, center.lon, c.lat, c.lon) <= state.radiusMiles;
+            return c && haversine(center.lat, center.lon, c.lat, c.lon) <= miles;
           }});
-          if (!inRange) return false;
-        }}
+        }});
+        if (!inRange) return false;
       }} else {{
-        if (!locs.some(n => n.display.toLowerCase() === state.radiusCity.toLowerCase())) return false;
+        const hasMatch = [...cityDrop.sel].some(city =>
+          locs.some(n => n.display.toLowerCase() === city.toLowerCase())
+        );
+        if (!hasMatch) return false;
       }}
     }}
     return true;
@@ -1366,7 +1302,7 @@ function renderPage(list) {{
         ${{logoSrc ? `<img class="logo" src="${{logoSrc}}" alt="${{j.company}}"/>` : ''}}
         <span class="company-label">${{j.company}}</span>
         <div class="card-top-right">
-          ${{j.is_new ? '<span class="new-badge">NEW</span>' : ''}}
+          ${{(()=>{{const pts=parseDate(j.posted_date);const rec=!j.posted_date||(pts>0&&(Date.now()-pts)<14*86400*1000);return j.is_new&&rec?'<span class="new-badge">NEW</span>':'';}})()}}
           ${{sc >= 0 ? `<span class="match-badge" style="background:${{matchColor}}">${{sc}}%</span>` : ''}}
           <button class="card-save-btn${{isSaved ? ' saved' : ''}}" title="${{isSaved ? 'Unsave' : 'Save'}}">♥</button>
         </div>
@@ -1425,25 +1361,8 @@ document.querySelectorAll('[data-sort]').forEach(b => b.addEventListener('click'
   b.classList.add('active'); state.sort = b.dataset.sort; render();
 }}));
 
-const _radiusCityEl  = document.getElementById('radius-city');
-const _radiusMilesEl = document.getElementById('radius-miles');
-const _radiusClearEl = document.getElementById('radius-clear');
-_radiusCityEl.addEventListener('input', () => {{
-  state.radiusCity = _radiusCityEl.value.trim();
-  _radiusCityEl.classList.toggle('active', !!state.radiusCity);
-  _radiusClearEl.style.display = state.radiusCity ? '' : 'none';
-  render();
-}});
-_radiusClearEl.addEventListener('click', () => {{
-  _radiusCityEl.value = '';
-  state.radiusCity = '';
-  _radiusCityEl.classList.remove('active');
-  _radiusClearEl.style.display = 'none';
-  render();
-}});
-_radiusMilesEl.addEventListener('change', () => {{
-  state.radiusMiles = parseInt(_radiusMilesEl.value) || 0;
-  _radiusMilesEl.classList.toggle('active', !!state.radiusMiles);
+document.getElementById('radius-miles').addEventListener('change', function() {{
+  this.classList.toggle('active', !!this.value);
   render();
 }});
 
@@ -1466,190 +1385,6 @@ document.getElementById('pill-fav').addEventListener('click', function() {{
   render();
 }});
 updateFavPill();
-
-// ── Swiper ──
-let swipeQueue = [];
-let swipeIdx   = 0;
-let dragState  = null;
-
-function isUSJob(j) {{
-  const locs = getLocations(j);
-  if (locs.length === 0) return true;
-  return locs.some(n => n.isUS);
-}}
-
-function buildSwipeQueue() {{
-  const seen = new Set([...getSaved(), ...getDiscarded()]);
-  const candidates = JOBS.filter(j =>
-    !HIDDEN_TITLES.test(j.title) && !seen.has(j.role_id) && scoreJob(j) >= 20 && isUSJob(j)
-  );
-  return candidates.sort((a,b) => {{
-    if (a.is_new !== b.is_new) return a.is_new ? -1 : 1;
-    return scoreJob(b) - scoreJob(a) || a.title.localeCompare(b.title);
-  }});
-}}
-
-function renderSwiperCard(j) {{
-  if (!j) return '';
-  const sc        = scoreJob(j);
-  const logoSrc   = LOGOS[j.company];
-  const pctColor  = sc >= 70 ? '#34c759' : sc >= 40 ? '#ff9500' : '#8e8e93';
-  const logoHTML  = logoSrc
-    ? `<img class="swiper-logo" src="${{logoSrc}}" alt="${{j.company}}"/>`
-    : `<div class="swiper-logo-placeholder">${{(j.company||'?')[0]}}</div>`;
-  return `
-    <div class="swipe-indicator swipe-save-ind" id="sw-save-ind">♥ SAVE</div>
-    <div class="swipe-indicator swipe-skip-ind" id="sw-skip-ind">✕ SKIP</div>
-    <div class="swiper-logo-wrap">
-      ${{logoHTML}}
-      <span class="swiper-company">${{j.company}}</span>
-    </div>
-    <div class="swiper-title">${{j.title}}</div>
-    <div class="swiper-meta">
-      ${{j.location   ? `<div class="swiper-meta-row"><span class="swiper-meta-icon">📍</span><span>${{j.location}}</span></div>` : ''}}
-      ${{j.team       ? `<div class="swiper-meta-row"><span class="swiper-meta-icon">🏢</span><span>${{j.team}}</span></div>` : ''}}
-      ${{j.experience ? `<div class="swiper-meta-row"><span class="swiper-meta-icon">🎓</span><span>${{j.experience}}</span></div>` : ''}}
-      ${{(j.posted_date||j.first_seen) ? `<div class="swiper-meta-row"><span class="swiper-meta-icon">📅</span><span>${{j.posted_date ? 'Posted '+j.posted_date : 'First seen '+j.first_seen}}</span></div>` : ''}}
-    </div>
-    <div class="swiper-badges">
-      ${{j.is_new ? '<span class="swiper-badge-new">NEW</span>' : ''}}
-      <span class="swiper-badge-pct" style="background:${{pctColor}}">${{sc}}% match</span>
-    </div>
-  `;
-}}
-
-function renderSwipeStack() {{
-  const stack = document.getElementById('swiper-stack');
-  const prog  = document.getElementById('swiper-progress');
-  const remaining = swipeQueue.length - swipeIdx;
-  stack.innerHTML = '';
-
-  if (remaining <= 0) {{
-    document.querySelector('.swiper-actions').style.display = 'none';
-    stack.innerHTML = `<div class="swiper-done">
-      <div class="swiper-done-title">All caught up! 🎉</div>
-      <div>Come back after the next scrape for fresh jobs.</div>
-    </div>`;
-    prog.textContent = '';
-    return;
-  }}
-  document.querySelector('.swiper-actions').style.display = '';
-  prog.textContent = `${{remaining}} left`;
-
-  if (remaining >= 3) {{
-    const back2 = document.createElement('div');
-    back2.className = 'swiper-card-back2';
-    stack.appendChild(back2);
-  }}
-  if (remaining >= 2) {{
-    const back1 = document.createElement('div');
-    back1.className = 'swiper-card-back';
-    stack.appendChild(back1);
-  }}
-
-  const card = document.createElement('div');
-  card.className = 'swiper-card';
-  card.innerHTML = renderSwiperCard(swipeQueue[swipeIdx]);
-  stack.appendChild(card);
-  attachDrag(card);
-}}
-
-function doSwipe(dir) {{  // dir: 'save' | 'skip'
-  const card = document.querySelector('.swiper-card');
-  if (!card) return;
-  const j = swipeQueue[swipeIdx];
-  if (dir === 'save') {{ addSaved(j.role_id); card.classList.add('swipe-left'); }}
-  else                {{ addDiscarded(j.role_id); card.classList.add('swipe-right'); }}
-  card.style.transform = dir === 'save'
-    ? 'translateX(-120%) rotate(-18deg)'
-    : 'translateX(120%) rotate(18deg)';
-  card.style.opacity = '0';
-  swipeIdx++;
-  setTimeout(renderSwipeStack, 320);
-}}
-
-function attachDrag(card) {{
-  let startX=0, startY=0, dx=0, didDrag=false;
-  const j = swipeQueue[swipeIdx];
-
-  function onStart(e) {{
-    const pt = e.touches ? e.touches[0] : e;
-    startX = pt.clientX; startY = pt.clientY; dx = 0; didDrag = false;
-    dragState = true;
-    card.style.transition = 'none';
-  }}
-  function onMove(e) {{
-    if (!dragState) return;
-    const pt = e.touches ? e.touches[0] : e;
-    dx = pt.clientX - startX;
-    if (Math.abs(dx) > 8) didDrag = true;
-    const rot = dx * 0.08;
-    card.style.transform = `translateX(${{dx}}px) rotate(${{rot}}deg)`;
-    const t = Math.min(Math.abs(dx) / 80, 1);
-    const saveInd = document.getElementById('sw-save-ind');
-    const skipInd = document.getElementById('sw-skip-ind');
-    if (dx < 0) {{
-      if(saveInd) saveInd.style.opacity = t;
-      if(skipInd) skipInd.style.opacity = 0;
-    }} else {{
-      if(skipInd) skipInd.style.opacity = t;
-      if(saveInd) saveInd.style.opacity = 0;
-    }}
-    if (e.cancelable) e.preventDefault();
-  }}
-  function onEnd() {{
-    if (!dragState) return;
-    dragState = false;
-    card.style.transition = '';
-    const saveInd = document.getElementById('sw-save-ind');
-    const skipInd = document.getElementById('sw-skip-ind');
-    if (Math.abs(dx) > 90) {{
-      doSwipe(dx < 0 ? 'save' : 'skip');
-    }} else {{
-      card.style.transform = '';
-      if(saveInd) saveInd.style.opacity = 0;
-      if(skipInd) skipInd.style.opacity = 0;
-      if (!didDrag && j && j.url) window.open(j.url, '_blank', 'noopener');
-    }}
-  }}
-
-  card.addEventListener('mousedown',  onStart);
-  card.addEventListener('touchstart', onStart, {{ passive: false }});
-  window.addEventListener('mousemove',  onMove);
-  window.addEventListener('touchmove',  onMove, {{ passive: false }});
-  window.addEventListener('mouseup',    onEnd, {{ once: true }});
-  window.addEventListener('touchend',   onEnd, {{ once: true }});
-}}
-
-function openSwiper() {{
-  swipeQueue = buildSwipeQueue();
-  swipeIdx   = 0;
-  document.getElementById('swiper-overlay').classList.add('open');
-  document.querySelector('.swiper-actions').style.display = '';
-  renderSwipeStack();
-}}
-
-document.getElementById('swipe-open-btn').addEventListener('click', openSwiper);
-document.getElementById('swiper-close').addEventListener('click', () => {{
-  document.getElementById('swiper-overlay').classList.remove('open');
-  render();
-}});
-document.getElementById('swiper-skip').addEventListener('click', () => doSwipe('skip'));
-document.getElementById('swiper-save').addEventListener('click', () => doSwipe('save'));
-document.getElementById('swiper-view-saved').addEventListener('click', () => {{
-  document.getElementById('swiper-overlay').classList.remove('open');
-  state.savedOnly = true;
-  state.newOnly   = false;
-  document.querySelectorAll('[data-new]').forEach(x=>x.classList.remove('active'));
-  document.getElementById('pill-saved').classList.add('active');
-  render();
-}});
-document.addEventListener('keydown', e => {{
-  if (!document.getElementById('swiper-overlay').classList.contains('open')) return;
-  if (e.key === 'ArrowLeft')  doSwipe('save');
-  if (e.key === 'ArrowRight') doSwipe('skip');
-  if (e.key === 'Escape')     document.getElementById('swiper-overlay').classList.remove('open');
-}});
 
 render();
 
