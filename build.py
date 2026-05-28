@@ -1508,10 +1508,10 @@ function exportCSV() {{
   const rows = sorted(filtered());
   const header = ['Title','Company','Team','Location','Experience','Posted','URL'];
   const lines = rows.map(j => [
-    j.title, j.company, j.team||'', (j.location||'').replace(/\n/g,' '),
+    j.title, j.company, j.team||'', (j.location||'').replace(/\\n/g,' '),
     j.experience||'', j.posted_date||j.first_seen||'', j.url
   ].map(v => '"' + String(v).replace(/"/g,'""') + '"').join(','));
-  const csv = [header.join(','), ...lines].join('\n');
+  const csv = [header.join(','), ...lines].join('\\n');
   const blob = new Blob([csv], {{type:'text/csv'}});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
