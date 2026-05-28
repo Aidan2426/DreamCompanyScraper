@@ -628,6 +628,14 @@ html = f"""<!DOCTYPE html>
     .tag-loc   {{ background: #f5f5f7; }}
 
     .card-date {{ font-size: 12px; color: #8e8e93; margin-top: auto; }}
+    .card-date span {{ cursor: default; border-bottom: 1px dashed #c7c7cc; }}
+    .card-hide-btn {{
+      background: none; border: none; cursor: pointer; padding: 2px 3px;
+      font-size: 12px; color: rgba(0,0,0,0); line-height: 1; flex-shrink: 0;
+      transition: color 0.15s;
+    }}
+    .card:hover .card-hide-btn {{ color: rgba(0,0,0,0.25); }}
+    .card-hide-btn:hover {{ color: #ff3b30 !important; }}
 
     .no-results {{
       grid-column: 1/-1; text-align: center;
@@ -681,6 +689,13 @@ html = f"""<!DOCTYPE html>
     .fav-star:hover {{ color: #ff9f0a !important; transform: scale(1.2); }}
     .fav-star.active {{ color: #ff9f0a; }}
     .cs-grid-item:hover .fav-star.active {{ color: #ff9f0a; }}
+    .cs-item .fav-star {{ position: static; font-size: 14px; margin-left: 4px; flex-shrink: 0; }}
+    .pill-fav-cities {{ position: relative; }}
+    .pill-fav-cities-count {{
+      position: absolute; top: -6px; right: -6px;
+      background: #5ac8fa; color: #fff; border-radius: 8px;
+      font-size: 10px; font-weight: 700; padding: 1px 5px; min-width: 16px; text-align: center;
+    }}
 
     /* ── Stats overlay ── */
     .stats-overlay {{
@@ -734,6 +749,7 @@ html = f"""<!DOCTYPE html>
     .stats-new.zero {{ color: #aeaeb2; font-weight: 400; }}
     .stats-posted {{ color: #0071e3; font-weight: 600; }}
     .stats-posted.zero {{ color: #aeaeb2; font-weight: 400; }}
+    .stats-status {{ font-size: 14px; text-align: center; }}
     .stats-footer {{
       padding: 10px 20px; border-top: 1px solid #d1d1d6;
       font-size: 12px; color: #6e6e73; text-align: right;
@@ -761,6 +777,7 @@ html = f"""<!DOCTYPE html>
     <button class="pill" data-new="new">✦ New</button>
     <button class="pill pill-saved" id="pill-saved" data-new="saved" style="display:none">♥ Saved<span class="pill-saved-count" id="saved-count">0</span></button>
     <button class="pill pill-fav" id="pill-fav">⭐ My Companies<span class="pill-fav-count" id="fav-count" style="display:none">0</span></button>
+    <button class="pill pill-fav-cities" id="pill-fav-cities">🏙 My Cities<span class="pill-fav-cities-count" id="fav-cities-count" style="display:none">0</span></button>
     <div class="fsep"></div>
     <button class="pill active" data-region="us">🇺🇸 US</button>
     <button class="pill" data-region="all">🌐 All</button>
@@ -792,11 +809,12 @@ html = f"""<!DOCTYPE html>
     <button class="pill active" data-sort="newest">Newest</button>
     <button class="pill" data-sort="foryou">✦ For You</button>
     <div class="fsep"></div>
+    <button class="pill" id="export-btn">⬇ CSV</button>
     <button class="pill" id="stats-btn">📊 Stats</button>
   </div>
 </div>
 
-<div class="count-bar"><span id="count-label"></span></div>
+<div class="count-bar"><span id="count-label"></span><span id="hidden-label" style="margin-left:10px;font-size:12px;color:#8e8e93"></span></div>
 <div class="grid" id="grid"></div>
 <div class="pagination" id="pagination"></div>
 
@@ -818,6 +836,7 @@ html = f"""<!DOCTYPE html>
             <th data-col="total" class="sort-desc">Total Jobs</th>
             <th data-col="new">New Today</th>
             <th data-col="posted">Posted 24h</th>
+            <th data-col="status">Health</th>
           </tr>
         </thead>
         <tbody id="stats-tbody"></tbody>
@@ -1016,7 +1035,7 @@ function scoreJob(j) {{
 }}
 
 // ── Custom multi-select dropdown factory ──
-function makeDropdown(containerId, getItems, iconFn, gridMode) {{
+function makeDropdown(containerId, getItems, iconFn, gridMode, favOpts) {{
   const wrap     = document.getElementById(containerId);
   const btn      = wrap.querySelector('.cs-btn');
   const badge    = wrap.querySelector('.cs-badge');
@@ -1075,6 +1094,20 @@ function makeDropdown(containerId, getItems, iconFn, gridMode) {{
         const chk=document.createElement('div'); chk.className='cs-check';
         chk.innerHTML='<svg class="cs-tick" viewBox="0 0 10 8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4l3 3 5-6"/></svg>';
         d.appendChild(chk);
+        if (favOpts) {{
+          const star = document.createElement('button');
+          star.className = 'fav-star' + (favOpts.isFav(v) ? ' active' : '');
+          star.textContent = favOpts.isFav(v) ? '★' : '☆';
+          star.title = favOpts.isFav(v) ? 'Remove from My Cities' : 'Add to My Cities';
+          star.addEventListener('mousedown', e => {{
+            e.preventDefault(); e.stopPropagation();
+            favOpts.toggle(v);
+            star.textContent = favOpts.isFav(v) ? '★' : '☆';
+            star.classList.toggle('active', favOpts.isFav(v));
+            star.title = favOpts.isFav(v) ? 'Remove from My Cities' : 'Add to My Cities';
+          }});
+          d.appendChild(star);
+        }}
         d.addEventListener('mousedown', e => {{
           e.preventDefault();
           sel.has(v) ? sel.delete(v) : sel.add(v);
@@ -1112,9 +1145,9 @@ let _usOnly = true;
 const companyDrop = makeDropdown('cs-company', ()=>COMPANIES,                       v=>LOGOS[v], true);
 const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,                           null,        false);
 const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES,                     null,        false);
-const cityDrop    = makeDropdown('cs-city',    ()=>Object.keys(CITY_COORDS).sort(), null,        false);
+const cityDrop    = makeDropdown('cs-city',    ()=>Object.keys(CITY_COORDS).sort(), null,        false, {{isFav:isFavCity,toggle:city=>{{toggleFavCity(city);if(state.favCitiesOnly)render();}}}});
 
-const state = {{ q:'', newOnly:false, savedOnly:false, favOnly:false, sort:'newest' }};
+const state = {{ q:'', newOnly:false, savedOnly:false, favOnly:false, favCitiesOnly:false, sort:'newest' }};
 
 // ── Saved jobs storage ──
 function getSaved()     {{ return new Set(JSON.parse(localStorage.getItem('swipe_saved')     || '[]')); }}
@@ -1140,6 +1173,42 @@ function updateFavPill() {{
   document.getElementById('pill-fav').classList.toggle('active', state.favOnly);
 }}
 
+// ── Favorite cities storage ──
+function getFavCities()      {{ return new Set(JSON.parse(localStorage.getItem('fav_cities') || '[]')); }}
+function setFavCities(s)     {{ localStorage.setItem('fav_cities', JSON.stringify([...s])); }}
+function isFavCity(city)     {{ return getFavCities().has(city); }}
+function toggleFavCity(city) {{
+  const s = getFavCities();
+  s.has(city) ? s.delete(city) : s.add(city);
+  setFavCities(s);
+  updateFavCitiesPill();
+}}
+function updateFavCitiesPill() {{
+  const n = getFavCities().size;
+  const cnt = document.getElementById('fav-cities-count');
+  cnt.textContent = n;
+  cnt.style.display = n > 0 ? '' : 'none';
+  document.getElementById('pill-fav-cities').classList.toggle('active', state.favCitiesOnly);
+}}
+
+function updateHiddenCount() {{
+  const n = getDiscarded().size;
+  const el = document.getElementById('hidden-label');
+  if (!el) return;
+  if (n > 0) {{
+    el.innerHTML = n + ' hidden · <a href="#" id="clear-hidden" style="color:var(--blue)">clear</a>';
+    const cl = document.getElementById('clear-hidden');
+    if (cl) cl.addEventListener('click', e => {{
+      e.preventDefault();
+      localStorage.removeItem('swipe_discarded');
+      el.innerHTML = '';
+      render();
+    }});
+  }} else {{
+    el.innerHTML = '';
+  }}
+}}
+
 function updateSavedPill() {{
   const n = getSaved().size;
   const pill = document.getElementById('pill-saved');
@@ -1151,12 +1220,21 @@ function updateSavedPill() {{
 const HIDDEN_TITLES = /\b(retail\s+sales|sales\s+associate|cashier|store\s+(manager|associate|leader|supervisor)|sales\s+rep(resentative)?|retail\s+associate|floor\s+(associate|supervisor)|merchandise|barista|bank\s+teller|teller\b|park\s+ranger|trail\s+crew|visitor\s+services|law\s+enforcement\s+ranger)\b/i;
 
 function filtered() {{
+  const _discarded = state.savedOnly ? new Set() : getDiscarded();
   return JOBS.filter(j => {{
     if (HIDDEN_TITLES.test(j.title)) return false;
+    if (_discarded.has(j.role_id))                                          return false;
     if (state.q              && !j.title.toLowerCase().includes(state.q) && !(j.company||'').toLowerCase().includes(state.q)) return false;
     if (state.newOnly        && !j.is_new)                                 return false;
     if (state.savedOnly      && !getSaved().has(j.role_id))               return false;
     if (state.favOnly        && !getFavs().has(j.company))                return false;
+    if (state.favCitiesOnly) {{
+      const fc = getFavCities();
+      if (fc.size > 0) {{
+        const locs = getLocations(j);
+        if (!locs.some(n => fc.has(n.display))) return false;
+      }}
+    }}
     if (companyDrop.sel.size && !companyDrop.sel.has(j.company))          return false;
     if (teamDrop.sel.size    && !teamDrop.sel.has(j.team))                return false;
     if (expDrop.sel.size     && !expDrop.sel.has(j.experience))           return false;
@@ -1205,6 +1283,22 @@ function parseDate(str) {{
   if (isNaN(d)) return 0;
   // future dates (e.g. expiration fields) treated as unknown
   return d.getTime() > Date.now() ? 0 : d.getTime();
+}}
+
+function timeAgo(ts) {{
+  if (!ts) return null;
+  const diff = Date.now() - ts;
+  if (diff < 0) return null;
+  const m = Math.floor(diff / 60000);
+  if (m < 2)  return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + 'h ago';
+  const d = Math.floor(h / 24);
+  if (d < 7)  return d + 'd ago';
+  const w = Math.floor(d / 7);
+  if (w < 5)  return w + 'w ago';
+  return Math.floor(d / 30) + 'mo ago';
 }}
 
 function sorted(arr) {{
@@ -1295,6 +1389,11 @@ function renderPage(list) {{
     const sc = state.sort === 'foryou' ? scoreJob(j) : -1;
     const matchColor = sc >= 70 ? '#34c759' : sc >= 40 ? '#ff9500' : '#8e8e93';
     const isSaved = getSaved().has(j.role_id);
+    const _postTs = parseDate(j.posted_date);
+    const _seenTs = parseDate(j.first_seen);
+    const _dateStr = j.posted_date
+      ? `Posted <span title="${{j.posted_date}}">${{timeAgo(_postTs) || j.posted_date}}</span>`
+      : `First seen <span title="${{j.first_seen}}">${{timeAgo(_seenTs) || j.first_seen}}</span>`;
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
@@ -1305,6 +1404,7 @@ function renderPage(list) {{
           ${{(()=>{{const pts=parseDate(j.posted_date);const rec=!j.posted_date||(pts>0&&(Date.now()-pts)<14*86400*1000);return j.is_new&&rec?'<span class="new-badge">NEW</span>':'';}})()}}
           ${{sc >= 0 ? `<span class="match-badge" style="background:${{matchColor}}">${{sc}}%</span>` : ''}}
           <button class="card-save-btn${{isSaved ? ' saved' : ''}}" title="${{isSaved ? 'Unsave' : 'Save'}}">♥</button>
+          <button class="card-hide-btn" title="Hide this job">✕</button>
         </div>
       </div>
       <div class="card-title"><a href="${{j.url}}" target="_blank" rel="noopener">${{j.title}}</a></div>
@@ -1313,9 +1413,7 @@ function renderPage(list) {{
         ${{j.experience ? `<span class="tag tag-exp">${{j.experience}}</span>` : ''}}
         ${{j.location   ? `<span class="tag tag-loc">📍 ${{j.location}}</span>` : ''}}
       </div>
-      <div class="card-date">
-        ${{j.posted_date ? `Posted ${{j.posted_date}}` : `First seen ${{j.first_seen}}`}}
-      </div>
+      <div class="card-date">${{_dateStr}}</div>
     `;
     card.querySelector('.card-save-btn').addEventListener('click', e => {{
       e.stopPropagation();
@@ -1334,6 +1432,14 @@ function renderPage(list) {{
       updateSavedPill();
       if (state.savedOnly) render();
     }});
+    card.querySelector('.card-hide-btn').addEventListener('click', e => {{
+      e.stopPropagation();
+      addDiscarded(j.role_id);
+      card.style.transition = 'opacity 0.2s';
+      card.style.opacity = '0';
+      setTimeout(() => card.remove(), 200);
+      updateHiddenCount();
+    }});
     frag.appendChild(card);
   }});
   grid.appendChild(frag);
@@ -1343,6 +1449,7 @@ function renderPage(list) {{
 function render() {{
   currentPage = 1;
   renderPage(sorted(filtered()));
+  updateHiddenCount();
 }}
 
 document.getElementById('q').addEventListener('input', e => {{ state.q = e.target.value.trim().toLowerCase(); render(); }});
@@ -1385,8 +1492,36 @@ document.getElementById('pill-fav').addEventListener('click', function() {{
   render();
 }});
 updateFavPill();
+updateFavCitiesPill();
+
+// ── "My Cities" pill ──
+document.getElementById('pill-fav-cities').addEventListener('click', function() {{
+  state.favCitiesOnly = !state.favCitiesOnly;
+  this.classList.toggle('active', state.favCitiesOnly);
+  render();
+}});
 
 render();
+
+// ── Export CSV ──
+function exportCSV() {{
+  const rows = sorted(filtered());
+  const header = ['Title','Company','Team','Location','Experience','Posted','URL'];
+  const lines = rows.map(j => [
+    j.title, j.company, j.team||'', (j.location||'').replace(/\n/g,' '),
+    j.experience||'', j.posted_date||j.first_seen||'', j.url
+  ].map(v => '"' + String(v).replace(/"/g,'""') + '"').join(','));
+  const csv = [header.join(','), ...lines].join('\n');
+  const blob = new Blob([csv], {{type:'text/csv'}});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dream-companies-jobs.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}}
+document.getElementById('export-btn').addEventListener('click', exportCSV);
 
 // ── Stats panel ──
 (function() {{
@@ -1405,15 +1540,21 @@ render();
       const pd = parseDate(j.posted_date);
       if (pd && (now - pd) < ms24h * 2) map[c].posted24h++;
     }}
-    return Object.values(map);
+    const rows = Object.values(map);
+    rows.forEach(r => {{
+      if (r.posted24h > 0)        {{ r.statusVal = 2; r.statusIcon = '🟢'; r.statusTitle = 'Active — posted in last 48h'; }}
+      else if (r.newToday > 0)    {{ r.statusVal = 1; r.statusIcon = '🟡'; r.statusTitle = 'Stale — scraper ran but no recent postings'; }}
+      else                        {{ r.statusVal = 0; r.statusIcon = '🔴'; r.statusTitle = 'No recent activity — scraper may be broken'; }}
+    }});
+    return rows;
   }}
 
   function renderStats() {{
     const rows = buildStatsData()
       .filter(r => !statsQ || r.company.toLowerCase().includes(statsQ))
       .sort((a, b) => {{
-        const av = statsSort.col === 'company' ? a.company : a[statsSort.col === 'new' ? 'newToday' : statsSort.col === 'posted' ? 'posted24h' : 'total'];
-        const bv = statsSort.col === 'company' ? b.company : b[statsSort.col === 'new' ? 'newToday' : statsSort.col === 'posted' ? 'posted24h' : 'total'];
+        const av = statsSort.col === 'company' ? a.company : statsSort.col === 'status' ? a.statusVal : a[statsSort.col === 'new' ? 'newToday' : statsSort.col === 'posted' ? 'posted24h' : 'total'];
+        const bv = statsSort.col === 'company' ? b.company : statsSort.col === 'status' ? b.statusVal : b[statsSort.col === 'new' ? 'newToday' : statsSort.col === 'posted' ? 'posted24h' : 'total'];
         if (typeof av === 'string') return statsSort.dir * av.localeCompare(bv);
         return statsSort.dir * (bv - av);
       }});
@@ -1426,6 +1567,7 @@ render();
         <td class="stats-total">${{r.total.toLocaleString()}}</td>
         <td class="stats-new${{r.newToday ? '' : ' zero'}}">${{r.newToday || '—'}}</td>
         <td class="stats-posted${{r.posted24h ? '' : ' zero'}}">${{r.posted24h || '—'}}</td>
+        <td class="stats-status" title="${{r.statusTitle}}">${{r.statusIcon}}</td>
       </tr>`;
     }}).join('');
 
