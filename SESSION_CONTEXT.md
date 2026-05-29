@@ -455,3 +455,4 @@ All 9 items complete. Changes in `build.py`:
    - Add to HIDDEN_TITLES: `park\s+ranger|trail\s+crew|visitor\s+services|law\s+enforcement\s+ranger` (for NPS jobs)
 
 10. **City favorites** (stretch goal): Mirror "My Companies" pattern for cities with `fav_cities` localStorage key. Can defer to later session.
+
