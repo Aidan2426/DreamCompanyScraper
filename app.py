@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from db import init_db, get_all_jobs, get_new_jobs
 from datetime import date
+from pathlib import Path
 
 app = Flask(__name__)
 init_db()
@@ -13,6 +14,12 @@ PER_PAGE = 30
 
 @app.route("/")
 def index():
+    root = Path(__file__).resolve().parent
+    index_path = root / "index.html"
+
+    if index_path.exists():
+        return send_file(index_path, mimetype="text/html")
+
     since = request.args.get("since", "")
     search = request.args.get("q", "").strip().lower()
     team = request.args.get("team", "").strip()

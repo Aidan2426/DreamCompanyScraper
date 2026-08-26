@@ -363,7 +363,18 @@ experiences = sorted({
 
 city_counts  = _extract_job_us_cities(jobs)
 city_counts  = {c: n for c, n in city_counts.items() if n >= 2}
-city_coords  = _geocode_cities(city_counts)
+# Avoid live geocoding during builds (rate limits cause slow/failed builds).
+# Prefer using a cached city_coords.json when available so the page can be
+# regenerated quickly. If the cache is missing, skip geocoding and continue
+# with an empty coords mapping.
+if os.path.exists('city_coords.json'):
+  try:
+    with open('city_coords.json', 'r', encoding='utf-8') as f:
+      city_coords = json.load(f)
+  except Exception:
+    city_coords = {}
+else:
+  city_coords = {}
 
 jobs_json         = json.dumps(jobs,         ensure_ascii=False)
 teams_json        = json.dumps(teams,        ensure_ascii=False)
