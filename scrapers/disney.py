@@ -12,7 +12,7 @@ HEADERS = {
 
 
 def _parse_page(html: str) -> tuple[list[dict], int]:
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html, "html.parser")
     jobs = []
 
     for a in soup.find_all("a", attrs={"data-job-id": True}):

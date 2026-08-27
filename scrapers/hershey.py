@@ -20,7 +20,7 @@ PAGE_SIZE = 25
 
 
 def _parse_page(html: str) -> tuple[list[dict], int]:
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html, "html.parser")
     jobs = []
 
     table = soup.find("table", id="searchresults")
