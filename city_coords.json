@@ -8244,5 +8244,587 @@
   "Mooresboro, NC": null,
   "White Settlement, TX": null,
   "Myerstown, PA": null,
-  "Charlotte Hall, MD": null
+  "Charlotte Hall, MD": null,
+  "Adelphi, MD": {
+    "lat": 38.9983345,
+    "lon": -76.970741
+  },
+  "Aiea, HI": {
+    "lat": 21.3822222,
+    "lon": -157.9336111
+  },
+  "West Branch, IA": {
+    "lat": 41.6720735,
+    "lon": -91.3459735
+  },
+  "Nicholasville, KY": {
+    "lat": 37.8806341,
+    "lon": -84.5729961
+  },
+  "Johnson City, TX": {
+    "lat": 30.2773819,
+    "lon": -98.4090218
+  },
+  "Moccasin, AZ": {
+    "lat": 36.9091184,
+    "lon": -112.7567103
+  },
+  "Nimitz Hill, GU": {
+    "lat": 13.4626472,
+    "lon": 144.7305811
+  },
+  "US-Holly Springs, NC": {
+    "lat": 35.6512655,
+    "lon": -78.8336218
+  },
+  "Mesa Verde National Park, CO": {
+    "lat": 37.253776,
+    "lon": -108.4555964
+  },
+  "Enfield, CT": {
+    "lat": 41.9767721,
+    "lon": -72.5917113
+  },
+  "Fort Mill, SC": {
+    "lat": 35.0073697,
+    "lon": -80.9450759
+  },
+  "Big Spring, TX": {
+    "lat": 32.250398,
+    "lon": -101.4787356
+  },
+  "Centerline, MI": {
+    "lat": 43.997153,
+    "lon": -85.9799097
+  },
+  "Winter Springs, FL": {
+    "lat": 28.6987317,
+    "lon": -81.3055188
+  },
+  "Dunedin, FL": {
+    "lat": 28.0116627,
+    "lon": -82.7893788
+  },
+  "Whitefish Bay, WI": {
+    "lat": 43.1185591,
+    "lon": -87.906804
+  },
+  "Hartland, MI": {
+    "lat": 42.656697,
+    "lon": -83.7530022
+  },
+  "Maringouin, LA": {
+    "lat": 30.4913049,
+    "lon": -91.5195542
+  },
+  "Recruiting: Detroit, MI": null,
+  "Radnor, PA": {
+    "lat": 40.0448619,
+    "lon": -75.3594728
+  },
+  "North Miami Beach, FL": {
+    "lat": 25.9331488,
+    "lon": -80.1625463
+  },
+  "JACKSONVILLE, FL": {
+    "lat": 30.3262247,
+    "lon": -81.6579179
+  },
+  "Chicopee, MA": {
+    "lat": 42.1487691,
+    "lon": -72.6071119
+  },
+  "ROANOKE, VA": {
+    "lat": 37.270973,
+    "lon": -79.9414313
+  },
+  "KENT, WA": {
+    "lat": 47.3826903,
+    "lon": -122.2270272
+  },
+  "Palm City, FL": {
+    "lat": 27.1713925,
+    "lon": -80.2842217
+  },
+  "Leesburg, FL": {
+    "lat": 28.810823,
+    "lon": -81.8778582
+  },
+  "TWIN FALLS, ID": {
+    "lat": 42.5558542,
+    "lon": -114.4700684
+  },
+  "OCALA, FL": {
+    "lat": 29.1871986,
+    "lon": -82.1400923
+  },
+  "FORT WORTH, TX": {
+    "lat": 32.753177,
+    "lon": -97.3327459
+  },
+  "TAMPA, FL": {
+    "lat": 27.9449854,
+    "lon": -82.4583107
+  },
+  "OKLAHOMA CITY, OK": {
+    "lat": 35.4729886,
+    "lon": -97.5170536
+  },
+  "Hillside, IL": {
+    "lat": 41.8778084,
+    "lon": -87.9028398
+  },
+  "Homer, AK": {
+    "lat": 59.6454064,
+    "lon": -151.5445643
+  },
+  "NORTHWOOD, OH": {
+    "lat": 41.607272,
+    "lon": -83.4688204
+  },
+  "WAYNE, NJ": {
+    "lat": 40.9491723,
+    "lon": -74.2376802
+  },
+  "Beaver, WV": {
+    "lat": 37.738448,
+    "lon": -81.1493725
+  },
+  "Roseburg, OR": {
+    "lat": 43.216505,
+    "lon": -123.3417381
+  },
+  "TULSA, OK": {
+    "lat": 36.1563122,
+    "lon": -95.9927516
+  },
+  "WICHITA FALLS, TX": {
+    "lat": 33.9004572,
+    "lon": -98.5020777
+  },
+  "LEXINGTON, KY": {
+    "lat": 38.0464066,
+    "lon": -84.4970393
+  },
+  "Lakewood, NJ": {
+    "lat": 40.0940995,
+    "lon": -74.2149889
+  },
+  "ALBANY, GA": {
+    "lat": 31.5782062,
+    "lon": -84.1556809
+  },
+  "GRAND JUNCTION, CO": {
+    "lat": 39.0672568,
+    "lon": -108.56448
+  },
+  "WASILLA, AK": {
+    "lat": 61.5824216,
+    "lon": -149.442563
+  },
+  "Silverthorne, CO": {
+    "lat": 39.6317896,
+    "lon": -106.0752294
+  },
+  "CADILLAC, MI": {
+    "lat": 44.2519526,
+    "lon": -85.4011619
+  },
+  "PARKERSBURG, WV": {
+    "lat": 39.2667309,
+    "lon": -81.5620755
+  },
+  "HONOLULU, HI": {
+    "lat": 21.304547,
+    "lon": -157.855676
+  },
+  "FARMINGTON, NM": {
+    "lat": 36.7291152,
+    "lon": -108.205445
+  },
+  "Rainbow City, AL": {
+    "lat": 33.9549152,
+    "lon": -86.0414098
+  },
+  "BOSTON, MA": {
+    "lat": 42.3588336,
+    "lon": -71.0578303
+  },
+  "Atlanta, IL": {
+    "lat": 40.2596504,
+    "lon": -89.2332466
+  },
+  "Copper Center, AK": {
+    "lat": 61.981597,
+    "lon": -145.3476846
+  },
+  "Woodford, VA": {
+    "lat": 38.1131886,
+    "lon": -77.4088708
+  },
+  "Hines, IL": {
+    "lat": 41.8536425,
+    "lon": -87.8395035
+  },
+  "Valencia, CA": {
+    "lat": 34.4131941,
+    "lon": -118.559849
+  },
+  "CHEYENNE, WY": {
+    "lat": 41.139981,
+    "lon": -104.820246
+  },
+  "Fort Dix, NJ": {
+    "lat": 40.0105355,
+    "lon": -74.6247972
+  },
+  "45 W. 27th St, NY": {
+    "lat": 40.7451365,
+    "lon": -73.9900429
+  },
+  "Charlotte, GA": {
+    "lat": 33.678218,
+    "lon": -84.3459732
+  },
+  "Fort Rucker, AL": {
+    "lat": 31.3499557,
+    "lon": -85.7140361
+  },
+  "2682 Huntsville, AL": {
+    "lat": 34.7577077,
+    "lon": -86.5845074
+  },
+  "All Cities, PA": null,
+  "Base Lewis-McChord, WA": {
+    "lat": 47.0308343,
+    "lon": -122.5074136
+  },
+  "Key West, FL": {
+    "lat": 24.5548262,
+    "lon": -81.8020722
+  },
+  "Calabasas, CA": {
+    "lat": 34.1446643,
+    "lon": -118.644097
+  },
+  "Vicksburg, MS": {
+    "lat": 32.3528055,
+    "lon": -90.8777342
+  },
+  "Plains, GA": {
+    "lat": 32.0340872,
+    "lon": -84.3926633
+  },
+  "St.Louis, MO": {
+    "lat": 38.6254063,
+    "lon": -90.190009
+  },
+  "Fort Davis, TX": {
+    "lat": 30.5891645,
+    "lon": -103.894959
+  },
+  "Recruiting: Coppell, TX": null,
+  "Fairview, TX": {
+    "lat": 33.1578325,
+    "lon": -96.6318301
+  },
+  "Tyndall AFB, FL": {
+    "lat": 30.0334416,
+    "lon": -85.5258915
+  },
+  "MIDDLETOWN, PA": {
+    "lat": 40.1701367,
+    "lon": -74.8851959
+  },
+  "Pacheco, CA": {
+    "lat": 37.990188,
+    "lon": -122.0697504
+  },
+  "Greenwood Village, PA": {
+    "lat": 40.8806199,
+    "lon": -79.9564456
+  },
+  "McConnell AFB, KS": {
+    "lat": 37.6259318,
+    "lon": -97.2618941
+  },
+  "Glen Jean, WV": {
+    "lat": 37.927024,
+    "lon": -81.1525304
+  },
+  "Santa Rita, GU": {
+    "lat": 13.38565,
+    "lon": 144.6704906
+  },
+  "Home Office (AKHOME), AK": null,
+  "Atlanta, TX": {
+    "lat": 33.1162131,
+    "lon": -94.1663493
+  },
+  "Beverly Hills, CA": {
+    "lat": 34.0696501,
+    "lon": -118.3963062
+  },
+  "Kingman, AZ": {
+    "lat": 35.1895921,
+    "lon": -114.0532996
+  },
+  "Nanticoke, PA": {
+    "lat": 41.2052654,
+    "lon": -76.0049353
+  },
+  "Carnegie, PA": {
+    "lat": 40.4086802,
+    "lon": -80.0833885
+  },
+  "Emmitsburg, MD": {
+    "lat": 39.7045417,
+    "lon": -77.3269307
+  },
+  "St. Charles, MO": {
+    "lat": 38.7877791,
+    "lon": -90.6747372
+  },
+  "Oneida, TN": {
+    "lat": 36.4981341,
+    "lon": -84.5127162
+  },
+  "Pacoima, CA": {
+    "lat": 34.2625025,
+    "lon": -118.427027
+  },
+  "Schertz, TX": {
+    "lat": 29.5641617,
+    "lon": -98.2695702
+  },
+  "HENDERSON, CO": {
+    "lat": 39.9205405,
+    "lon": -104.8658084
+  },
+  "Saint John Island, VI": {
+    "lat": 18.3356013,
+    "lon": -64.7550406
+  },
+  "Los Angeles, CO": {
+    "lat": 34.0536909,
+    "lon": -118.242766
+  },
+  "Tbilisi, GA": null,
+  "Waterloo, WA": {
+    "lat": 48.3678257,
+    "lon": -118.1179084
+  },
+  "Pageland, SC": {
+    "lat": 34.7719578,
+    "lon": -80.3914661
+  },
+  "St. Marys, GA": {
+    "lat": 30.7203759,
+    "lon": -81.5485714
+  },
+  "SHREVEPORT, LA": {
+    "lat": 32.5135356,
+    "lon": -93.7477839
+  },
+  "Greer, SC": {
+    "lat": 34.9381361,
+    "lon": -82.2272119
+  },
+  "SIOUX FALLS, SD": {
+    "lat": 43.5476008,
+    "lon": -96.7293629
+  },
+  "Stoughton, MA": {
+    "lat": 42.1252079,
+    "lon": -71.1022015
+  },
+  "Finleyville, PA": {
+    "lat": 40.2522922,
+    "lon": -80.0028294
+  },
+  "Home Office (LAHOME), LA": null,
+  "ROSEVILLE, MN": {
+    "lat": 45.0060767,
+    "lon": -93.1566107
+  },
+  "WEST PALM BEACH, FL": {
+    "lat": 26.715364,
+    "lon": -80.0532942
+  },
+  "Hewitt, TX": {
+    "lat": 31.4623065,
+    "lon": -97.1957023
+  },
+  "Bridgewater, MA": {
+    "lat": 41.9902206,
+    "lon": -70.9754432
+  },
+  "Concord, CA": {
+    "lat": 37.9768525,
+    "lon": -122.0335624
+  },
+  "Grimes, IA": {
+    "lat": 41.6883214,
+    "lon": -93.7910575
+  },
+  "Auburn, PA": {
+    "lat": 40.5984249,
+    "lon": -76.0932721
+  },
+  "BEAUMONT, TX": {
+    "lat": 30.0829344,
+    "lon": -94.0984277
+  },
+  "Fort Sill, OK": {
+    "lat": 34.7027408,
+    "lon": -98.5074309
+  },
+  "Tyrone, PA": {
+    "lat": 40.6705508,
+    "lon": -78.2383479
+  },
+  "Sparrows Point, MD": {
+    "lat": 39.219275,
+    "lon": -76.4760724
+  },
+  "DALLAS, TX": {
+    "lat": 32.7762719,
+    "lon": -96.7968559
+  },
+  "Missouri City, TX": {
+    "lat": 29.6185669,
+    "lon": -95.5377215
+  },
+  "AMARILLO, TX": {
+    "lat": 35.20729,
+    "lon": -101.8371192
+  },
+  "TUCSON, AZ": {
+    "lat": 32.2228765,
+    "lon": -110.974847
+  },
+  "CHAVIES, KY": {
+    "lat": 37.3478703,
+    "lon": -83.3562912
+  },
+  "Brockton, MA": {
+    "lat": 42.0834335,
+    "lon": -71.0183787
+  },
+  "Pittston, PA": {
+    "lat": 41.3259134,
+    "lon": -75.7893604
+  },
+  "Johnston, RI": {
+    "lat": 41.8310404,
+    "lon": -71.5412101
+  },
+  "South Chesterfield, VA": {
+    "lat": 38.8474336,
+    "lon": -77.1076134
+  },
+  "Raeford, NC": {
+    "lat": 34.9809996,
+    "lon": -79.2241998
+  },
+  "Florissant, CO": {
+    "lat": 38.9458249,
+    "lon": -105.2894358
+  },
+  "Olney, MD": {
+    "lat": 39.1469872,
+    "lon": -77.0722227
+  },
+  "Franklin Park, IL": {
+    "lat": 41.9353084,
+    "lon": -87.865618
+  },
+  "Clarendon Hills, IL": {
+    "lat": 41.7961237,
+    "lon": -87.9551429
+  },
+  "Logansport, IN": {
+    "lat": 40.7542375,
+    "lon": -86.3625191
+  },
+  "Glendora, NJ": {
+    "lat": 39.841417,
+    "lon": -75.0688604
+  },
+  "Mountain Lakes, NJ": {
+    "lat": 40.8948212,
+    "lon": -74.4329314
+  },
+  "Ironton, OH": {
+    "lat": 38.5367471,
+    "lon": -82.6829406
+  },
+  "Chicago, DC": {
+    "lat": 38.8640846,
+    "lon": -76.9916201
+  },
+  "Rocky River, OH": {
+    "lat": 41.4756031,
+    "lon": -81.8393034
+  },
+  "Audubon, PA": {
+    "lat": 40.1311744,
+    "lon": -75.4227989
+  },
+  "North East, MD": {
+    "lat": 39.5992989,
+    "lon": -75.9424217
+  },
+  "Clark, NJ": {
+    "lat": 40.6233995,
+    "lon": -74.3148279
+  },
+  "Conshohocken, PA": {
+    "lat": 40.0738835,
+    "lon": -75.30625
+  },
+  "Warren, NJ": {
+    "lat": 40.8602222,
+    "lon": -74.9720493
+  },
+  "North Wildwood, NJ": {
+    "lat": 39.0006686,
+    "lon": -74.799333
+  },
+  "Carrollton, TX": {
+    "lat": 32.9515472,
+    "lon": -96.9034244
+  },
+  "Barnegat, NJ": {
+    "lat": 39.7557459,
+    "lon": -74.2207395
+  },
+  "Fraser, MI": {
+    "lat": 42.539202,
+    "lon": -82.9493652
+  },
+  "Palm Harbor, FL": {
+    "lat": 28.0856815,
+    "lon": -82.756907
+  },
+  "Pompton Plains, NJ": {
+    "lat": 40.9695665,
+    "lon": -74.306398
+  },
+  "DeLand, FL": {
+    "lat": 29.0281051,
+    "lon": -81.3034183
+  },
+  "Sanford, NC": {
+    "lat": 35.4798757,
+    "lon": -79.1802994
+  },
+  "Eagle Pass, TX": {
+    "lat": 28.709211,
+    "lon": -100.4992936
+  },
+  "Saint Augustine, FL": {
+    "lat": 29.8946952,
+    "lon": -81.3145395
+  }
 }
