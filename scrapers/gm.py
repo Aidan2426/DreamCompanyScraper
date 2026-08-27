@@ -1,4 +1,5 @@
 import asyncio
+import html as html_lib
 import re
 from curl_cffi.requests import AsyncSession
 
@@ -11,8 +12,8 @@ HEADERS = {
 
 CARD_RE  = re.compile(r'class="card-job-actions js-job"\s+data-id="([^"]+)"\s+data-jobtitle="([^"]+)"')
 HREF_RE  = re.compile(r'href="(/en/jobs/jr-[^"]+/)"')
-BRIEF_RE = re.compile(r'#briefcase[^>]*></use></svg>\s*([^<\n]+)')
-MAP_RE   = re.compile(r'#map-marker[^>]*></use></svg>\s*([^<\n]+)')
+BRIEF_RE = re.compile(r'#briefcase[^>]*></use>\s*</svg>\s*([^<\n]+)')
+MAP_RE   = re.compile(r'#map-marker[^>]*></use>\s*</svg>\s*([^<\n]+)')
 PAGE_RE  = re.compile(r'page=(\d+)')
 
 
@@ -24,13 +25,13 @@ def _parse_page(html: str) -> list[dict]:
         if not cm:
             continue
         job_id = cm.group(1).strip()
-        title  = cm.group(2).strip()
+        title  = html_lib.unescape(cm.group(2).strip())
         hm     = HREF_RE.search(chunk)
         url    = BASE + hm.group(1) if hm else ""
         bm     = BRIEF_RE.search(chunk)
-        team   = bm.group(1).strip() if bm else ""
+        team   = html_lib.unescape(bm.group(1).strip()) if bm else ""
         mm     = MAP_RE.search(chunk)
-        loc    = mm.group(1).strip() if mm else ""
+        loc    = html_lib.unescape(mm.group(1).strip()) if mm else ""
         jobs.append({
             "role_id":     f"gm_{job_id}",
             "title":       title,
