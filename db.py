@@ -31,6 +31,16 @@ def init_db():
             conn.execute("ALTER TABLE jobs ADD COLUMN experience TEXT")
         except Exception:
             pass
+        # Microsoft's site renders posted_date as relative text ("2 hours ago")
+        # that used to get stored verbatim; the frontend then re-derives it against
+        # the viewer's current clock, so old jobs never age. Rows already saved
+        # that way are stuck forever (INSERT OR IGNORE never updates them), so
+        # pin them to the fixed date they were first captured. No-op once fixed.
+        conn.execute("""
+            UPDATE jobs SET posted_date = first_seen
+            WHERE company = 'Microsoft'
+              AND (posted_date LIKE '%ago%' OR lower(posted_date) IN ('today', 'yesterday', 'just posted', 'posted today'))
+        """)
         conn.commit()
 
 

@@ -1,11 +1,42 @@
 import asyncio
 import re
 
+from datetime import datetime, timedelta, timezone
+
 from playwright.async_api import async_playwright, Page
 
 BASE_URL = "https://apply.careers.microsoft.com/careers"
 SEARCH_PARAMS = "pid=1970393556859892&sort_by=timestamp"
 PAGE_SIZE = 20
+
+_REL_RE = re.compile(r"(\d+|an?)\s+(minute|hour|day|week|month)s?\s+ago", re.IGNORECASE)
+
+
+def _relative_to_iso(text: str, now: datetime) -> str:
+    """Microsoft's site renders posted_date as relative text ('2 hours ago') that
+    the frontend would otherwise re-interpret against the viewer's clock every time
+    the page loads, making jobs look freshly posted no matter how old they are.
+    Resolve it to a fixed absolute timestamp at scrape time instead."""
+    if not text:
+        return ""
+    t = text.strip().lower()
+    if t in ("today", "just posted", "posted today"):
+        return now.strftime("%Y-%m-%d")
+    if t == "yesterday":
+        return (now - timedelta(days=1)).strftime("%Y-%m-%d")
+    m = _REL_RE.search(t)
+    if not m:
+        return text
+    n = 1 if m.group(1) in ("a", "an") else int(m.group(1))
+    unit = m.group(2)
+    delta = {
+        "minute": timedelta(minutes=n),
+        "hour": timedelta(hours=n),
+        "day": timedelta(days=n),
+        "week": timedelta(weeks=n),
+        "month": timedelta(days=n * 30),
+    }[unit]
+    return (now - delta).strftime("%Y-%m-%d")
 
 
 async def _get_total_jobs(page: Page) -> int:
@@ -49,6 +80,7 @@ async def _extract_jobs_from_dom(page: Page) -> list[dict]:
 
 async def scrape() -> list[dict]:
     all_jobs: list[dict] = []
+    scrape_time = datetime.now(timezone.utc)
 
     async with async_playwright() as pw:
         browser = await pw.chromium.launch(headless=True)
@@ -87,6 +119,9 @@ async def scrape() -> list[dict]:
             if not jobs:
                 print(f"[microsoft] Page {page_num}: 0 jobs extracted, stopping")
                 break
+
+            for j in jobs:
+                j["posted_date"] = _relative_to_iso(j["posted_date"], scrape_time)
 
             all_jobs.extend(jobs)
             print(f"[microsoft] Page {page_num}/{total_pages}: {len(jobs)} jobs (total {len(all_jobs)})")
