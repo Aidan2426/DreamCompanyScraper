@@ -403,18 +403,6 @@ html = f"""<!DOCTYPE html>
       background: var(--bg); color: var(--near-black); min-height: 100vh;
     }}
 
-    /* ── Nav ── */
-    nav {{
-      position: sticky; top: 0; z-index: 100;
-      height: 52px; display: flex; align-items: center; justify-content: space-between;
-      padding: 0 28px;
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid #d2d2d7;
-    }}
-    .nav-brand {{ font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }}
-    .nav-meta  {{ font-size: 13px; color: var(--muted); }}
-
     /* ── Hero ── */
     .hero {{
       background: #000; color: #fff;
@@ -429,7 +417,7 @@ html = f"""<!DOCTYPE html>
 
     /* ── Controls ── */
     .controls-bar {{
-      position: sticky; top: 52px; z-index: 90;
+      position: sticky; top: 0; z-index: 90;
       background: #0e0e10;
       border-bottom: 1px solid rgba(255,255,255,0.07);
       padding: 14px 24px 12px;
@@ -766,11 +754,6 @@ html = f"""<!DOCTYPE html>
   </style>
 </head>
 <body>
-
-<nav>
-  <span class="nav-brand">⭐ Dream Companies</span>
-  <span class="nav-meta" id="nav-meta">{len(jobs)} jobs · {new_count} new today</span>
-</nav>
 
 <div class="hero">
   <p>{len(jobs):,} jobs tracked{' · ' + str(new_count) + ' new today' if new_count else ''}{' · Updated ' + scraped_at if scraped_at else ''}</p>
