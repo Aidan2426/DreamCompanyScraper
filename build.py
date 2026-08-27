@@ -979,6 +979,9 @@ function scoreJob(j) {{
   // IT / DevOps / Cloud / Infra / Systems / Network / Database / Help Desk
   if (/\\b(information[\\s-]*tech|\\bit\\b|devops|cloud|platform|\\bsre\\b|infrastructure|systems?[\\s-]*(admin(istrator)?|engineer|analyst)|network[\\s-]*(engineer|admin(istrator)?|architect|analyst|specialist|tech)|database[\\s-]*(admin(istrator)?|engineer|developer|analyst|architect)|help[\\s-]*desk|it[\\s-]*support|technical[\\s-]*support|service[\\s-]*desk|site[\\s-]*reliability)\\b/.test(title)) s += 28;
 
+  // ServiceNow developer/admin — doesn't match the generic "software developer" pattern above
+  if (/\\bservicenow\\b/.test(title) || /\\bservicenow\\b/.test(team)) s += 30;
+
   // Cybersecurity (security engineer/analyst — NOT officer/guard, blocked above)
   if (/\\b(cyber(security)?|security[\\s-]*(engineer|analyst|architect|specialist|consultant)|application[\\s-]*security|pen[\\s-]*test(er|ing)?|penetration[\\s-]*test|soc[\\s-]*analyst|incident[\\s-]*response|threat[\\s-]*(intel|analyst)|vulnerability[\\s-]*(analyst|engineer)|information[\\s-]*security)\\b/.test(title)) s += 28;
 

@@ -45,11 +45,27 @@ async def scrape() -> list[dict]:
 
         _collect(res.get("searchResults") or [], jobs, seen)
 
+        empty_streak = 0
         for page in range(2, total_pages + 1):
             payload = {**PAYLOAD_BASE, "page": page}
-            r = await session.post(API_URL, json=payload, headers=HEADERS, timeout=30)
-            r.raise_for_status()
-            results = r.json().get("res", {}).get("searchResults") or []
+            results = None
+            for attempt in range(3):
+                try:
+                    r = await session.post(API_URL, json=payload, headers=HEADERS, timeout=30)
+                    r.raise_for_status()
+                    results = r.json().get("res", {}).get("searchResults") or []
+                    break
+                except Exception as e:
+                    print(f"[apple] page {page} attempt {attempt + 1} failed: {e}")
+            if results is None:
+                # This page never came back after retries — skip it rather than
+                # aborting the whole scrape and losing every page collected so far.
+                empty_streak += 1
+                if empty_streak >= 5:
+                    print(f"[apple] {empty_streak} consecutive failed pages, stopping")
+                    break
+                continue
+            empty_streak = 0
             if not results:
                 break
             _collect(results, jobs, seen)

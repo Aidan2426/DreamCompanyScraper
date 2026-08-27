@@ -75,12 +75,23 @@ def scrape() -> list[dict]:
         offset = 0
         total_pages = None
         page = 1
+        fail_streak = 0
 
         while True:
             payload = {**BASE_PAYLOAD, "size": PAGE_SIZE, "from": offset}
-            r = client.post(API_URL, json=payload)
-            r.raise_for_status()
-            data = r.json()
+            try:
+                r = client.post(API_URL, json=payload)
+                r.raise_for_status()
+                data = r.json()
+            except Exception as e:
+                fail_streak += 1
+                print(f"[ibm] Page {page} failed: {e}")
+                if fail_streak >= 3:
+                    print(f"[ibm] {fail_streak} consecutive failed pages, stopping")
+                    break
+                time.sleep(1)
+                continue
+            fail_streak = 0
 
             jobs, total = _parse_response(data)
 
