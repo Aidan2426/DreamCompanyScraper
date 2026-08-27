@@ -308,7 +308,7 @@ def _extract_job_us_cities(jobs):
                     counts[key] = counts.get(key, 0) + 1
     return counts
 
-def _geocode_cities(city_counts, cache_file='city_coords.json'):
+def _geocode_cities(city_counts, cache_file='city_coords.json', max_new=150):
     cache = {}
     if os.path.exists(cache_file):
         with open(cache_file, encoding='utf-8') as f:
@@ -316,7 +316,9 @@ def _geocode_cities(city_counts, cache_file='city_coords.json'):
                 cache = json.load(f)
             except Exception:
                 pass
-    to_geocode = [c for c in city_counts if c not in cache]
+    all_new = [c for c in city_counts if c not in cache]
+    to_geocode = all_new[:max_new]
+    deferred = len(all_new) - len(to_geocode)
     if to_geocode:
         print(f"Geocoding {len(to_geocode)} new cities...")
         for i, city in enumerate(to_geocode):
@@ -344,6 +346,8 @@ def _geocode_cities(city_counts, cache_file='city_coords.json'):
             json.dump(cache, f, ensure_ascii=False, indent=2)
         resolved = sum(1 for v in cache.values() if v)
         print(f"Geocoding done — {resolved} cities resolved.")
+    if deferred:
+        print(f"{deferred} new cities deferred to next run (max_new={max_new} cap).")
     return {k: v for k, v in cache.items() if v is not None}
 
 jobs_data = {"scraped_at": "", "jobs": []}
@@ -363,18 +367,12 @@ experiences = sorted({
 
 city_counts  = _extract_job_us_cities(jobs)
 city_counts  = {c: n for c, n in city_counts.items() if n >= 2}
-# Avoid live geocoding during builds (rate limits cause slow/failed builds).
-# Prefer using a cached city_coords.json when available so the page can be
-# regenerated quickly. If the cache is missing, skip geocoding and continue
-# with an empty coords mapping.
-if os.path.exists('city_coords.json'):
-  try:
-    with open('city_coords.json', 'r', encoding='utf-8') as f:
-      city_coords = json.load(f)
-  except Exception:
-    city_coords = {}
-else:
-  city_coords = {}
+# Geocode at most MAX_NEW_GEOCODE new cities per build (bounded to ~3min at
+# 1.1s/call) so a large backlog of unresolved cities can't blow the CI job's
+# timeout. Any cities beyond the cap stay uncached and get picked up on a
+# later run once this file's results are committed back to the repo.
+MAX_NEW_GEOCODE = 150
+city_coords = _geocode_cities(city_counts, max_new=MAX_NEW_GEOCODE)
 
 jobs_json         = json.dumps(jobs,         ensure_ascii=False)
 teams_json        = json.dumps(teams,        ensure_ascii=False)
