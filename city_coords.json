@@ -9399,5 +9399,400 @@
   "Lewis Center, OH": {
     "lat": 40.1983958,
     "lon": -83.0101843
+  },
+  "Chesapeake Beach, MD": {
+    "lat": 38.6941057,
+    "lon": -76.533788
+  },
+  "EVERETT, WA": {
+    "lat": 47.9793437,
+    "lon": -122.2127011
+  },
+  "Ottumwa, IA": {
+    "lat": 41.0195659,
+    "lon": -92.4116886
+  },
+  "Richmond, CA": {
+    "lat": 37.9357576,
+    "lon": -122.347748
+  },
+  "West View, PA": {
+    "lat": 40.5222907,
+    "lon": -80.0342217
+  },
+  "NORTH JACKSON, OH": {
+    "lat": 41.1001272,
+    "lon": -80.8571741
+  },
+  "Imlay City, MI": {
+    "lat": 43.0247496,
+    "lon": -83.0777153
+  },
+  "Baden, PA": {
+    "lat": 40.6350668,
+    "lon": -80.2281159
+  },
+  "Grindstone, PA": {
+    "lat": 40.0180901,
+    "lon": -79.8293175
+  },
+  "Oak Brook, IL": {
+    "lat": 41.8327126,
+    "lon": -87.9484125
+  },
+  "Oneonta, NY": {
+    "lat": 42.453492,
+    "lon": -75.0629531
+  },
+  "Remote, OR": {
+    "lat": 43.0059455,
+    "lon": -123.8925908
+  },
+  "Erie, CO": {
+    "lat": 40.0502623,
+    "lon": -105.049981
+  },
+  "Redstone Arsenal, AL": {
+    "lat": 34.6297568,
+    "lon": -86.6535802
+  },
+  "Gustavus, AK": {
+    "lat": 58.412415,
+    "lon": -135.7307843
+  },
+  "Nicodemus, KS": {
+    "lat": 39.3925947,
+    "lon": -99.6178816
+  },
+  "FAIRBANKS, AK": {
+    "lat": 64.837845,
+    "lon": -147.716675
+  },
+  "Hawaii National Park, HI": {
+    "lat": 19.2608312,
+    "lon": -155.3578662
+  },
+  "Gonzales, LA": {
+    "lat": 30.2385294,
+    "lon": -90.9200987
+  },
+  "Niles, MI": {
+    "lat": 41.8297694,
+    "lon": -86.2541768
+  },
+  "Millburn, NJ": {
+    "lat": 40.7244443,
+    "lon": -74.3069069
+  },
+  "Kodiak, AK": {
+    "lat": 57.7901661,
+    "lon": -152.4067073
+  },
+  "Clinton Township, MI": {
+    "lat": 42.5869782,
+    "lon": -82.9200047
+  },
+  "Jonesboro, AR": {
+    "lat": 35.8348088,
+    "lon": -90.7045297
+  },
+  "Mount Airy, MD": {
+    "lat": 39.3765918,
+    "lon": -77.1549078
+  },
+  "Manatí, PR": {
+    "lat": 18.4182467,
+    "lon": -66.49178
+  },
+  "Hoboken, NJ": {
+    "lat": 40.7433066,
+    "lon": -74.0323752
+  },
+  "Auburn, IN": {
+    "lat": 41.3669902,
+    "lon": -85.0588632
+  },
+  "Pellston, MI": {
+    "lat": 45.552789,
+    "lon": -84.783936
+  },
+  "5554 Springfield, VA": {
+    "lat": 37.6734638,
+    "lon": -77.5505658
+  },
+  "Evergreen, CO": {
+    "lat": 39.6361637,
+    "lon": -105.321458
+  },
+  "Camp Verde, AZ": {
+    "lat": 34.5636358,
+    "lon": -111.854317
+  },
+  "Natchitoches, LA": {
+    "lat": 31.7606732,
+    "lon": -93.0860209
+  },
+  "Talladega, AL": {
+    "lat": 33.3967079,
+    "lon": -86.1597137
+  },
+  "Woodside, NY": {
+    "lat": 40.7453798,
+    "lon": -73.9054145
+  },
+  "Tamuning, GU": {
+    "lat": 13.4966854,
+    "lon": 144.7772156
+  },
+  "Remote -, CO": {
+    "lat": 43.0059455,
+    "lon": -123.8925908
+  },
+  "United States, CO": {
+    "lat": 30.6972412,
+    "lon": -88.1892334
+  },
+  "Wood Dale, IL": {
+    "lat": 41.9633625,
+    "lon": -87.9789562
+  },
+  "Hillsborough, NC": {
+    "lat": 36.075382,
+    "lon": -79.0993958
+  },
+  "St Paul, MN": {
+    "lat": 44.9497487,
+    "lon": -93.0931028
+  },
+  "Kankakee, IL": {
+    "lat": 41.1253903,
+    "lon": -87.848682
+  },
+  "Daviston, AL": {
+    "lat": 33.0528992,
+    "lon": -85.6396783
+  },
+  "West Seneca, NY": {
+    "lat": 42.8395833,
+    "lon": -78.7541466
+  },
+  "New Jersey, CA": {
+    "lat": 34.125647,
+    "lon": -117.4813101
+  },
+  "Lithia Springs, GA": {
+    "lat": 33.7797505,
+    "lon": -84.6506401
+  },
+  "Edinburg, TX": {
+    "lat": 26.3013982,
+    "lon": -98.1624501
+  },
+  "Church Creek, MD": {
+    "lat": 38.5021645,
+    "lon": -76.1520946
+  },
+  "JUNEAU, AK": {
+    "lat": 58.3019613,
+    "lon": -134.4196751
+  },
+  "Kerrville, TX": {
+    "lat": 30.048469,
+    "lon": -99.1399464
+  },
+  "Home Office (INHOME), IN": null,
+  "Casablanca, MA": {
+    "lat": 37.978869,
+    "lon": -110.4878813
+  },
+  "Hereford, AZ": {
+    "lat": 31.4384325,
+    "lon": -110.0978554
+  },
+  "Lackland AFB, TX": {
+    "lat": 29.3862862,
+    "lon": -98.6009001
+  },
+  "Perris, CA": {
+    "lat": 33.7818729,
+    "lon": -117.2298477
+  },
+  "Robinson Township, PA": {
+    "lat": 40.417815,
+    "lon": -80.3168748
+  },
+  "New York, CO": {
+    "lat": 36.9889428,
+    "lon": -88.9525629
+  },
+  "East Elmhurst, NY": {
+    "lat": 40.7612123,
+    "lon": -73.8651358
+  },
+  "PHOENIXVILLE, PA": {
+    "lat": 40.1338784,
+    "lon": -75.5172827
+  },
+  "USA - Fairburn (Coates Drive), DC": null,
+  "F E Warren Air Force Base, WY": {
+    "lat": 41.1663407,
+    "lon": -104.8627525
+  },
+  "Oakland, AZ": {
+    "lat": 34.3654306,
+    "lon": -109.7404795
+  },
+  "Bolingbrook, IL": {
+    "lat": 41.7003302,
+    "lon": -88.0717708
+  },
+  "Breckenridge, CO": {
+    "lat": 39.4829124,
+    "lon": -106.0465486
+  },
+  "East Liverpool, OH": {
+    "lat": 40.6186756,
+    "lon": -80.5772928
+  },
+  "Ooltewah, TN": {
+    "lat": 35.0522068,
+    "lon": -85.102658
+  },
+  "Solomons, MD": {
+    "lat": 38.3350368,
+    "lon": -76.4625722
+  },
+  "Wilmington, OH": {
+    "lat": 39.4453393,
+    "lon": -83.8285375
+  },
+  "East Norriton, PA": {
+    "lat": 40.1515458,
+    "lon": -75.3369496
+  },
+  "Dunn, NC": {
+    "lat": 35.3076902,
+    "lon": -78.6093257
+  },
+  "Nashville, NC": {
+    "lat": 35.974598,
+    "lon": -77.9655406
+  },
+  "Greenwood Village, CO": {
+    "lat": 39.6172101,
+    "lon": -104.950814
+  },
+  "Zürich, CA": {
+    "lat": 37.1823219,
+    "lon": -118.2601029
+  },
+  "Marble Falls, TX": {
+    "lat": 30.5777511,
+    "lon": -98.2756505
+  },
+  "Sparta, NJ": {
+    "lat": 41.0401567,
+    "lon": -74.6310081
+  },
+  "Valley Stream, NY": {
+    "lat": 40.6631362,
+    "lon": -73.7056955
+  },
+  "Morganton, NC": {
+    "lat": 35.7454291,
+    "lon": -81.6870837
+  },
+  "Hadley, MA": {
+    "lat": 42.3423259,
+    "lon": -72.5891221
+  },
+  "Millbury, MA": {
+    "lat": 42.1913817,
+    "lon": -71.7603934
+  },
+  "Frankfort, KY": {
+    "lat": 38.2009055,
+    "lon": -84.8732836
+  },
+  "Medford, MA": {
+    "lat": 42.4184296,
+    "lon": -71.1061639
+  },
+  "Lewistown, PA": {
+    "lat": 40.5992395,
+    "lon": -77.571382
+  },
+  "Estes Park, CO": {
+    "lat": 40.3771926,
+    "lon": -105.523216
+  },
+  "Nottingham, MD": {
+    "lat": 39.3639964,
+    "lon": -76.4521842
+  },
+  "LITTLE ROCK, AR": {
+    "lat": 34.7465071,
+    "lon": -92.2896267
+  },
+  "Carson City, NV": {
+    "lat": 39.1663259,
+    "lon": -119.7670374
+  },
+  "Elko, NV": {
+    "lat": 41.1958128,
+    "lon": -115.3272864
+  },
+  "Jefferson City, MO": {
+    "lat": 38.577359,
+    "lon": -92.1724265
+  },
+  "Bayonne, NJ": {
+    "lat": 40.6687141,
+    "lon": -74.1143091
+  },
+  "US - Los Angeles, CA": {
+    "lat": 34.0745997,
+    "lon": -118.0534304
+  },
+  "Federal Way, WA": {
+    "lat": 47.313494,
+    "lon": -122.33931
+  },
+  "La Jolla, CA": {
+    "lat": 32.8458529,
+    "lon": -117.2575702
+  },
+  "Swissvale, PA": {
+    "lat": 40.4236801,
+    "lon": -79.8828275
+  },
+  "Enid, OK": {
+    "lat": 36.3967623,
+    "lon": -97.8791341
+  },
+  "Klamath Falls, OR": {
+    "lat": 42.224867,
+    "lon": -121.78167
+  },
+  "Montrose, CO": {
+    "lat": 38.4375391,
+    "lon": -108.2403855
+  },
+  "Kaneohe, HI": {
+    "lat": 21.418555,
+    "lon": -157.804184
+  },
+  "Scott Air Force Base, IL": {
+    "lat": 38.543839,
+    "lon": -89.8527741
+  },
+  "All Cities, DC": null,
+  "Remote, MI": {
+    "lat": 42.6920575,
+    "lon": -85.8174976
+  },
+  "Fellows, CA": {
+    "lat": 35.178418,
+    "lon": -119.5461256
   }
 }
