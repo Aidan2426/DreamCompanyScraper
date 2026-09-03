@@ -9930,5 +9930,70 @@
   "Trussville, AL": {
     "lat": 33.6196266,
     "lon": -86.6084342
+  },
+  "Manteo, NC": {
+    "lat": 35.9082257,
+    "lon": -75.6757303
+  },
+  "Ukiah, CA": {
+    "lat": 39.1501662,
+    "lon": -123.2077861
+  },
+  "NEWTON, NC": {
+    "lat": 35.6630887,
+    "lon": -81.2219363
+  },
+  "Mt Pleasant, PA": {
+    "lat": 40.1487475,
+    "lon": -79.5421368
+  },
+  "Watertown, CT": {
+    "lat": 41.6062078,
+    "lon": -73.1181658
+  },
+  "Randolph AFB, TX": {
+    "lat": 29.5285568,
+    "lon": -98.2792383
+  },
+  "Van Buren, MO": {
+    "lat": 36.9956066,
+    "lon": -91.0145714
+  },
+  "Nabburg Steel, DE": null,
+  "Remote, NC": {
+    "lat": 43.0059455,
+    "lon": -123.8925908
+  },
+  "MONTGOMERY, AL": {
+    "lat": 32.3777111,
+    "lon": -86.3090775
+  },
+  "BISMARCK, ND": {
+    "lat": 46.808327,
+    "lon": -100.783739
+  },
+  "Dickinson, ND": {
+    "lat": 46.8791756,
+    "lon": -102.7896242
+  },
+  "Evanston, WY": {
+    "lat": 41.2682462,
+    "lon": -110.963758
+  },
+  "Strafford, MO": {
+    "lat": 37.2683803,
+    "lon": -93.1171264
+  },
+  "Palmetto, FL": {
+    "lat": 27.5214269,
+    "lon": -82.5723193
+  },
+  "Brookfield, OH": {
+    "lat": 41.2342009,
+    "lon": -80.5680159
+  },
+  "Midwest City, OK": {
+    "lat": 35.4495097,
+    "lon": -97.3967025
   }
 }
