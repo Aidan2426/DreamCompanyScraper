@@ -9995,5 +9995,68 @@
   "Midwest City, OK": {
     "lat": 35.4495097,
     "lon": -97.3967025
+  },
+  "BHUBANESWAR, IN": null,
+  "88 Kearny St Floor 19 San Francisco, CA": null,
+  "Napoleonville, LA": {
+    "lat": 29.9404803,
+    "lon": -91.0248214
+  },
+  "SUN VALLEY, CA": {
+    "lat": 34.2204227,
+    "lon": -118.3878945
+  },
+  "Southaven, TN": {
+    "lat": 36.5674781,
+    "lon": -87.4117559
+  },
+  "HAYWARD, CA": {
+    "lat": 37.6688205,
+    "lon": -122.080796
+  },
+  "NORTH CANTON, OH": {
+    "lat": 40.875891,
+    "lon": -81.4023356
+  },
+  "HARRISON, AR": {
+    "lat": 36.2297936,
+    "lon": -93.1076765
+  },
+  "LAFAYETTE, IN": {
+    "lat": 40.4191229,
+    "lon": -86.8919011
+  },
+  "Pomona, CA": {
+    "lat": 34.0553813,
+    "lon": -117.7517496
+  },
+  "New Hyde Park, NY": {
+    "lat": 40.7352157,
+    "lon": -73.6883239
+  },
+  "Boston, MO": {
+    "lat": 37.4128284,
+    "lon": -94.2818919
+  },
+  "Lacey, WA": {
+    "lat": 47.0263876,
+    "lon": -122.8072257
+  },
+  "Mytle Beach, SC": null,
+  "Weatherford, OK": {
+    "lat": 35.5261633,
+    "lon": -98.7075744
+  },
+  "Ft. Lauderdale, FL": {
+    "lat": 26.1223084,
+    "lon": -80.1433786
+  },
+  "IE, CO": {
+    "lat": 39.1368465,
+    "lon": -108.135611
+  },
+  "Merritt Island, FL": {
+    "lat": 28.2662775,
+    "lon": -80.6636984
   }
 }
