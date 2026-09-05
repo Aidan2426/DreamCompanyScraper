@@ -10058,5 +10058,110 @@
   "Merritt Island, FL": {
     "lat": 28.2662775,
     "lon": -80.6636984
+  },
+  "Town and Country, MO": {
+    "lat": 38.6122751,
+    "lon": -90.4634532
+  },
+  "SAN LUIS OBISPO, CA": {
+    "lat": 35.3540209,
+    "lon": -120.375716
+  },
+  "GUAYNABO, PR": {
+    "lat": 18.3591596,
+    "lon": -66.1156802
+  },
+  "ROCKFORD, IL": {
+    "lat": 42.2713945,
+    "lon": -89.093966
+  },
+  "Hays, KS": {
+    "lat": 38.8709984,
+    "lon": -99.3311525
+  },
+  "COUNCIL BLUFFS, IA": {
+    "lat": 41.258841,
+    "lon": -95.8519484
+  },
+  "Norfolk, NE": {
+    "lat": 42.0283379,
+    "lon": -97.4169964
+  },
+  "PONDERAY, ID": {
+    "lat": 48.3054806,
+    "lon": -116.533803
+  },
+  "RIGBY, ID": {
+    "lat": 43.6722397,
+    "lon": -111.9148632
+  },
+  "Cookeville, TN": {
+    "lat": 36.1623886,
+    "lon": -85.4997057
+  },
+  "QUINCY, IL": {
+    "lat": 39.9356016,
+    "lon": -91.4098727
+  },
+  "EAU CLAIRE, WI": {
+    "lat": 44.811349,
+    "lon": -91.4984941
+  },
+  "MANITOWOC, WI": {
+    "lat": 44.0998341,
+    "lon": -87.827992
+  },
+  "LA Grange, IL": {
+    "lat": 41.81483,
+    "lon": -87.8735662
+  },
+  "EUGENE, OR": {
+    "lat": 44.0505054,
+    "lon": -123.0950506
+  },
+  "Rolla, MO": {
+    "lat": 37.9509324,
+    "lon": -91.7708076
+  },
+  "Clio, MI": {
+    "lat": 43.1774215,
+    "lon": -83.7346897
+  },
+  "Jackson, OH": {
+    "lat": 39.0131871,
+    "lon": -82.6089043
+  },
+  "Lithia, FL": {
+    "lat": 27.8662898,
+    "lon": -82.2305513
+  },
+  "Kirkwood, MO": {
+    "lat": 38.5800713,
+    "lon": -90.4069177
+  },
+  "Centreville, VA": {
+    "lat": 38.837613,
+    "lon": -77.4347283
+  },
+  "Carbondale, CO": {
+    "lat": 39.4005647,
+    "lon": -107.2112407
+  },
+  "Abingdon, MD": {
+    "lat": 39.4636817,
+    "lon": -76.2727147
+  },
+  "Lower Burrell, PA": {
+    "lat": 40.5882821,
+    "lon": -79.7298187
+  },
+  "Milwaukie, OR": {
+    "lat": 45.4440051,
+    "lon": -122.6412523
+  },
+  "Home Office (NYHOME), NY": null,
+  "Northport, AL": {
+    "lat": 33.2292976,
+    "lon": -87.5771286
   }
 }
