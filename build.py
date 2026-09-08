@@ -624,7 +624,7 @@ html = f"""<!DOCTYPE html>
     .tag-exp   {{ background: #fef3e2; border-color: #fcd58a; color: #7a4800; }}
     .tag-loc   {{ background: #f5f5f7; }}
 
-    .card-date {{ font-size: 12px; color: #8e8e93; margin-top: auto; }}
+    .card-date {{ font-size: 12px; color: #8e8e93; }}
     .card-date span {{ cursor: default; border-bottom: 1px dashed #c7c7cc; }}
     .card-hide-btn {{
       background: none; border: none; cursor: pointer; padding: 2px 3px;
@@ -656,19 +656,17 @@ html = f"""<!DOCTYPE html>
     .page-btn.active {{ background: var(--blue); border-color: var(--blue); color: #fff; }}
     .page-label {{ font-size: 13px; color: var(--muted); padding: 0 6px; }}
 
-    .card-save-btn {{
+    .card-bottom {{
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      margin-top: auto;
+    }}
+    .card-star-btn {{
       background: none; border: none; cursor: pointer; padding: 2px 4px;
-      font-size: 15px; color: rgba(255,255,255,0.45); line-height: 1;
+      font-size: 17px; color: rgba(0,0,0,0.2); line-height: 1;
       transition: color 0.15s, transform 0.15s; flex-shrink: 0;
     }}
-    .card-save-btn:hover {{ color: #ff6b8a; transform: scale(1.2); }}
-    .card-save-btn.saved {{ color: #ff6b8a; }}
-    .pill-saved {{ position: relative; }}
-    .pill-saved-count {{
-      position: absolute; top: -6px; right: -6px;
-      background: #34c759; color: #fff; border-radius: 8px;
-      font-size: 10px; font-weight: 700; padding: 1px 5px; min-width: 16px; text-align: center;
-    }}
+    .card-star-btn:hover {{ color: #ff9f0a; transform: scale(1.2); }}
+    .card-star-btn.saved {{ color: #ff9f0a; }}
     .pill-fav {{ position: relative; }}
     .pill-fav-count {{
       position: absolute; top: -6px; right: -6px;
@@ -767,7 +765,6 @@ html = f"""<!DOCTYPE html>
   <div class="filter-strip">
     <button class="pill active" data-new="all">All</button>
     <button class="pill" data-new="new">✦ New</button>
-    <button class="pill pill-saved" id="pill-saved" data-new="saved" style="display:none">♥ Saved<span class="pill-saved-count" id="saved-count">0</span></button>
     <button class="pill pill-fav" id="pill-fav">⭐ My Companies<span class="pill-fav-count" id="fav-count" style="display:none">0</span></button>
     <button class="pill pill-fav-cities" id="pill-fav-cities">🏙 My Cities<span class="pill-fav-cities-count" id="fav-cities-count" style="display:none">0</span></button>
     <div class="fsep"></div>
@@ -800,6 +797,7 @@ html = f"""<!DOCTYPE html>
     <div class="fsep"></div>
     <button class="pill active" data-sort="newest">Newest</button>
     <button class="pill" data-sort="foryou">✦ For You</button>
+    <button class="pill" data-sort="saved">★ Saved</button>
     <div class="fsep"></div>
     <button class="pill" id="export-btn">⬇ CSV</button>
     <button class="pill" id="stats-btn">📊 Stats</button>
@@ -1145,9 +1143,11 @@ const cityDrop    = makeDropdown('cs-city',    ()=>Object.keys(CITY_COORDS).sort
 const state = {{ q:'', newOnly:false, savedOnly:false, favOnly:false, favCitiesOnly:false, sort:'newest' }};
 
 // ── Saved jobs storage ──
-function getSaved()     {{ return new Set(JSON.parse(localStorage.getItem('swipe_saved')     || '[]')); }}
-function getDiscarded() {{ return new Set(JSON.parse(localStorage.getItem('swipe_discarded') || '[]')); }}
-function addSaved(id)     {{ const s=[...getSaved()];     if(!s.includes(id)) s.push(id); localStorage.setItem('swipe_saved',JSON.stringify(s));     updateSavedPill(); }}
+function getSavedList()   {{ return JSON.parse(localStorage.getItem('swipe_saved') || '[]'); }}
+function getSaved()       {{ return new Set(getSavedList()); }}
+function getDiscarded()   {{ return new Set(JSON.parse(localStorage.getItem('swipe_discarded') || '[]')); }}
+function addSaved(id)     {{ const s=getSavedList().filter(x=>x!==id); s.push(id); localStorage.setItem('swipe_saved',JSON.stringify(s)); }}
+function removeSaved(id)  {{ const s=getSavedList().filter(x=>x!==id); localStorage.setItem('swipe_saved',JSON.stringify(s)); }}
 function addDiscarded(id) {{ const s=[...getDiscarded()]; if(!s.includes(id)) s.push(id); localStorage.setItem('swipe_discarded',JSON.stringify(s)); }}
 
 // ── Favorite companies storage ──
@@ -1204,24 +1204,17 @@ function updateHiddenCount() {{
   }}
 }}
 
-function updateSavedPill() {{
-  const n = getSaved().size;
-  const pill = document.getElementById('pill-saved');
-  const cnt  = document.getElementById('saved-count');
-  pill.style.display = n > 0 ? '' : 'none';
-  cnt.textContent = n;
-}}
-
 const HIDDEN_TITLES = /\b(retail\s+sales|sales\s+associate|cashier|store\s+(manager|associate|leader|supervisor)|sales\s+rep(resentative)?|retail\s+associate|floor\s+(associate|supervisor)|merchandise|barista|bank\s+teller|teller\b|park\s+ranger|trail\s+crew|visitor\s+services|law\s+enforcement\s+ranger)\b/i;
 
 function filtered() {{
-  const _discarded = state.savedOnly ? new Set() : getDiscarded();
+  const _savedOnly = state.sort === 'saved';
+  const _discarded = _savedOnly ? new Set() : getDiscarded();
   return JOBS.filter(j => {{
     if (HIDDEN_TITLES.test(j.title)) return false;
     if (_discarded.has(j.role_id))                                          return false;
     if (state.q              && !j.title.toLowerCase().includes(state.q) && !(j.company||'').toLowerCase().includes(state.q)) return false;
     if (state.newOnly        && !j.is_new)                                 return false;
-    if (state.savedOnly      && !getSaved().has(j.role_id))               return false;
+    if (_savedOnly            && !getSaved().has(j.role_id))               return false;
     if (state.favOnly        && !getFavs().has(j.company))                return false;
     if (state.favCitiesOnly) {{
       const fc = getFavCities();
@@ -1280,24 +1273,18 @@ function parseDate(str) {{
   return d.getTime() > Date.now() ? 0 : d.getTime();
 }}
 
-function timeAgo(ts) {{
+function fmtDate(ts) {{
   if (!ts) return null;
-  const diff = Date.now() - ts;
-  if (diff < 0) return null;
-  const m = Math.floor(diff / 60000);
-  if (m < 2)  return 'just now';
-  if (m < 60) return m + 'm ago';
-  const h = Math.floor(m / 60);
-  if (h < 24) return h + 'h ago';
-  const d = Math.floor(h / 24);
-  if (d < 7)  return d + 'd ago';
-  const w = Math.floor(d / 7);
-  if (w < 5)  return w + 'w ago';
-  return Math.floor(d / 30) + 'mo ago';
+  const d = new Date(ts);
+  return (d.getMonth() + 1) + '/' + d.getDate();
 }}
 
 function sorted(arr) {{
   if (state.sort === 'title')  return [...arr].sort((a,b)=>a.title.localeCompare(b.title));
+  if (state.sort === 'saved') {{
+    const order = getSavedList();
+    return [...arr].sort((a,b) => order.indexOf(b.role_id) - order.indexOf(a.role_id));
+  }}
   if (state.sort === 'foryou') return [...arr].sort((a,b) => {{
     const ta = parseDate(a.posted_date) || parseDate(a.first_seen);
     const tb = parseDate(b.posted_date) || parseDate(b.first_seen);
@@ -1387,8 +1374,8 @@ function renderPage(list) {{
     const _postTs = parseDate(j.posted_date);
     const _seenTs = parseDate(j.first_seen);
     const _dateStr = j.posted_date
-      ? `Posted <span title="${{j.posted_date}}">${{timeAgo(_postTs) || j.posted_date}}</span>`
-      : `First seen <span title="${{j.first_seen}}">${{timeAgo(_seenTs) || j.first_seen}}</span>`;
+      ? `Posted <span title="${{j.posted_date}}">${{fmtDate(_postTs) || j.posted_date}}</span>`
+      : `First seen <span title="${{j.first_seen}}">${{fmtDate(_seenTs) || j.first_seen}}</span>`;
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
