@@ -456,5 +456,3 @@ All 9 items complete. Changes in `build.py`:
 
 10. **City favorites** (stretch goal): Mirror "My Companies" pattern for cities with `fav_cities` localStorage key. Can defer to later session.
 
-
-

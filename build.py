@@ -1140,7 +1140,7 @@ const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,                       
 const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES,                     null,        false);
 const cityDrop    = makeDropdown('cs-city',    ()=>Object.keys(CITY_COORDS).sort(), null,        false, {{isFav:isFavCity,toggle:city=>{{toggleFavCity(city);if(state.favCitiesOnly)render();}}}});
 
-const state = {{ q:'', newOnly:false, savedOnly:false, favOnly:false, favCitiesOnly:false, sort:'newest' }};
+const state = {{ q:'', newOnly:false, favOnly:false, favCitiesOnly:false, sort:'newest' }};
 
 // ── Saved jobs storage ──
 function getSavedList()   {{ return JSON.parse(localStorage.getItem('swipe_saved') || '[]'); }}
@@ -1385,7 +1385,6 @@ function renderPage(list) {{
         <div class="card-top-right">
           ${{(()=>{{const pts=parseDate(j.posted_date);const rec=!j.posted_date||(pts>0&&(Date.now()-pts)<14*86400*1000);return j.is_new&&rec?'<span class="new-badge">NEW</span>':'';}})()}}
           ${{sc >= 0 ? `<span class="match-badge" style="background:${{matchColor}}">${{sc}}%</span>` : ''}}
-          <button class="card-save-btn${{isSaved ? ' saved' : ''}}" title="${{isSaved ? 'Unsave' : 'Save'}}">♥</button>
           <button class="card-hide-btn" title="Hide this job">✕</button>
         </div>
       </div>
@@ -1395,24 +1394,26 @@ function renderPage(list) {{
         ${{j.experience ? `<span class="tag tag-exp">${{j.experience}}</span>` : ''}}
         ${{j.location   ? `<span class="tag tag-loc">📍 ${{j.location}}</span>` : ''}}
       </div>
-      <div class="card-date">${{_dateStr}}</div>
+      <div class="card-bottom">
+        <div class="card-date">${{_dateStr}}</div>
+        <button class="card-star-btn${{isSaved ? ' saved' : ''}}" title="${{isSaved ? 'Remove from Saved' : 'Save'}}">${{isSaved ? '★' : '☆'}}</button>
+      </div>
     `;
-    card.querySelector('.card-save-btn').addEventListener('click', e => {{
+    card.querySelector('.card-star-btn').addEventListener('click', e => {{
       e.stopPropagation();
-      const saved = getSaved();
       const btn = e.currentTarget;
-      if (saved.has(j.role_id)) {{
-        const arr = [...saved].filter(id => id !== j.role_id);
-        localStorage.setItem('swipe_saved', JSON.stringify(arr));
+      if (getSaved().has(j.role_id)) {{
+        removeSaved(j.role_id);
         btn.classList.remove('saved');
+        btn.textContent = '☆';
         btn.title = 'Save';
       }} else {{
         addSaved(j.role_id);
         btn.classList.add('saved');
-        btn.title = 'Unsave';
+        btn.textContent = '★';
+        btn.title = 'Remove from Saved';
       }}
-      updateSavedPill();
-      if (state.savedOnly) render();
+      if (state.sort === 'saved') render();
     }});
     card.querySelector('.card-hide-btn').addEventListener('click', e => {{
       e.stopPropagation();
@@ -1452,18 +1453,6 @@ document.querySelectorAll('[data-sort]').forEach(b => b.addEventListener('click'
 
 document.getElementById('radius-miles').addEventListener('change', function() {{
   this.classList.toggle('active', !!this.value);
-  render();
-}});
-
-updateSavedPill();
-
-// ── "Saved" pill in filter strip ──
-document.getElementById('pill-saved').addEventListener('click', function() {{
-  document.querySelectorAll('[data-new]').forEach(x=>x.classList.remove('active'));
-  const wasActive = state.savedOnly;
-  state.savedOnly = !wasActive;
-  if (state.savedOnly) this.classList.add('active');
-  else {{ state.newOnly = false; document.querySelector('[data-new="all"]').classList.add('active'); }}
   render();
 }});
 
