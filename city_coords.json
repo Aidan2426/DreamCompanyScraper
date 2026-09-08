@@ -8838,5 +8838,1334 @@
   "Anaheim, FL": {
     "lat": 27.0140275,
     "lon": -82.2538306
+  },
+  "Leesville, LA": {
+    "lat": 31.1431257,
+    "lon": -93.2651126
+  },
+  "Appling, GA": {
+    "lat": 31.7771435,
+    "lon": -82.2996274
+  },
+  "Marin City, CA": {
+    "lat": 37.8678295,
+    "lon": -122.5123184
+  },
+  "FLORENCE, SC": {
+    "lat": 34.1984435,
+    "lon": -79.7671658
+  },
+  "AUGUSTA, GA": {
+    "lat": 33.4709714,
+    "lon": -81.9748429
+  },
+  "Knightdale, NC": {
+    "lat": 35.7878975,
+    "lon": -78.4822938
+  },
+  "Hyde Park, NY": {
+    "lat": 41.7841956,
+    "lon": -73.9373912
+  },
+  "United States, FL": {
+    "lat": 27.9918962,
+    "lon": -82.5218088
+  },
+  "Stonington, CT": {
+    "lat": 41.3359327,
+    "lon": -71.9059042
+  },
+  "Skagway, AK": {
+    "lat": 59.6226362,
+    "lon": -135.4094368
+  },
+  "Daleville, AL": {
+    "lat": 31.3101719,
+    "lon": -85.7129908
+  },
+  "Marshalltown, IA": {
+    "lat": 42.048881,
+    "lon": -92.9122672
+  },
+  "Mabelvale, AR": {
+    "lat": 34.6550928,
+    "lon": -92.3865432
+  },
+  "Gahanna, OH": {
+    "lat": 40.0195625,
+    "lon": -82.8791363
+  },
+  "Remote-Friendly (Travel-Required) |  Washington, DC": null,
+  "Smithfield, PA": {
+    "lat": 39.8017735,
+    "lon": -79.8106615
+  },
+  "Claycomo, MO": {
+    "lat": 39.1977626,
+    "lon": -94.5037902
+  },
+  "Bastrop, CA": {
+    "lat": 30.1104947,
+    "lon": -97.3152701
+  },
+  "West Virginia, WV": {
+    "lat": 39.6348398,
+    "lon": -79.9542095
+  },
+  "Mansfield, MA": {
+    "lat": 42.0334326,
+    "lon": -71.2189405
+  },
+  "Fort Pierce, FL": {
+    "lat": 27.4467056,
+    "lon": -80.3256056
+  },
+  "Little Elm, TX": {
+    "lat": 33.1626194,
+    "lon": -96.9375051
+  },
+  "Granger, IN": {
+    "lat": 41.735251,
+    "lon": -86.1062763
+  },
+  "Park Ridge, IL": {
+    "lat": 42.0112329,
+    "lon": -87.8406031
+  },
+  "Thurmont, MD": {
+    "lat": 39.6236095,
+    "lon": -77.4115401
+  },
+  "Rozenburg, NH": null,
+  "Verona, PA": {
+    "lat": 40.5064571,
+    "lon": -79.843105
+  },
+  "Indian Trail, NC": {
+    "lat": 35.0768141,
+    "lon": -80.6692352
+  },
+  "Masontown, PA": {
+    "lat": 39.8467433,
+    "lon": -79.8997755
+  },
+  "ATLANTA, GA": {
+    "lat": 33.7544657,
+    "lon": -84.3898151
+  },
+  "GREENSBORO, NC": {
+    "lat": 36.0726355,
+    "lon": -79.7919754
+  },
+  "Alpine, CA": {
+    "lat": 38.5893934,
+    "lon": -119.8345013
+  },
+  "Commerce, GA": {
+    "lat": 34.203997,
+    "lon": -83.4571058
+  },
+  "Smithfield, NC": {
+    "lat": 35.5111996,
+    "lon": -78.346102
+  },
+  "Tulare, CA": {
+    "lat": 36.2516475,
+    "lon": -118.852583
+  },
+  "Provo, UT": {
+    "lat": 40.2337289,
+    "lon": -111.6587085
+  },
+  "Jackson Hole, WY": {
+    "lat": 43.6087926,
+    "lon": -110.7380325
+  },
+  "North Palm Beach, FL": {
+    "lat": 26.8237944,
+    "lon": -80.0559266
+  },
+  "Poway, CA": {
+    "lat": 32.9628234,
+    "lon": -117.035864
+  },
+  "Park City, UT": {
+    "lat": 40.6460921,
+    "lon": -111.4979963
+  },
+  "GRAND FORKS, ND": {
+    "lat": 47.9252104,
+    "lon": -97.0306325
+  },
+  "Encino, CA": {
+    "lat": 34.1591324,
+    "lon": -118.5016166
+  },
+  "Tuskegee Institute, AL": {
+    "lat": 32.4301095,
+    "lon": -85.7067335
+  },
+  "All Cities, AZ": null,
+  "Powder Springs, GA": {
+    "lat": 33.8595492,
+    "lon": -84.683824
+  },
+  "Billerica, MA": {
+    "lat": 42.5584264,
+    "lon": -71.268947
+  },
+  "Chanhassen, MN": {
+    "lat": 44.8618403,
+    "lon": -93.5307207
+  },
+  "K2H 5B7 Ottawa, CA": null,
+  "Edmund, SC": {
+    "lat": 33.8614622,
+    "lon": -81.1997259
+  },
+  "Biddeford, ME": {
+    "lat": 43.4925843,
+    "lon": -70.4533844
+  },
+  "LINCOLN CITY, OR": {
+    "lat": 44.9617922,
+    "lon": -124.0159522
+  },
+  "Bellevue, IL": {
+    "lat": 40.6844821,
+    "lon": -89.6801015
+  },
+  "Remote -, FL": {
+    "lat": 28.4435591,
+    "lon": -81.4580258
+  },
+  "USA - Remote, WA": null,
+  "United States, OH": {
+    "lat": 39.3321206,
+    "lon": -84.3508736
+  },
+  "Deer Park, NY": {
+    "lat": 40.7622495,
+    "lon": -73.3228592
+  },
+  "Mariposa, CA": {
+    "lat": 37.570148,
+    "lon": -119.9036592
+  },
+  "Thibodaux, LA": {
+    "lat": 29.7957633,
+    "lon": -90.822871
+  },
+  "Kountze, TX": {
+    "lat": 30.3715975,
+    "lon": -94.3124116
+  },
+  "Northborough, MA": {
+    "lat": 42.3196015,
+    "lon": -71.6422408
+  },
+  "Bensenville, IL": {
+    "lat": 41.9538384,
+    "lon": -87.9431781
+  },
+  "Shaker Heights, OH": {
+    "lat": 41.4739419,
+    "lon": -81.5370671
+  },
+  "Circleville, OH": {
+    "lat": 39.600618,
+    "lon": -82.9460133
+  },
+  "Crowley, TX": {
+    "lat": 32.5783528,
+    "lon": -97.3585533
+  },
+  "Willoughby, OH": {
+    "lat": 41.6397696,
+    "lon": -81.4065011
+  },
+  "South Miami, FL": {
+    "lat": 25.7076017,
+    "lon": -80.2933846
+  },
+  "Paw Paw, MI": {
+    "lat": 42.2178171,
+    "lon": -85.8911246
+  },
+  "Fleming Island, FL": {
+    "lat": 24.5810655,
+    "lon": -81.7963673
+  },
+  "Mission, TX": {
+    "lat": 26.2159066,
+    "lon": -98.3252932
+  },
+  "Chicago, FL": {
+    "lat": 27.5973194,
+    "lon": -81.5132753
+  },
+  "Highlands, NJ": {
+    "lat": 40.40372,
+    "lon": -73.991527
+  },
+  "Mineral Wells, TX": {
+    "lat": 32.8091732,
+    "lon": -98.1129179
+  },
+  "Schiphol, NH": {
+    "lat": 37.6946052,
+    "lon": -121.0465557
+  },
+  "Port Clinton, OH": {
+    "lat": 41.5119954,
+    "lon": -82.9376919
+  },
+  "Fort Bliss, TX": {
+    "lat": 32.2463821,
+    "lon": -106.3742617
+  },
+  "Maxwell AFB, AL": {
+    "lat": 32.3819133,
+    "lon": -86.3533167
+  },
+  "MEX - KROMA Minatitlan, DC": null,
+  "All Cities, CT": null,
+  "WEST COLUMBIA, SC": {
+    "lat": 33.991869,
+    "lon": -81.0640341
+  },
+  "Ketchikan, AK": {
+    "lat": 55.3430696,
+    "lon": -131.6466819
+  },
+  "Irondale, AL": {
+    "lat": 33.5381601,
+    "lon": -86.7072102
+  },
+  "KENAI, AK": {
+    "lat": 60.5544444,
+    "lon": -151.258333
+  },
+  "Inwood, NY": {
+    "lat": 40.6229432,
+    "lon": -73.7508944
+  },
+  "Mount Vernon, NY": {
+    "lat": 40.9125085,
+    "lon": -73.8386504
+  },
+  "Presque Isle, ME": {
+    "lat": 46.6812216,
+    "lon": -68.0154578
+  },
+  "Alpena, MI": {
+    "lat": 45.0176181,
+    "lon": -83.6670019
+  },
+  "Juneau, AK": {
+    "lat": 58.3019613,
+    "lon": -134.4196751
+  },
+  "West Norriton, PA": {
+    "lat": 40.1295515,
+    "lon": -75.3785172
+  },
+  "San Francisco, VA": {
+    "lat": 37.7879363,
+    "lon": -122.4075201
+  },
+  "Millington, TN": {
+    "lat": 35.3414745,
+    "lon": -89.8973084
+  },
+  "Albia, IA": {
+    "lat": 41.0264561,
+    "lon": -92.8075217
+  },
+  "USA - Remote, CO": null,
+  "Roselle, IL": {
+    "lat": 41.9852583,
+    "lon": -88.0799571
+  },
+  "Raleigh/Durham, NC": {
+    "lat": 35.8803614,
+    "lon": -78.7872382
+  },
+  "Schongau, DE": null,
+  "Coimbatore, TN": null,
+  "San Juan Capistrano, CA": {
+    "lat": 33.5016932,
+    "lon": -117.6625509
+  },
+  "Lompoc, CA": {
+    "lat": 34.6391501,
+    "lon": -120.4579009
+  },
+  "Ridgeland, MS": {
+    "lat": 32.4284761,
+    "lon": -90.1323087
+  },
+  "Southport, NC": {
+    "lat": 33.921563,
+    "lon": -78.0202677
+  },
+  "Moose, WY": {
+    "lat": 43.6559315,
+    "lon": -110.7164398
+  },
+  "Hermon, ME": {
+    "lat": 44.8100913,
+    "lon": -68.9115393
+  },
+  "Show Low, AZ": {
+    "lat": 34.2542084,
+    "lon": -110.029832
+  },
+  "Belden, MS": {
+    "lat": 34.3103831,
+    "lon": -88.7883888
+  },
+  "Maspeth, NY": {
+    "lat": 40.723158,
+    "lon": -73.912637
+  },
+  "Yonkers, NY": {
+    "lat": 40.9312099,
+    "lon": -73.8987469
+  },
+  "Disraeli, CA": {
+    "lat": 35.776042,
+    "lon": -78.8398259
+  },
+  "Christiansted, VI": {
+    "lat": 17.7439481,
+    "lon": -64.7079823
+  },
+  "Hatteras, NC": {
+    "lat": 35.2252064,
+    "lon": -75.5279144
+  },
+  "Fenton, MO": {
+    "lat": 38.5131989,
+    "lon": -90.4400578
+  },
+  "Crescent Springs, KY": {
+    "lat": 39.0514492,
+    "lon": -84.5816106
+  },
+  "Costa Mesa, CA": {
+    "lat": 33.6633386,
+    "lon": -117.903317
+  },
+  "Whiteman Air Force Base, MO": {
+    "lat": 38.7302609,
+    "lon": -93.5544857
+  },
+  "Havre, MT": {
+    "lat": 48.5536972,
+    "lon": -109.677802
+  },
+  "Lincolnton, NC": {
+    "lat": 35.473745,
+    "lon": -81.2545251
+  },
+  "Remote -, TX": {
+    "lat": 32.8776496,
+    "lon": -97.0376868
+  },
+  "Remote -, PA": {
+    "lat": 40.3018454,
+    "lon": -80.0022894
+  },
+  "Remote -, NY": {
+    "lat": 43.0407266,
+    "lon": -73.9528342
+  },
+  "Remote -, TN": {
+    "lat": 35.964933,
+    "lon": -83.1984071
+  },
+  "Remote -, NC": {
+    "lat": 43.0059455,
+    "lon": -123.8925908
+  },
+  "Remote -, CA": {
+    "lat": 34.3780109,
+    "lon": -117.2430813
+  },
+  "Kaiserslautern, DE": null,
+  "north carolina north carolina, NC": {
+    "lat": 35.3898958,
+    "lon": -80.7102222
+  },
+  "Boulder City, NV": {
+    "lat": 35.9787649,
+    "lon": -114.8337574
+  },
+  "Fort Shafter, HI": {
+    "lat": 21.3452091,
+    "lon": -157.8831999
+  },
+  "Washington, CO": {
+    "lat": 39.9017011,
+    "lon": -103.1521676
+  },
+  "Spencer, NC": {
+    "lat": 35.6920144,
+    "lon": -80.4347596
+  },
+  "Winter Park, FL": {
+    "lat": 28.5977707,
+    "lon": -81.3510264
+  },
+  "Canutillo, TX": {
+    "lat": 31.9124684,
+    "lon": -106.598098
+  },
+  "Forest, VA": {
+    "lat": 37.366635,
+    "lon": -79.2742569
+  },
+  "Hailey, ID": {
+    "lat": 43.519629,
+    "lon": -114.315325
+  },
+  "Rhinelander, WI": {
+    "lat": 45.636623,
+    "lon": -89.412075
+  },
+  "Parauapebas, PA": null,
+  "Grants, NM": {
+    "lat": 35.154123,
+    "lon": -107.8590961
+  },
+  "Harkers Island, NC": {
+    "lat": 34.6990525,
+    "lon": -76.5621146
+  },
+  "Libby, MT": {
+    "lat": 48.3883645,
+    "lon": -115.5558612
+  },
+  "Riverton, WY": {
+    "lat": 43.0247245,
+    "lon": -108.380727
+  },
+  "Smyrna, DE": {
+    "lat": 39.2998339,
+    "lon": -75.6046494
+  },
+  "Pinehurst, NC": {
+    "lat": 35.1951981,
+    "lon": -79.4692796
+  },
+  "Springdale, PA": {
+    "lat": 40.541074,
+    "lon": -79.7826029
+  },
+  "Hicksville, NY": {
+    "lat": 40.7695303,
+    "lon": -73.5293246
+  },
+  "Glendale Heights, IL": {
+    "lat": 41.9189531,
+    "lon": -88.076567
+  },
+  "USA - Bend, OR": null,
+  "USA - St. Louis, MO": {
+    "lat": 38.673031,
+    "lon": -90.4235635
+  },
+  "North Attleboro, MA": {
+    "lat": 41.9841334,
+    "lon": -71.3322798
+  },
+  "Largo, FL": {
+    "lat": 27.9094665,
+    "lon": -82.7873244
+  },
+  "West Hills, CA": {
+    "lat": 34.2032325,
+    "lon": -118.645476
+  },
+  "Tualatin, OR": {
+    "lat": 45.3809339,
+    "lon": -122.7694369
+  },
+  "Moosic, PA": {
+    "lat": 41.353413,
+    "lon": -75.7382478
+  },
+  "Lewis Center, OH": {
+    "lat": 40.1983958,
+    "lon": -83.0101843
+  },
+  "Chesapeake Beach, MD": {
+    "lat": 38.6941057,
+    "lon": -76.533788
+  },
+  "EVERETT, WA": {
+    "lat": 47.9793437,
+    "lon": -122.2127011
+  },
+  "Ottumwa, IA": {
+    "lat": 41.0195659,
+    "lon": -92.4116886
+  },
+  "Richmond, CA": {
+    "lat": 37.9357576,
+    "lon": -122.347748
+  },
+  "West View, PA": {
+    "lat": 40.5222907,
+    "lon": -80.0342217
+  },
+  "NORTH JACKSON, OH": {
+    "lat": 41.1001272,
+    "lon": -80.8571741
+  },
+  "Imlay City, MI": {
+    "lat": 43.0247496,
+    "lon": -83.0777153
+  },
+  "Baden, PA": {
+    "lat": 40.6350668,
+    "lon": -80.2281159
+  },
+  "Grindstone, PA": {
+    "lat": 40.0180901,
+    "lon": -79.8293175
+  },
+  "Oak Brook, IL": {
+    "lat": 41.8327126,
+    "lon": -87.9484125
+  },
+  "Oneonta, NY": {
+    "lat": 42.453492,
+    "lon": -75.0629531
+  },
+  "Remote, OR": {
+    "lat": 43.0059455,
+    "lon": -123.8925908
+  },
+  "Erie, CO": {
+    "lat": 40.0502623,
+    "lon": -105.049981
+  },
+  "Redstone Arsenal, AL": {
+    "lat": 34.6297568,
+    "lon": -86.6535802
+  },
+  "Gustavus, AK": {
+    "lat": 58.412415,
+    "lon": -135.7307843
+  },
+  "Nicodemus, KS": {
+    "lat": 39.3925947,
+    "lon": -99.6178816
+  },
+  "FAIRBANKS, AK": {
+    "lat": 64.837845,
+    "lon": -147.716675
+  },
+  "Hawaii National Park, HI": {
+    "lat": 19.2608312,
+    "lon": -155.3578662
+  },
+  "Gonzales, LA": {
+    "lat": 30.2385294,
+    "lon": -90.9200987
+  },
+  "Niles, MI": {
+    "lat": 41.8297694,
+    "lon": -86.2541768
+  },
+  "Millburn, NJ": {
+    "lat": 40.7244443,
+    "lon": -74.3069069
+  },
+  "Kodiak, AK": {
+    "lat": 57.7901661,
+    "lon": -152.4067073
+  },
+  "Clinton Township, MI": {
+    "lat": 42.5869782,
+    "lon": -82.9200047
+  },
+  "Jonesboro, AR": {
+    "lat": 35.8348088,
+    "lon": -90.7045297
+  },
+  "Mount Airy, MD": {
+    "lat": 39.3765918,
+    "lon": -77.1549078
+  },
+  "Manatí, PR": {
+    "lat": 18.4182467,
+    "lon": -66.49178
+  },
+  "Hoboken, NJ": {
+    "lat": 40.7433066,
+    "lon": -74.0323752
+  },
+  "Auburn, IN": {
+    "lat": 41.3669902,
+    "lon": -85.0588632
+  },
+  "Pellston, MI": {
+    "lat": 45.552789,
+    "lon": -84.783936
+  },
+  "5554 Springfield, VA": {
+    "lat": 37.6734638,
+    "lon": -77.5505658
+  },
+  "Evergreen, CO": {
+    "lat": 39.6361637,
+    "lon": -105.321458
+  },
+  "Camp Verde, AZ": {
+    "lat": 34.5636358,
+    "lon": -111.854317
+  },
+  "Natchitoches, LA": {
+    "lat": 31.7606732,
+    "lon": -93.0860209
+  },
+  "Talladega, AL": {
+    "lat": 33.3967079,
+    "lon": -86.1597137
+  },
+  "Woodside, NY": {
+    "lat": 40.7453798,
+    "lon": -73.9054145
+  },
+  "Tamuning, GU": {
+    "lat": 13.4966854,
+    "lon": 144.7772156
+  },
+  "Remote -, CO": {
+    "lat": 43.0059455,
+    "lon": -123.8925908
+  },
+  "United States, CO": {
+    "lat": 30.6972412,
+    "lon": -88.1892334
+  },
+  "Wood Dale, IL": {
+    "lat": 41.9633625,
+    "lon": -87.9789562
+  },
+  "Hillsborough, NC": {
+    "lat": 36.075382,
+    "lon": -79.0993958
+  },
+  "St Paul, MN": {
+    "lat": 44.9497487,
+    "lon": -93.0931028
+  },
+  "Kankakee, IL": {
+    "lat": 41.1253903,
+    "lon": -87.848682
+  },
+  "Daviston, AL": {
+    "lat": 33.0528992,
+    "lon": -85.6396783
+  },
+  "West Seneca, NY": {
+    "lat": 42.8395833,
+    "lon": -78.7541466
+  },
+  "New Jersey, CA": {
+    "lat": 34.125647,
+    "lon": -117.4813101
+  },
+  "Lithia Springs, GA": {
+    "lat": 33.7797505,
+    "lon": -84.6506401
+  },
+  "Edinburg, TX": {
+    "lat": 26.3013982,
+    "lon": -98.1624501
+  },
+  "Church Creek, MD": {
+    "lat": 38.5021645,
+    "lon": -76.1520946
+  },
+  "JUNEAU, AK": {
+    "lat": 58.3019613,
+    "lon": -134.4196751
+  },
+  "Kerrville, TX": {
+    "lat": 30.048469,
+    "lon": -99.1399464
+  },
+  "Home Office (INHOME), IN": null,
+  "Casablanca, MA": {
+    "lat": 37.978869,
+    "lon": -110.4878813
+  },
+  "Hereford, AZ": {
+    "lat": 31.4384325,
+    "lon": -110.0978554
+  },
+  "Lackland AFB, TX": {
+    "lat": 29.3862862,
+    "lon": -98.6009001
+  },
+  "Perris, CA": {
+    "lat": 33.7818729,
+    "lon": -117.2298477
+  },
+  "Robinson Township, PA": {
+    "lat": 40.417815,
+    "lon": -80.3168748
+  },
+  "New York, CO": {
+    "lat": 36.9889428,
+    "lon": -88.9525629
+  },
+  "East Elmhurst, NY": {
+    "lat": 40.7612123,
+    "lon": -73.8651358
+  },
+  "PHOENIXVILLE, PA": {
+    "lat": 40.1338784,
+    "lon": -75.5172827
+  },
+  "USA - Fairburn (Coates Drive), DC": null,
+  "F E Warren Air Force Base, WY": {
+    "lat": 41.1663407,
+    "lon": -104.8627525
+  },
+  "Oakland, AZ": {
+    "lat": 34.3654306,
+    "lon": -109.7404795
+  },
+  "Bolingbrook, IL": {
+    "lat": 41.7003302,
+    "lon": -88.0717708
+  },
+  "Breckenridge, CO": {
+    "lat": 39.4829124,
+    "lon": -106.0465486
+  },
+  "East Liverpool, OH": {
+    "lat": 40.6186756,
+    "lon": -80.5772928
+  },
+  "Ooltewah, TN": {
+    "lat": 35.0522068,
+    "lon": -85.102658
+  },
+  "Solomons, MD": {
+    "lat": 38.3350368,
+    "lon": -76.4625722
+  },
+  "Wilmington, OH": {
+    "lat": 39.4453393,
+    "lon": -83.8285375
+  },
+  "East Norriton, PA": {
+    "lat": 40.1515458,
+    "lon": -75.3369496
+  },
+  "Dunn, NC": {
+    "lat": 35.3076902,
+    "lon": -78.6093257
+  },
+  "Nashville, NC": {
+    "lat": 35.974598,
+    "lon": -77.9655406
+  },
+  "Greenwood Village, CO": {
+    "lat": 39.6172101,
+    "lon": -104.950814
+  },
+  "Zürich, CA": {
+    "lat": 37.1823219,
+    "lon": -118.2601029
+  },
+  "Marble Falls, TX": {
+    "lat": 30.5777511,
+    "lon": -98.2756505
+  },
+  "Sparta, NJ": {
+    "lat": 41.0401567,
+    "lon": -74.6310081
+  },
+  "Valley Stream, NY": {
+    "lat": 40.6631362,
+    "lon": -73.7056955
+  },
+  "Morganton, NC": {
+    "lat": 35.7454291,
+    "lon": -81.6870837
+  },
+  "Hadley, MA": {
+    "lat": 42.3423259,
+    "lon": -72.5891221
+  },
+  "Millbury, MA": {
+    "lat": 42.1913817,
+    "lon": -71.7603934
+  },
+  "Frankfort, KY": {
+    "lat": 38.2009055,
+    "lon": -84.8732836
+  },
+  "Medford, MA": {
+    "lat": 42.4184296,
+    "lon": -71.1061639
+  },
+  "Lewistown, PA": {
+    "lat": 40.5992395,
+    "lon": -77.571382
+  },
+  "Estes Park, CO": {
+    "lat": 40.3771926,
+    "lon": -105.523216
+  },
+  "Nottingham, MD": {
+    "lat": 39.3639964,
+    "lon": -76.4521842
+  },
+  "LITTLE ROCK, AR": {
+    "lat": 34.7465071,
+    "lon": -92.2896267
+  },
+  "Carson City, NV": {
+    "lat": 39.1663259,
+    "lon": -119.7670374
+  },
+  "Elko, NV": {
+    "lat": 41.1958128,
+    "lon": -115.3272864
+  },
+  "Jefferson City, MO": {
+    "lat": 38.577359,
+    "lon": -92.1724265
+  },
+  "Bayonne, NJ": {
+    "lat": 40.6687141,
+    "lon": -74.1143091
+  },
+  "US - Los Angeles, CA": {
+    "lat": 34.0745997,
+    "lon": -118.0534304
+  },
+  "Federal Way, WA": {
+    "lat": 47.313494,
+    "lon": -122.33931
+  },
+  "La Jolla, CA": {
+    "lat": 32.8458529,
+    "lon": -117.2575702
+  },
+  "Swissvale, PA": {
+    "lat": 40.4236801,
+    "lon": -79.8828275
+  },
+  "Enid, OK": {
+    "lat": 36.3967623,
+    "lon": -97.8791341
+  },
+  "Klamath Falls, OR": {
+    "lat": 42.224867,
+    "lon": -121.78167
+  },
+  "Montrose, CO": {
+    "lat": 38.4375391,
+    "lon": -108.2403855
+  },
+  "Kaneohe, HI": {
+    "lat": 21.418555,
+    "lon": -157.804184
+  },
+  "Scott Air Force Base, IL": {
+    "lat": 38.543839,
+    "lon": -89.8527741
+  },
+  "All Cities, DC": null,
+  "Remote, MI": {
+    "lat": 42.6920575,
+    "lon": -85.8174976
+  },
+  "Fellows, CA": {
+    "lat": 35.178418,
+    "lon": -119.5461256
+  },
+  "Omak, WA": {
+    "lat": 48.4109853,
+    "lon": -119.52755
+  },
+  "Whitehall, OH": {
+    "lat": 39.9667308,
+    "lon": -82.8854559
+  },
+  "Point Reyes Station, CA": {
+    "lat": 38.0875145,
+    "lon": -122.8144891
+  },
+  "Salt Flat, TX": {
+    "lat": 31.7437272,
+    "lon": -105.0927275
+  },
+  "Delaware, OH": {
+    "lat": 40.2317686,
+    "lon": -82.9651045
+  },
+  "Anderson, TX": {
+    "lat": 31.7819242,
+    "lon": -95.6258199
+  },
+  "Lexington, SC": {
+    "lat": 33.8986841,
+    "lon": -81.275054
+  },
+  "Pittsburg, KS": {
+    "lat": 37.4108841,
+    "lon": -94.70496
+  },
+  "Astoria, OR": {
+    "lat": 46.1882007,
+    "lon": -123.8319802
+  },
+  "RICHFIELD, OH": {
+    "lat": 41.2397772,
+    "lon": -81.6381785
+  },
+  "Takoma Park, MD": {
+    "lat": 38.9778882,
+    "lon": -77.0074765
+  },
+  "Palm Desert, CA": {
+    "lat": 33.7288179,
+    "lon": -116.382571
+  },
+  "Arnold Afb, TN": {
+    "lat": 35.380723,
+    "lon": -86.0610605
+  },
+  "SPOKANE, WA": {
+    "lat": 47.6571934,
+    "lon": -117.42351
+  },
+  "Homewood, AL": {
+    "lat": 33.4737098,
+    "lon": -86.8084509
+  },
+  "PETALUMA, CA": {
+    "lat": 38.2325829,
+    "lon": -122.636465
+  },
+  "Saint George, SC": {
+    "lat": 33.1859958,
+    "lon": -80.5756534
+  },
+  "McCandless, PA": {
+    "lat": 40.5819343,
+    "lon": -80.0378692
+  },
+  "Wanette, OK": {
+    "lat": 34.9620224,
+    "lon": -97.0325225
+  },
+  "Aspen, CO": {
+    "lat": 39.1911128,
+    "lon": -106.82356
+  },
+  "McComb, MS": {
+    "lat": 31.2435782,
+    "lon": -90.4535887
+  },
+  "THEODORE, AL": {
+    "lat": 30.5463684,
+    "lon": -88.2023937
+  },
+  "Leland, MS": {
+    "lat": 33.40439,
+    "lon": -90.898669
+  },
+  "BEMIDJI, MN": {
+    "lat": 47.4723148,
+    "lon": -94.8832791
+  },
+  "WATERTOWN, SD": {
+    "lat": 44.899211,
+    "lon": -97.115289
+  },
+  "MASON CITY, IA": {
+    "lat": 43.1524574,
+    "lon": -93.2017941
+  },
+  "Munster, IN": {
+    "lat": 41.5644798,
+    "lon": -87.5125412
+  },
+  "Baker, NV": {
+    "lat": 39.0121773,
+    "lon": -114.123326
+  },
+  "Brownsburg, IN": {
+    "lat": 39.8444409,
+    "lon": -86.3968962
+  },
+  "Medford, NJ": {
+    "lat": 39.9009472,
+    "lon": -74.8234961
+  },
+  "Marion, OH": {
+    "lat": 40.5885271,
+    "lon": -83.1895249
+  },
+  "Bountiful, UT": {
+    "lat": 40.8894611,
+    "lon": -111.8804817
+  },
+  "Litchfield, AZ": {
+    "lat": 33.4268077,
+    "lon": -112.3552894
+  },
+  "Trussville, AL": {
+    "lat": 33.6196266,
+    "lon": -86.6084342
+  },
+  "Manteo, NC": {
+    "lat": 35.9082257,
+    "lon": -75.6757303
+  },
+  "Ukiah, CA": {
+    "lat": 39.1501662,
+    "lon": -123.2077861
+  },
+  "NEWTON, NC": {
+    "lat": 35.6630887,
+    "lon": -81.2219363
+  },
+  "Mt Pleasant, PA": {
+    "lat": 40.1487475,
+    "lon": -79.5421368
+  },
+  "Watertown, CT": {
+    "lat": 41.6062078,
+    "lon": -73.1181658
+  },
+  "Randolph AFB, TX": {
+    "lat": 29.5285568,
+    "lon": -98.2792383
+  },
+  "Van Buren, MO": {
+    "lat": 36.9956066,
+    "lon": -91.0145714
+  },
+  "Nabburg Steel, DE": null,
+  "Remote, NC": {
+    "lat": 43.0059455,
+    "lon": -123.8925908
+  },
+  "MONTGOMERY, AL": {
+    "lat": 32.3777111,
+    "lon": -86.3090775
+  },
+  "BISMARCK, ND": {
+    "lat": 46.808327,
+    "lon": -100.783739
+  },
+  "Dickinson, ND": {
+    "lat": 46.8791756,
+    "lon": -102.7896242
+  },
+  "Evanston, WY": {
+    "lat": 41.2682462,
+    "lon": -110.963758
+  },
+  "Strafford, MO": {
+    "lat": 37.2683803,
+    "lon": -93.1171264
+  },
+  "Palmetto, FL": {
+    "lat": 27.5214269,
+    "lon": -82.5723193
+  },
+  "Brookfield, OH": {
+    "lat": 41.2342009,
+    "lon": -80.5680159
+  },
+  "Midwest City, OK": {
+    "lat": 35.4495097,
+    "lon": -97.3967025
+  },
+  "BHUBANESWAR, IN": null,
+  "88 Kearny St Floor 19 San Francisco, CA": null,
+  "Napoleonville, LA": {
+    "lat": 29.9404803,
+    "lon": -91.0248214
+  },
+  "SUN VALLEY, CA": {
+    "lat": 34.2204227,
+    "lon": -118.3878945
+  },
+  "Southaven, TN": {
+    "lat": 36.5674781,
+    "lon": -87.4117559
+  },
+  "HAYWARD, CA": {
+    "lat": 37.6688205,
+    "lon": -122.080796
+  },
+  "NORTH CANTON, OH": {
+    "lat": 40.875891,
+    "lon": -81.4023356
+  },
+  "HARRISON, AR": {
+    "lat": 36.2297936,
+    "lon": -93.1076765
+  },
+  "LAFAYETTE, IN": {
+    "lat": 40.4191229,
+    "lon": -86.8919011
+  },
+  "Pomona, CA": {
+    "lat": 34.0553813,
+    "lon": -117.7517496
+  },
+  "New Hyde Park, NY": {
+    "lat": 40.7352157,
+    "lon": -73.6883239
+  },
+  "Boston, MO": {
+    "lat": 37.4128284,
+    "lon": -94.2818919
+  },
+  "Lacey, WA": {
+    "lat": 47.0263876,
+    "lon": -122.8072257
+  },
+  "Mytle Beach, SC": null,
+  "Weatherford, OK": {
+    "lat": 35.5261633,
+    "lon": -98.7075744
+  },
+  "Ft. Lauderdale, FL": {
+    "lat": 26.1223084,
+    "lon": -80.1433786
+  },
+  "IE, CO": {
+    "lat": 39.1368465,
+    "lon": -108.135611
+  },
+  "Merritt Island, FL": {
+    "lat": 28.2662775,
+    "lon": -80.6636984
+  },
+  "Town and Country, MO": {
+    "lat": 38.6122751,
+    "lon": -90.4634532
+  },
+  "SAN LUIS OBISPO, CA": {
+    "lat": 35.3540209,
+    "lon": -120.375716
+  },
+  "GUAYNABO, PR": {
+    "lat": 18.3591596,
+    "lon": -66.1156802
+  },
+  "ROCKFORD, IL": {
+    "lat": 42.2713945,
+    "lon": -89.093966
+  },
+  "Hays, KS": {
+    "lat": 38.8709984,
+    "lon": -99.3311525
+  },
+  "COUNCIL BLUFFS, IA": {
+    "lat": 41.258841,
+    "lon": -95.8519484
+  },
+  "Norfolk, NE": {
+    "lat": 42.0283379,
+    "lon": -97.4169964
+  },
+  "PONDERAY, ID": {
+    "lat": 48.3054806,
+    "lon": -116.533803
+  },
+  "RIGBY, ID": {
+    "lat": 43.6722397,
+    "lon": -111.9148632
+  },
+  "Cookeville, TN": {
+    "lat": 36.1623886,
+    "lon": -85.4997057
+  },
+  "QUINCY, IL": {
+    "lat": 39.9356016,
+    "lon": -91.4098727
+  },
+  "EAU CLAIRE, WI": {
+    "lat": 44.811349,
+    "lon": -91.4984941
+  },
+  "MANITOWOC, WI": {
+    "lat": 44.0998341,
+    "lon": -87.827992
+  },
+  "LA Grange, IL": {
+    "lat": 41.81483,
+    "lon": -87.8735662
+  },
+  "EUGENE, OR": {
+    "lat": 44.0505054,
+    "lon": -123.0950506
+  },
+  "Rolla, MO": {
+    "lat": 37.9509324,
+    "lon": -91.7708076
+  },
+  "Clio, MI": {
+    "lat": 43.1774215,
+    "lon": -83.7346897
+  },
+  "Jackson, OH": {
+    "lat": 39.0131871,
+    "lon": -82.6089043
+  },
+  "Lithia, FL": {
+    "lat": 27.8662898,
+    "lon": -82.2305513
+  },
+  "Kirkwood, MO": {
+    "lat": 38.5800713,
+    "lon": -90.4069177
+  },
+  "Centreville, VA": {
+    "lat": 38.837613,
+    "lon": -77.4347283
+  },
+  "Carbondale, CO": {
+    "lat": 39.4005647,
+    "lon": -107.2112407
+  },
+  "Abingdon, MD": {
+    "lat": 39.4636817,
+    "lon": -76.2727147
+  },
+  "Lower Burrell, PA": {
+    "lat": 40.5882821,
+    "lon": -79.7298187
+  },
+  "Milwaukie, OR": {
+    "lat": 45.4440051,
+    "lon": -122.6412523
+  },
+  "Home Office (NYHOME), NY": null,
+  "Northport, AL": {
+    "lat": 33.2292976,
+    "lon": -87.5771286
+  },
+  "Harmony, PA": {
+    "lat": 40.8020132,
+    "lon": -80.1274462
   }
 }
