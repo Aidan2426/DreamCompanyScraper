@@ -31,15 +31,20 @@ def init_db():
             conn.execute("ALTER TABLE jobs ADD COLUMN experience TEXT")
         except Exception:
             pass
-        # Microsoft's site renders posted_date as relative text ("2 hours ago")
-        # that used to get stored verbatim; the frontend then re-derives it against
-        # the viewer's current clock, so old jobs never age. Rows already saved
-        # that way are stuck forever (INSERT OR IGNORE never updates them), so
-        # pin them to the fixed date they were first captured. No-op once fixed.
+        # Some sites (Microsoft, Motorola, Analog Devices, Intel, Samsung, ...) render
+        # posted_date as relative text ("2 hours ago", "Posted Yesterday") that used to
+        # get stored verbatim; the frontend then re-derives it against the viewer's
+        # current clock, so old jobs never age. Rows already saved that way are stuck
+        # forever (INSERT OR IGNORE never updates them), so pin them to the fixed date
+        # they were first captured. Applies to any company, not just Microsoft — the
+        # failure mode recurs whenever a scraper's source site uses relative dates.
+        # No-op once fixed.
         conn.execute("""
             UPDATE jobs SET posted_date = first_seen
-            WHERE company = 'Microsoft'
-              AND (posted_date LIKE '%ago%' OR lower(posted_date) IN ('today', 'yesterday', 'just posted', 'posted today'))
+            WHERE posted_date LIKE '%ago%'
+               OR lower(posted_date) LIKE '%today%'
+               OR lower(posted_date) LIKE '%yesterday%'
+               OR lower(posted_date) = 'just posted'
         """)
         conn.commit()
 

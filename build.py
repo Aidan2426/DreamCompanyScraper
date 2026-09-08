@@ -804,7 +804,7 @@ html = f"""<!DOCTYPE html>
   </div>
 </div>
 
-<div class="count-bar"><span id="count-label"></span><span id="hidden-label" style="margin-left:10px;font-size:12px;color:#8e8e93"></span></div>
+<div class="count-bar"><span id="count-label"></span><span id="current-day-label" style="margin-left:8px;color:#8e8e93"></span><button id="next-day-btn" class="page-btn" style="display:none;margin-left:10px;height:26px;min-width:auto;padding:0 10px;font-size:12px;vertical-align:middle">Next Day ⇥</button><span id="hidden-label" style="margin-left:10px;font-size:12px;color:#8e8e93"></span></div>
 <div class="grid" id="grid"></div>
 <div class="pagination" id="pagination"></div>
 
@@ -1261,11 +1261,22 @@ function parseDate(str) {{
   const rel = str.toLowerCase();
   const now = Date.now();
   const n = m => {{ const x = rel.match(m); return x ? (x[1]==='a'||x[1]==='an' ? 1 : parseInt(x[1])) : null; }};
+  if (rel.includes('yesterday')) return now - 86400*1000;
+  if (rel.includes('today') || rel.includes('just posted')) return now;
   if (rel.includes('minute'))  {{ const v=n(/(\\d+|a|an)\\s+minute/); if(v) return now - v*60*1000; }}
   if (rel.includes('hour'))    {{ const v=n(/(\\d+|a|an)\\s+hour/);   if(v) return now - v*3600*1000; }}
   if (rel.includes('day'))     {{ const v=n(/(\\d+|a|an)\\s+day/);    if(v) return now - v*86400*1000; }}
   if (rel.includes('week'))    {{ const v=n(/(\\d+|a|an)\\s+week/);   if(v) return now - v*7*86400*1000; }}
   if (rel.includes('month'))   {{ const v=n(/(\\d+|a|an)\\s+month/);  if(v) return now - v*30*86400*1000; }}
+  // bare "YYYY-MM-DD" parses as UTC midnight in JS, unlike "Apr 19, 2026" which
+  // parses as local midnight — that mismatch shifts it a day in timezones behind
+  // UTC, splitting same-day jobs across different day-buckets. Parse it as a
+  // local date explicitly so it lines up with the formatted-string dates.
+  const isoMatch = str.match(/^(\d{{4}})-(\d{{2}})-(\d{{2}})$/);
+  if (isoMatch) {{
+    const dLocal = new Date(+isoMatch[1], +isoMatch[2] - 1, +isoMatch[3]);
+    return dLocal.getTime() > Date.now() ? 0 : dLocal.getTime();
+  }}
   // absolute: "Apr 19, 2026"
   const d = new Date(str);
   if (isNaN(d)) return 0;
@@ -1300,6 +1311,13 @@ function sorted(arr) {{
 const grid       = document.getElementById('grid');
 const label      = document.getElementById('count-label');
 const pagination = document.getElementById('pagination');
+
+function _dayKey(j) {{
+  const ts = parseDate(j.posted_date) || parseDate(j.first_seen);
+  if (!ts) return null;
+  const d = new Date(ts);
+  return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+}}
 
 function renderPagination(total, totalPages) {{
   pagination.innerHTML = '';
@@ -1357,6 +1375,33 @@ function renderPage(list) {{
     label.textContent = '0 jobs shown';
   }} else {{
     label.textContent = `Showing ${{(start+1).toLocaleString()}}–${{end.toLocaleString()}} of ${{list.length.toLocaleString()}} job${{list.length!==1?'s':''}}`;
+  }}
+
+  const dayLabelEl = document.getElementById('current-day-label');
+  const nextDayBtn = document.getElementById('next-day-btn');
+  if ((state.sort === 'newest' || state.sort === 'foryou') && list.length) {{
+    const curTs = parseDate(list[start].posted_date) || parseDate(list[start].first_seen);
+    dayLabelEl.textContent = curTs ? `· Viewing ${{fmtDate(curTs)}}` : '';
+    const curDay = _dayKey(list[start]);
+    let nextIdx = -1;
+    for (let i = start; i < list.length; i++) {{
+      if (_dayKey(list[i]) !== curDay) {{ nextIdx = i; break; }}
+    }}
+    if (nextIdx !== -1) {{
+      // if the transition already falls on/before this page, the whole next page
+      // is guaranteed to start on the new day — jumping to the transition's own
+      // page would just reload the page you're already on.
+      const targetPage = Math.max(Math.floor(nextIdx / PAGE_SIZE) + 1, currentPage + 1);
+      nextDayBtn.style.display = '';
+      nextDayBtn.onclick = () => {{ currentPage = targetPage; renderPage(window._lastList); scrollToGrid(); }};
+    }} else {{
+      nextDayBtn.style.display = 'none';
+      nextDayBtn.onclick = null;
+    }}
+  }} else {{
+    dayLabelEl.textContent = '';
+    nextDayBtn.style.display = 'none';
+    nextDayBtn.onclick = null;
   }}
 
   grid.innerHTML = '';
