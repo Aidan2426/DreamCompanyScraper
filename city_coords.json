@@ -10171,5 +10171,78 @@
   "Sainte Genevieve, MO": {
     "lat": 37.88958,
     "lon": -90.1856637
+  },
+  "East Pensacola Heights, FL": {
+    "lat": 30.4288089,
+    "lon": -87.1799695
+  },
+  "Kaneohe Bay, HI": {
+    "lat": 21.4482524,
+    "lon": -157.7705286
+  },
+  "Shepherdsville, KY": {
+    "lat": 37.9885936,
+    "lon": -85.7158246
+  },
+  "Torreon, CO": {
+    "lat": 35.7947315,
+    "lon": -107.2120845
+  },
+  "Midland, GA": {
+    "lat": 32.5748608,
+    "lon": -84.827152
+  },
+  "JOPLIN, MO": {
+    "lat": 37.0841838,
+    "lon": -94.5133385
+  },
+  "Mokena, IL": {
+    "lat": 41.5261437,
+    "lon": -87.8892189
+  },
+  "Ocoee, FL": {
+    "lat": 28.5694468,
+    "lon": -81.5441944
+  },
+  "Onley, VA": {
+    "lat": 37.6908513,
+    "lon": -75.7161703
+  },
+  "Grand Terrace, CA": {
+    "lat": 34.0339107,
+    "lon": -117.3138355
+  },
+  "Mount Pocono, PA": {
+    "lat": 41.1220987,
+    "lon": -75.3646997
+  },
+  "Saint Joseph, MI": {
+    "lat": 41.9031963,
+    "lon": -85.5356726
+  },
+  "Chatsworth, GA": {
+    "lat": 34.7665942,
+    "lon": -84.7698842
+  },
+  "PALMDALE, CA": {
+    "lat": 34.5793131,
+    "lon": -118.11711
+  },
+  "Syosset, NY": {
+    "lat": 40.814858,
+    "lon": -73.5017966
+  },
+  "Berlin, Germany, DE": null,
+  "Weymouth, MA": {
+    "lat": 42.2212188,
+    "lon": -70.9391625
+  },
+  "Moselle, MS": {
+    "lat": 31.5025779,
+    "lon": -89.2795378
+  },
+  "Saint Marys, GA": {
+    "lat": 30.7203759,
+    "lon": -81.5485714
   }
 }
