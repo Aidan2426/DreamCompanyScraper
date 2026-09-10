@@ -10244,5 +10244,59 @@
   "Saint Marys, GA": {
     "lat": 30.7203759,
     "lon": -81.5485714
+  },
+  "Robins, IA": {
+    "lat": 42.0709929,
+    "lon": -91.6668122
+  },
+  "Oude Meer, NH": null,
+  "JONESBORO, AR": {
+    "lat": 35.8348088,
+    "lon": -90.7045297
+  },
+  "All Cities, MD": null,
+  "Bentonville, AK": {
+    "lat": 36.3728608,
+    "lon": -94.208787
+  },
+  "Snellville, GA": {
+    "lat": 33.857328,
+    "lon": -84.0199108
+  },
+  "Emporia, VA": {
+    "lat": 36.6937606,
+    "lon": -77.5357141
+  },
+  "CUMBERLAND, MD": {
+    "lat": 39.6526498,
+    "lon": -78.762383
+  },
+  "SALEM, OR": {
+    "lat": 44.9391565,
+    "lon": -123.033121
+  },
+  "Centralia, WA": {
+    "lat": 46.7204489,
+    "lon": -122.96143
+  },
+  "Moscow, ID": {
+    "lat": 46.7323875,
+    "lon": -117.000165
+  },
+  "Cornelius, OR": {
+    "lat": 45.5198001,
+    "lon": -123.05562
+  },
+  "New Haven, CT": {
+    "lat": 41.3082138,
+    "lon": -72.9250518
+  },
+  "NORTH BILLERICA, MA": {
+    "lat": 42.5852621,
+    "lon": -71.2877645
+  },
+  "Dayton, TX": {
+    "lat": 30.0473202,
+    "lon": -94.8873913
   }
 }
