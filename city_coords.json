@@ -10366,5 +10366,26 @@
   "Nederland, TX": {
     "lat": 29.9743803,
     "lon": -93.9923965
-  }
+  },
+  "San Francisco, CO": {
+    "lat": 37.1023958,
+    "lon": -105.3481579
+  },
+  "CHILLICOTHE, OH": {
+    "lat": 39.3331197,
+    "lon": -82.9824019
+  },
+  "FREELAND, MI": {
+    "lat": 43.5250265,
+    "lon": -84.1227598
+  },
+  "McCall, ID": {
+    "lat": 44.9110458,
+    "lon": -116.098281
+  },
+  "GREENVILLE, NC": {
+    "lat": 35.613224,
+    "lon": -77.3724593
+  },
+  "Sao Luis, MA": null
 }
