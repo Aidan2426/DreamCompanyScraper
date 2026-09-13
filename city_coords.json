@@ -10387,5 +10387,9 @@
     "lat": 35.613224,
     "lon": -77.3724593
   },
-  "Sao Luis, MA": null
+  "Sao Luis, MA": null,
+  "Maxwell-Gunter Air Force Base, AL": {
+    "lat": 32.3819133,
+    "lon": -86.3533167
+  }
 }
