@@ -10395,5 +10395,91 @@
   "Three Rivers, CA": {
     "lat": 36.4204965,
     "lon": -118.880339
+  },
+  "DNK - PPG Butik i Søborg, DC": null,
+  "Hampstead, MD": {
+    "lat": 39.6028444,
+    "lon": -76.8534845
+  },
+  "Pharr, TX": {
+    "lat": 26.1947962,
+    "lon": -98.1836216
+  },
+  "Marquette, MI": {
+    "lat": 46.4481521,
+    "lon": -87.6305899
+  },
+  "Palo Alto, NY": {
+    "lat": 42.8464355,
+    "lon": -73.8041753
+  },
+  "Pecan Island, LA": {
+    "lat": 31.9146061,
+    "lon": -93.0068272
+  },
+  "Fort Riley, KS": {
+    "lat": 39.1714753,
+    "lon": -96.7798588
+  },
+  "South Jordan, UT": {
+    "lat": 40.5584882,
+    "lon": -111.9367107
+  },
+  "MORGANTOWN, WV": {
+    "lat": 39.6296809,
+    "lon": -79.9559437
+  },
+  "BISHOP, CA": {
+    "lat": 37.363679,
+    "lon": -118.39524
+  },
+  "SANTA TERESA, NM": {
+    "lat": 31.8700346,
+    "lon": -106.6865799
+  },
+  "Hines, OR": {
+    "lat": 43.5640385,
+    "lon": -119.081048
+  },
+  "Shelby Township, MI": {
+    "lat": 43.5974492,
+    "lon": -86.3379509
+  },
+  "Frankfort, IL": {
+    "lat": 41.4979467,
+    "lon": -87.8495946
+  },
+  "Nashville, IN": {
+    "lat": 39.207242,
+    "lon": -86.2469472
+  },
+  "Windsor, CO": {
+    "lat": 40.4774818,
+    "lon": -104.901361
+  },
+  "Greenville, MI": {
+    "lat": 43.1775314,
+    "lon": -85.2527987
+  },
+  "Brookline, MA": {
+    "lat": 42.332918,
+    "lon": -71.1187829
+  },
+  "GBR - Warrington, DC": null,
+  "Malmstrom Air Force Base, MT": {
+    "lat": 47.5048651,
+    "lon": -111.1785139
+  },
+  "El Dorado, AR": {
+    "lat": 33.2115087,
+    "lon": -92.6650144
+  },
+  "Los Angeles, WA": {
+    "lat": 43.0583473,
+    "lon": -87.8832794
+  },
+  "Portland, MO": {
+    "lat": 38.7108764,
+    "lon": -91.7176735
   }
 }
