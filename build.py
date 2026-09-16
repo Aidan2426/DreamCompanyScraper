@@ -605,6 +605,7 @@ html = f"""<!DOCTYPE html>
     .match-badge {{
       font-size: 10px; font-weight: 700; color: #fff;
       border-radius: 5px; padding: 2px 7px; letter-spacing: 0.3px;
+      cursor: help;
     }}
 
     .card-title {{
@@ -667,6 +668,13 @@ html = f"""<!DOCTYPE html>
     }}
     .card-star-btn:hover {{ color: #ff9f0a; transform: scale(1.2); }}
     .card-star-btn.saved {{ color: #ff9f0a; }}
+    .card-apply-btn {{
+      background: none; border: none; cursor: pointer; padding: 2px 4px;
+      font-size: 15px; color: rgba(0,0,0,0.2); line-height: 1;
+      transition: color 0.15s, transform 0.15s; flex-shrink: 0;
+    }}
+    .card-apply-btn:hover {{ color: var(--blue); transform: scale(1.2); }}
+    .card-apply-btn.applied {{ color: #34c759; }}
     .pill-fav {{ position: relative; }}
     .pill-fav-count {{
       position: absolute; top: -6px; right: -6px;
@@ -795,9 +803,10 @@ html = f"""<!DOCTYPE html>
       <div class="cs-panel"><div class="cs-list"></div></div>
     </div>
     <div class="fsep"></div>
-    <button class="pill active" data-sort="newest">Newest</button>
-    <button class="pill" data-sort="foryou">✦ For You</button>
+    <button class="pill" data-sort="newest">Newest</button>
+    <button class="pill active" data-sort="foryou">✦ For You</button>
     <button class="pill" data-sort="saved">★ Saved</button>
+    <button class="pill" data-sort="applied">➔ Applied</button>
     <div class="fsep"></div>
     <button class="pill" id="export-btn">⬇ CSV</button>
     <button class="pill" id="stats-btn">📊 Stats</button>
@@ -925,107 +934,118 @@ function getLocations(j) {{
 
 
 // ── For You scoring ──
-function scoreJob(j) {{
+function scoreJobDetailed(j) {{
   const title = (j.title || '').toLowerCase();
   const team  = (j.team  || '').toLowerCase();
   const exp   = (j.experience || '').toLowerCase();
+  const breakdown = [];
 
   // Hard blocks — physical/non-tech roles score 0 regardless of team
-  if (/\\b(security[\\s-]*officer|police[\\s-]*officer|security[\\s-]*guard|armed[\\s-]*guard|unarmed[\\s-]*guard|warehouse[\\s-]*(worker|associate|operative|clerk|technician)|forklift|truck[\\s-]*driver|custodian|janitorial|janitor|correctional|food[\\s-]*service[\\s-]*(worker|associate)|assembl(er|y[\\s-]*worker|y[\\s-]*tech))\\b/.test(title)) return 0;
+  if (/\\b(security[\\s-]*officer|police[\\s-]*officer|security[\\s-]*guard|armed[\\s-]*guard|unarmed[\\s-]*guard|warehouse[\\s-]*(worker|associate|operative|clerk|technician)|forklift|truck[\\s-]*driver|custodian|janitorial|janitor|correctional|food[\\s-]*service[\\s-]*(worker|associate)|assembl(er|y[\\s-]*worker|y[\\s-]*tech))\\b/.test(title)) {{
+    return {{ score: 0, breakdown: [{{ label: 'Non-tech / physical role', delta: 0 }}] }};
+  }}
 
   let s = 10;
+  breakdown.push({{ label: 'Base score', delta: 10 }});
+  const add = (delta, label) => {{ s += delta; breakdown.push({{ label, delta }}); }};
 
   // Intern / co-op boost
-  if (/\\b(intern|internship|co-?op)\\b/.test(title)) s += 50;
+  if (/\\b(intern|internship|co-?op)\\b/.test(title)) add(50, 'Intern / co-op title');
 
   // Research boost
-  if (/\\b(research\\s*(scientist|engineer)|applied\\s*research)\\b/.test(title)) s += 20;
+  if (/\\b(research\\s*(scientist|engineer)|applied\\s*research)\\b/.test(title)) add(20, 'Research role');
 
   // Computer vision / NLP boost
-  if (/\\b(computer\\s*vision|\\bnlp\\b|natural\\s*language\\s*processing)\\b/.test(title)) s += 20;
+  if (/\\b(computer\\s*vision|\\bnlp\\b|natural\\s*language\\s*processing)\\b/.test(title)) add(20, 'Computer vision / NLP');
 
   // Data roles
-  if (/data[\\s-]?(engineer|analyst|scientist|science|pipelin)/.test(title)) s += 40;
-  else if (/\\b(data|analytics|sql|\\bbi\\b|business[\\s-]*intelligence|etl|data[\\s-]*warehouse)\\b/.test(title)) s += 22;
+  if (/data[\\s-]?(engineer|analyst|scientist|science|pipelin)/.test(title)) add(40, 'Data engineer/analyst/scientist title');
+  else if (/\\b(data|analytics|sql|\\bbi\\b|business[\\s-]*intelligence|etl|data[\\s-]*warehouse)\\b/.test(title)) add(22, 'Data-adjacent title');
 
   // Software / SWE
-  if (/\\b(software[\\s-]*(engineer|developer)|software\\s+\\w+\\s+(engineer|developer)|swe|sde|developer|programmer)\\b/.test(title)) s += 40;
+  if (/\\b(software[\\s-]*(engineer|developer)|software\\s+\\w+\\s+(engineer|developer)|swe|sde|developer|programmer)\\b/.test(title)) add(40, 'Software engineer/developer title');
 
   // ML / AI
-  if (/\\b(machine[\\s-]*learning|\\bml\\b|\\bai\\b|artificial[\\s]*intel|deep[\\s]*learning|\\bllm\\b|gen[\\s-]*ai)\\b/.test(title)) s += 35;
+  if (/\\b(machine[\\s-]*learning|\\bml\\b|\\bai\\b|artificial[\\s]*intel|deep[\\s]*learning|\\bllm\\b|gen[\\s-]*ai)\\b/.test(title)) add(35, 'ML / AI title');
 
   // Frontend / Backend / Fullstack / Web / Mobile
-  if (/\\b(backend|frontend|full[\\s-]?stack|web[\\s-]*(dev(eloper)?|engineer)|mobile[\\s-]*(dev(eloper)?|engineer))\\b/.test(title)) s += 22;
+  if (/\\b(backend|frontend|full[\\s-]?stack|web[\\s-]*(dev(eloper)?|engineer)|mobile[\\s-]*(dev(eloper)?|engineer))\\b/.test(title)) add(22, 'Frontend/backend/fullstack/mobile');
 
   // IT / DevOps / Cloud / Infra / Systems / Network / Database / Help Desk
-  if (/\\b(information[\\s-]*tech|\\bit\\b|devops|cloud|platform|\\bsre\\b|infrastructure|systems?[\\s-]*(admin(istrator)?|engineer|analyst)|network[\\s-]*(engineer|admin(istrator)?|architect|analyst|specialist|tech)|database[\\s-]*(admin(istrator)?|engineer|developer|analyst|architect)|help[\\s-]*desk|it[\\s-]*support|technical[\\s-]*support|service[\\s-]*desk|site[\\s-]*reliability)\\b/.test(title)) s += 28;
+  if (/\\b(information[\\s-]*tech|\\bit\\b|devops|cloud|platform|\\bsre\\b|infrastructure|systems?[\\s-]*(admin(istrator)?|engineer|analyst)|network[\\s-]*(engineer|admin(istrator)?|architect|analyst|specialist|tech)|database[\\s-]*(admin(istrator)?|engineer|developer|analyst|architect)|help[\\s-]*desk|it[\\s-]*support|technical[\\s-]*support|service[\\s-]*desk|site[\\s-]*reliability)\\b/.test(title)) add(28, 'IT/DevOps/Cloud/Infra/Systems/Network/DB');
 
   // ServiceNow developer/admin — doesn't match the generic "software developer" pattern above
-  if (/\\bservicenow\\b/.test(title) || /\\bservicenow\\b/.test(team)) s += 30;
+  if (/\\bservicenow\\b/.test(title) || /\\bservicenow\\b/.test(team)) add(30, 'ServiceNow role');
 
   // Cybersecurity (security engineer/analyst — NOT officer/guard, blocked above)
-  if (/\\b(cyber(security)?|security[\\s-]*(engineer|analyst|architect|specialist|consultant)|application[\\s-]*security|pen[\\s-]*test(er|ing)?|penetration[\\s-]*test|soc[\\s-]*analyst|incident[\\s-]*response|threat[\\s-]*(intel|analyst)|vulnerability[\\s-]*(analyst|engineer)|information[\\s-]*security)\\b/.test(title)) s += 28;
+  if (/\\b(cyber(security)?|security[\\s-]*(engineer|analyst|architect|specialist|consultant)|application[\\s-]*security|pen[\\s-]*test(er|ing)?|penetration[\\s-]*test|soc[\\s-]*analyst|incident[\\s-]*response|threat[\\s-]*(intel|analyst)|vulnerability[\\s-]*(analyst|engineer)|information[\\s-]*security)\\b/.test(title)) add(28, 'Cybersecurity role');
 
   // QA / Testing
-  if (/\\b(\\bqa\\b|\\bqe\\b|quality[\\s-]*(assurance|engineer|analyst)|test[\\s-]*(engineer|analyst|developer|automation)|\\bsdet\\b|automation[\\s-]*test(er|ing)?)\\b/.test(title)) s += 22;
+  if (/\\b(\\bqa\\b|\\bqe\\b|quality[\\s-]*(assurance|engineer|analyst)|test[\\s-]*(engineer|analyst|developer|automation)|\\bsdet\\b|automation[\\s-]*test(er|ing)?)\\b/.test(title)) add(22, 'QA / Testing role');
 
   // Entry-level signals — generic
-  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|early[\\s-]*career|level\\s*i\\b)\\b/.test(title)) s += 28;
+  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|early[\\s-]*career|level\\s*i\\b)\\b/.test(title)) add(28, 'Entry-level signal in title');
   // "associate" only boosts when paired with a tech role word
-  if (/\\bassociate\\b/.test(title) && /\\b(software|engineer|developer|analyst|data|scientist|swe|sde|programmer|devops|cloud|it|security|architect|network|database|qa|systems?)\\b/.test(title)) s += 28;
-  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|associate)\\b/.test(exp)) s += 35;
+  if (/\\bassociate\\b/.test(title) && /\\b(software|engineer|developer|analyst|data|scientist|swe|sde|programmer|devops|cloud|it|security|architect|network|database|qa|systems?)\\b/.test(title)) add(28, '"Associate" + tech role');
+  if (/\\b(junior|entry[\\s-]?level|new[\\s-]*grad|associate)\\b/.test(exp)) add(35, 'Entry-level signal in experience field');
 
   // ── Company-specific level systems ──
   // Google: L3=SWE II (entry), L4=SWE III (junior-mid), L5+=Senior (penalised below)
-  if (/\\b(swe\\s*(ii|2)|sde\\s*(ii|2)|software\\s*engineer\\s*(ii|2)|data\\s*engineer\\s*(ii|2))\\b/.test(title)) s += 30;
-  if (/\\b(swe\\s*(iii|3)|sde\\s*(iii|3)|software\\s*engineer\\s*(iii|3))\\b/.test(title)) s += 12;
-  if (/\\b(swe\\s*(iv|v|4|5|6)|software\\s*engineer\\s*(iv|v|4|5|6))\\b/.test(title)) s -= 30;
+  if (/\\b(swe\\s*(ii|2)|sde\\s*(ii|2)|software\\s*engineer\\s*(ii|2)|data\\s*engineer\\s*(ii|2))\\b/.test(title)) add(30, 'Level II (Google-style)');
+  if (/\\b(swe\\s*(iii|3)|sde\\s*(iii|3)|software\\s*engineer\\s*(iii|3))\\b/.test(title)) add(12, 'Level III (Google-style)');
+  if (/\\b(swe\\s*(iv|v|4|5|6)|software\\s*engineer\\s*(iv|v|4|5|6))\\b/.test(title)) add(-30, 'Level IV+ (Google-style, senior)');
   // Meta: E3/E4 entry-junior, E5+ senior
-  if (/\\bE[34]\\b/.test(title)) s += 28;
-  if (/\\bE[56789]\\b/.test(title)) s -= 35;
+  if (/\\bE[34]\\b/.test(title)) add(28, 'E3/E4 (Meta-style, entry-junior)');
+  if (/\\bE[56789]\\b/.test(title)) add(-35, 'E5+ (Meta-style, senior)');
   // Amazon: SDE I=entry (L4), SDE II=mid (L5), Senior SDE=senior (L6)
   // "sde" already +40; SDE I specifically gets extra boost
-  if (/\\bsde\\s*i\\b/.test(title) && !/\\bsde\\s*ii\\b/.test(title)) s += 20;
+  if (/\\bsde\\s*i\\b/.test(title) && !/\\bsde\\s*ii\\b/.test(title)) add(20, 'SDE I (Amazon-style, entry)');
   // Microsoft: SDE=entry, SDE II=mid, Senior SDE=senior — handled by "sde" +40 + senior penalty
   // Apple: ICT2/ICT3 entry, ICT4 mid, ICT5/6 senior
-  if (/\\bict\\s*[23]\\b/.test(title)) s += 28;
-  if (/\\bict\\s*4\\b/.test(title)) s += 5;
-  if (/\\bict\\s*[567]\\b/.test(title)) s -= 30;
+  if (/\\bict\\s*[23]\\b/.test(title)) add(28, 'ICT2/3 (Apple-style, entry)');
+  if (/\\bict\\s*4\\b/.test(title)) add(5, 'ICT4 (Apple-style, mid)');
+  if (/\\bict\\s*[567]\\b/.test(title)) add(-30, 'ICT5+ (Apple-style, senior)');
   // Stripe: IC3=entry, IC4=junior-mid, IC5+=senior
-  if (/\\bic\\s*[34]\\b/.test(title)) s += 25;
-  if (/\\bic\\s*[567]\\b/.test(title)) s -= 30;
+  if (/\\bic\\s*[34]\\b/.test(title)) add(25, 'IC3/4 (Stripe-style, entry-mid)');
+  if (/\\bic\\s*[567]\\b/.test(title)) add(-30, 'IC5+ (Stripe-style, senior)');
   // Uber/Airbnb/Snap/Pinterest/Roblox: L3/L4=entry-mid, L5+=senior
-  if (/\\b(software|swe|sde|data|ml)\\b/.test(title) && /\\bl[34]\\b/.test(title)) s += 22;
-  if (/\\b(software|swe|sde|data|ml)\\b/.test(title) && /\\bl[5678]\\b/.test(title)) s -= 30;
+  if (/\\b(software|swe|sde|data|ml)\\b/.test(title) && /\\bl[34]\\b/.test(title)) add(22, 'L3/L4 (Uber/Airbnb-style, entry-mid)');
+  if (/\\b(software|swe|sde|data|ml)\\b/.test(title) && /\\bl[5678]\\b/.test(title)) add(-30, 'L5+ (Uber/Airbnb-style, senior)');
   // Salesforce: MTS=entry, SMTS=senior, LMTS/PMTS=staff
-  if (/\\bmts\\b/.test(title) && !/\\b(s|l|p)mts\\b/.test(title)) s += 20;
-  if (/\\b(smts|lmts|pmts)\\b/.test(title)) s -= 25;
+  if (/\\bmts\\b/.test(title) && !/\\b(s|l|p)mts\\b/.test(title)) add(20, 'MTS (Salesforce-style, entry)');
+  if (/\\b(smts|lmts|pmts)\\b/.test(title)) add(-25, 'SMTS/LMTS/PMTS (Salesforce-style, senior/staff)');
   // EA: Associate SE / SE I = entry
-  if (/\\bse\\s*i\\b/.test(title) && !/\\bse\\s*ii\\b/.test(title)) s += 20;
+  if (/\\bse\\s*i\\b/.test(title) && !/\\bse\\s*ii\\b/.test(title)) add(20, 'SE I (EA-style, entry)');
   // Ubisoft: Junior Programmer handled by "junior"; Programmer=mid; Senior=penalised below
   // PNC: C1 Associate=caught by "associate"; C2 SWE neutral; C3+ Senior/Principal caught below
 
   // Seniority penalties
-  if (/\\b(senior|sr\\.?\\s|staff\\s|principal)/.test(title)) s -= 35;
-  if (/\\b(director|vp\\b|vice\\s*president|head\\s+of|chief|\\bpresident\\b)/.test(title)) s -= 50;
-  if (/\\bmanager\\b/.test(title)) s -= 20;
-  if (/\\b(senior|staff|principal)/.test(exp)) s -= 30;
+  if (/\\b(senior|sr\\.?\\s|staff\\s|principal)/.test(title)) add(-35, 'Senior/staff/principal in title');
+  if (/\\b(director|vp\\b|vice\\s*president|head\\s+of|chief|\\bpresident\\b)/.test(title)) add(-50, 'Director/VP/Chief in title');
+  if (/\\bmanager\\b/.test(title)) add(-20, '"Manager" in title');
+  if (/\\b(senior|staff|principal)/.test(exp)) add(-30, 'Senior/staff/principal in experience field');
 
   // Team boost
-  if (/\\b(engineering|software|data|analytics|\\bml\\b|\\bai\\b|\\bit\\b|technology|infrastructure|platform|cloud|security|cyber|network|database|\\bqa\\b|devops|systems?)\\b/.test(team)) s += 15;
+  if (/\\b(engineering|software|data|analytics|\\bml\\b|\\bai\\b|\\bit\\b|technology|infrastructure|platform|cloud|security|cyber|network|database|\\bqa\\b|devops|systems?)\\b/.test(team)) add(15, 'Tech team');
 
   // Non-tech role penalties (when not paired with tech words)
   const hasTech = /\\b(software|engineer|developer|data|analyst|science|\\bit\\b|tech|digital|analytics|automation|platform|cloud|devops|security|network|database|\\bqa\\b|systems?|\\bsre\\b|\\bswe\\b|\\bsde\\b|programmer|architect|\\bml\\b|\\bai\\b)\\b/.test(title);
   if (!hasTech) {{
-    if (/\\b(sales\\s+(executive|director|manager|lead)|account\\s+(executive|manager))\\b/.test(title)) s -= 30;
-    if (/\\b(legal|attorney|counsel|paralegal|compliance\\s+officer)\\b/.test(title)) s -= 25;
-    if (/\\b(human\\s+resources?|\\bhr\\s+(manager|coordinator|specialist|generalist|business\\s+partner)|\\bhrbp\\b)\\b/.test(title)) s -= 25;
-    if (/\\b(marketing\\s+(manager|director|specialist|coordinator|strategist)|brand\\s+manager|growth\\s+marketer|content\\s+(marketer|writer|strategist)|\\bseo\\b|social\\s+media)\\b/.test(title)) s -= 20;
-    if (/\\b(finance\\s+(manager|analyst|director)|financial\\s+(analyst|advisor|planner|controller)|\\baccounting\\b|accountant|\\bcpa\\b|\\bcontroller\\b|bookkeeper|payroll\\s+(specialist|coordinator))\\b/.test(title)) s -= 20;
+    if (/\\b(sales\\s+(executive|director|manager|lead)|account\\s+(executive|manager))\\b/.test(title)) add(-30, 'Non-tech: sales role');
+    if (/\\b(legal|attorney|counsel|paralegal|compliance\\s+officer)\\b/.test(title)) add(-25, 'Non-tech: legal role');
+    if (/\\b(human\\s+resources?|\\bhr\\s+(manager|coordinator|specialist|generalist|business\\s+partner)|\\bhrbp\\b)\\b/.test(title)) add(-25, 'Non-tech: HR role');
+    if (/\\b(marketing\\s+(manager|director|specialist|coordinator|strategist)|brand\\s+manager|growth\\s+marketer|content\\s+(marketer|writer|strategist)|\\bseo\\b|social\\s+media)\\b/.test(title)) add(-20, 'Non-tech: marketing role');
+    if (/\\b(finance\\s+(manager|analyst|director)|financial\\s+(analyst|advisor|planner|controller)|\\baccounting\\b|accountant|\\bcpa\\b|\\bcontroller\\b|bookkeeper|payroll\\s+(specialist|coordinator))\\b/.test(title)) add(-20, 'Non-tech: finance role');
   }}
 
-  return Math.max(0, Math.min(100, s));
+  const pBonus = personalizedBonus(j);
+  if (pBonus) breakdown.push({{ label: 'Learned from your Applied jobs', delta: pBonus }});
+  s += pBonus;
+
+  const score = Math.max(0, Math.min(100, s));
+  return {{ score, breakdown }};
 }}
+function scoreJob(j) {{ return scoreJobDetailed(j).score; }}
 
 // ── Custom multi-select dropdown factory ──
 function makeDropdown(containerId, getItems, iconFn, gridMode, favOpts) {{
@@ -1140,7 +1160,7 @@ const teamDrop    = makeDropdown('cs-team',    ()=>TEAMS,                       
 const expDrop     = makeDropdown('cs-exp',     ()=>EXPERIENCES,                     null,        false);
 const cityDrop    = makeDropdown('cs-city',    ()=>Object.keys(CITY_COORDS).sort(), null,        false, {{isFav:isFavCity,toggle:city=>{{toggleFavCity(city);if(state.favCitiesOnly)render();}}}});
 
-const state = {{ q:'', newOnly:false, favOnly:false, favCitiesOnly:false, sort:'newest' }};
+const state = {{ q:'', newOnly:false, favOnly:false, favCitiesOnly:false, sort:'foryou' }};
 
 // ── Saved jobs storage ──
 function getSavedList()   {{ return JSON.parse(localStorage.getItem('swipe_saved') || '[]'); }}
@@ -1149,6 +1169,52 @@ function getDiscarded()   {{ return new Set(JSON.parse(localStorage.getItem('swi
 function addSaved(id)     {{ const s=getSavedList().filter(x=>x!==id); s.push(id); localStorage.setItem('swipe_saved',JSON.stringify(s)); }}
 function removeSaved(id)  {{ const s=getSavedList().filter(x=>x!==id); localStorage.setItem('swipe_saved',JSON.stringify(s)); }}
 function addDiscarded(id) {{ const s=[...getDiscarded()]; if(!s.includes(id)) s.push(id); localStorage.setItem('swipe_discarded',JSON.stringify(s)); }}
+
+// ── Applied jobs storage ──
+function getAppliedList()  {{ return JSON.parse(localStorage.getItem('swipe_applied') || '[]'); }}
+function getApplied()      {{ return new Set(getAppliedList()); }}
+function addApplied(id)    {{ const s=getAppliedList().filter(x=>x!==id); s.push(id); localStorage.setItem('swipe_applied',JSON.stringify(s)); }}
+function removeApplied(id) {{ const s=getAppliedList().filter(x=>x!==id); localStorage.setItem('swipe_applied',JSON.stringify(s)); }}
+
+// ── Applied-jobs learning: bias For You scoring toward what you actually apply to.
+// Runs entirely client-side at page load / on every apply — no server round trip
+// needed, so tonight's freshly-scraped jobs get scored against today's profile
+// the moment the page opens, no separate "training" build step required.
+const APPLIED_STOPWORDS = new Set(['the','and','for','with','from','into','your','you','our','are','was','were','this','that','will','who','all','any','new']);
+function tokenizeTitle(title) {{
+  return (title || '').toLowerCase().replace(/[^a-z0-9\\s]/g, ' ').split(/\\s+/)
+    .filter(w => w.length >= 3 && !APPLIED_STOPWORDS.has(w));
+}}
+function buildAppliedProfile() {{
+  const appliedIds = getApplied();
+  const profile = {{ words: {{}}, companies: {{}}, teams: {{}}, n: 0 }};
+  JOBS.forEach(j => {{
+    if (!appliedIds.has(j.role_id)) return;
+    profile.n++;
+    tokenizeTitle(j.title).forEach(w => {{ profile.words[w] = (profile.words[w] || 0) + 1; }});
+    if (j.company) profile.companies[j.company] = (profile.companies[j.company] || 0) + 1;
+    if (j.team)    profile.teams[j.team]        = (profile.teams[j.team]        || 0) + 1;
+  }});
+  return profile;
+}}
+let appliedProfile = buildAppliedProfile();
+function refreshAppliedProfile() {{ appliedProfile = buildAppliedProfile(); }}
+// Needs >=3 applied jobs before trusting the signal — one data point is noise, not taste.
+function personalizedBonus(j) {{
+  if (appliedProfile.n < 3) return 0;
+  let bonus = 0;
+  const seen = new Set();
+  tokenizeTitle(j.title).forEach(w => {{
+    if (appliedProfile.words[w] && !seen.has(w)) {{
+      seen.add(w);
+      bonus += Math.min(5, appliedProfile.words[w] * 2);
+    }}
+  }});
+  bonus = Math.min(25, bonus);
+  if (j.company && appliedProfile.companies[j.company]) bonus += 8;
+  if (j.team    && appliedProfile.teams[j.team])         bonus += 6;
+  return Math.min(35, bonus);
+}}
 
 // ── Favorite companies storage ──
 function getFavs()       {{ return new Set(JSON.parse(localStorage.getItem('fav_companies') || '[]')); }}
@@ -1207,14 +1273,16 @@ function updateHiddenCount() {{
 const HIDDEN_TITLES = /\b(retail\s+sales|sales\s+associate|cashier|store\s+(manager|associate|leader|supervisor)|sales\s+rep(resentative)?|retail\s+associate|floor\s+(associate|supervisor)|merchandise|barista|bank\s+teller|teller\b|park\s+ranger|trail\s+crew|visitor\s+services|law\s+enforcement\s+ranger)\b/i;
 
 function filtered() {{
-  const _savedOnly = state.sort === 'saved';
-  const _discarded = _savedOnly ? new Set() : getDiscarded();
+  const _savedOnly   = state.sort === 'saved';
+  const _appliedOnly = state.sort === 'applied';
+  const _discarded = (_savedOnly || _appliedOnly) ? new Set() : getDiscarded();
   return JOBS.filter(j => {{
     if (HIDDEN_TITLES.test(j.title)) return false;
     if (_discarded.has(j.role_id))                                          return false;
     if (state.q              && !j.title.toLowerCase().includes(state.q) && !(j.company||'').toLowerCase().includes(state.q)) return false;
     if (state.newOnly        && !j.is_new)                                 return false;
     if (_savedOnly            && !getSaved().has(j.role_id))               return false;
+    if (_appliedOnly          && !getApplied().has(j.role_id))             return false;
     if (state.favOnly        && !getFavs().has(j.company))                return false;
     if (state.favCitiesOnly) {{
       const fc = getFavCities();
@@ -1226,6 +1294,7 @@ function filtered() {{
     if (companyDrop.sel.size && !companyDrop.sel.has(j.company))          return false;
     if (teamDrop.sel.size    && !teamDrop.sel.has(j.team))                return false;
     if (expDrop.sel.size     && !expDrop.sel.has(j.experience))           return false;
+    if (state.sort === 'foryou' && getApplied().has(j.role_id))           return false;
     if (state.sort === 'foryou' && scoreJob(j) < 20)                      return false;
     if (_usOnly) {{
       const locs = getLocations(j);
@@ -1294,6 +1363,10 @@ function sorted(arr) {{
   if (state.sort === 'title')  return [...arr].sort((a,b)=>a.title.localeCompare(b.title));
   if (state.sort === 'saved') {{
     const order = getSavedList();
+    return [...arr].sort((a,b) => order.indexOf(b.role_id) - order.indexOf(a.role_id));
+  }}
+  if (state.sort === 'applied') {{
+    const order = getAppliedList();
     return [...arr].sort((a,b) => order.indexOf(b.role_id) - order.indexOf(a.role_id));
   }}
   if (state.sort === 'foryou') return [...arr].sort((a,b) => {{
@@ -1413,9 +1486,15 @@ function renderPage(list) {{
   const frag = document.createDocumentFragment();
   page.forEach(j => {{
     const logoSrc = LOGOS[j.company];
-    const sc = state.sort === 'foryou' ? scoreJob(j) : -1;
+    const scDetail = state.sort === 'foryou' ? scoreJobDetailed(j) : null;
+    const sc = scDetail ? scDetail.score : -1;
     const matchColor = sc >= 70 ? '#34c759' : sc >= 40 ? '#ff9500' : '#8e8e93';
+    const scTitle = scDetail
+      ? scDetail.breakdown.map(b => `${{b.label}}: ${{b.delta >= 0 ? '+' : ''}}${{b.delta}}`).join('\\n')
+        + `\\n—\\nTotal: ${{sc}}%`
+      : '';
     const isSaved = getSaved().has(j.role_id);
+    const isApplied = getApplied().has(j.role_id);
     const _postTs = parseDate(j.posted_date);
     const _seenTs = parseDate(j.first_seen);
     const _dateStr = j.posted_date
@@ -1429,7 +1508,7 @@ function renderPage(list) {{
         <span class="company-label">${{j.company}}</span>
         <div class="card-top-right">
           ${{(()=>{{const pts=parseDate(j.posted_date);const rec=!j.posted_date||(pts>0&&(Date.now()-pts)<14*86400*1000);return j.is_new&&rec?'<span class="new-badge">NEW</span>':'';}})()}}
-          ${{sc >= 0 ? `<span class="match-badge" style="background:${{matchColor}}">${{sc}}%</span>` : ''}}
+          ${{sc >= 0 ? `<span class="match-badge" style="background:${{matchColor}}" title="${{scTitle.replace(/"/g,'&quot;')}}">${{sc}}%</span>` : ''}}
           <button class="card-hide-btn" title="Hide this job">✕</button>
         </div>
       </div>
@@ -1441,6 +1520,7 @@ function renderPage(list) {{
       </div>
       <div class="card-bottom">
         <div class="card-date">${{_dateStr}}</div>
+        <button class="card-apply-btn${{isApplied ? ' applied' : ''}}" title="${{isApplied ? 'Remove from Applied' : 'Mark as Applied'}}">➔</button>
         <button class="card-star-btn${{isSaved ? ' saved' : ''}}" title="${{isSaved ? 'Remove from Saved' : 'Save'}}">${{isSaved ? '★' : '☆'}}</button>
       </div>
     `;
@@ -1459,6 +1539,28 @@ function renderPage(list) {{
         btn.title = 'Remove from Saved';
       }}
       if (state.sort === 'saved') render();
+    }});
+    card.querySelector('.card-apply-btn').addEventListener('click', e => {{
+      e.stopPropagation();
+      const btn = e.currentTarget;
+      if (getApplied().has(j.role_id)) {{
+        removeApplied(j.role_id);
+        btn.classList.remove('applied');
+        btn.title = 'Mark as Applied';
+      }} else {{
+        addApplied(j.role_id);
+        if (getSaved().has(j.role_id)) {{
+          removeSaved(j.role_id);
+          const starBtn = card.querySelector('.card-star-btn');
+          starBtn.classList.remove('saved');
+          starBtn.textContent = '☆';
+          starBtn.title = 'Save';
+        }}
+        btn.classList.add('applied');
+        btn.title = 'Remove from Applied';
+      }}
+      refreshAppliedProfile();
+      if (state.sort === 'saved' || state.sort === 'applied' || state.sort === 'foryou') render();
     }});
     card.querySelector('.card-hide-btn').addEventListener('click', e => {{
       e.stopPropagation();
