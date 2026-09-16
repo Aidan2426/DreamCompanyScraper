@@ -10481,5 +10481,58 @@
   "Portland, MO": {
     "lat": 38.7108764,
     "lon": -91.7176735
+  },
+  "Los Angeles, AZ": {
+    "lat": 34.0536909,
+    "lon": -118.242766
+  },
+  "Guaynabo, PR": {
+    "lat": 18.3591596,
+    "lon": -66.1156802
+  },
+  "CHE - Ecublens, DC": null,
+  "Windsor, CA": {
+    "lat": 38.5471327,
+    "lon": -122.8163802
+  },
+  "West Yellowstone, MT": {
+    "lat": 44.6632056,
+    "lon": -111.1012064
+  },
+  "South Orange, NJ": {
+    "lat": 40.7474966,
+    "lon": -74.2635376
+  },
+  "Waxahachie, TX": {
+    "lat": 32.3944908,
+    "lon": -96.8439365
+  },
+  "Loganton, PA": {
+    "lat": 41.0347015,
+    "lon": -77.3066113
+  },
+  "Ferndale, MI": {
+    "lat": 42.4605917,
+    "lon": -83.1346478
+  },
+  "Keystone, CO": {
+    "lat": 39.596564,
+    "lon": -105.9340342
+  },
+  "Remote - IND, IN": {
+    "lat": 39.1370402,
+    "lon": -86.3445903
+  },
+  "Los Angeles, FL": {
+    "lat": 26.7345398,
+    "lon": -81.9213019
+  },
+  "Coconut Creek, FL": {
+    "lat": 26.2517482,
+    "lon": -80.1789351
+  },
+  "Holly Hill, FL": {
+    "lat": 29.2435916,
+    "lon": -81.0375555
   }
 }
