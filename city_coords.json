@@ -10639,5 +10639,62 @@
   "Marrero, LA": {
     "lat": 29.8993723,
     "lon": -90.1003506
+  },
+  "Selbyville, DE": {
+    "lat": 38.4606407,
+    "lon": -75.2216048
+  },
+  "800 W El Camino Real, CA": {
+    "lat": 37.3865433,
+    "lon": -122.0840949
+  },
+  "Arizona City, AZ": {
+    "lat": 32.7484,
+    "lon": -111.6759051
+  },
+  "KODIAK, AK": {
+    "lat": 57.7901661,
+    "lon": -152.4067073
+  },
+  "Oil City, PA": {
+    "lat": 41.4341216,
+    "lon": -79.7084738
+  },
+  "Loretto, PA": {
+    "lat": 40.5029161,
+    "lon": -78.6314019
+  },
+  "New Berlin, WI": {
+    "lat": 42.9762181,
+    "lon": -88.1084968
+  },
+  "Miles City, MT": {
+    "lat": 46.4070219,
+    "lon": -105.847843
+  },
+  "La Grande, OR": {
+    "lat": 45.3246068,
+    "lon": -118.0878695
+  },
+  "Ellwood City, PA": {
+    "lat": 40.858579,
+    "lon": -80.2895502
+  },
+  "SANTA CLARA, CA": {
+    "lat": 37.2333253,
+    "lon": -121.6846349
+  },
+  "Lavergne, TN": {
+    "lat": 36.0434585,
+    "lon": -86.5849283
+  },
+  "COL - Bogota, DC": null,
+  "BOWLING GREEN, KY": {
+    "lat": 36.9929203,
+    "lon": -86.4428677
+  },
+  "Fairfield, NJ": {
+    "lat": 40.8837238,
+    "lon": -74.3068718
   }
 }
