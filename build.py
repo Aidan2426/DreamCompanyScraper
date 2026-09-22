@@ -374,7 +374,15 @@ city_counts  = {c: n for c, n in city_counts.items() if n >= 2}
 MAX_NEW_GEOCODE = 150
 city_coords = _geocode_cities(city_counts, max_new=MAX_NEW_GEOCODE)
 
+def _js_string_literal(json_text):
+    # Embed a JSON string as a JS string literal for JSON.parse(); JSON.parse is
+    # much faster than V8 parsing an equivalent huge object-literal, since JSON's
+    # grammar is far simpler. Escape "</" so a URL/title can't prematurely close
+    # the surrounding <script> tag.
+    return json.dumps(json_text).replace('</', '<\\/')
+
 jobs_json         = json.dumps(jobs,         ensure_ascii=False)
+jobs_json_embed   = _js_string_literal(jobs_json)
 teams_json        = json.dumps(teams,        ensure_ascii=False)
 companies_json    = json.dumps(companies,    ensure_ascii=False)
 experiences_json  = json.dumps(experiences,  ensure_ascii=False)
@@ -846,7 +854,7 @@ html = f"""<!DOCTYPE html>
 </div>
 
 <script>
-const JOBS        = {jobs_json};
+const JOBS        = JSON.parse({jobs_json_embed});
 const LOGOS       = {logos_json};
 const TEAMS       = {teams_json};
 const COMPANIES   = {companies_json};
@@ -1045,7 +1053,12 @@ function scoreJobDetailed(j) {{
   const score = Math.max(0, Math.min(100, s));
   return {{ score, breakdown }};
 }}
-function scoreJob(j) {{ return scoreJobDetailed(j).score; }}
+const _scoreCache = new Map();
+function scoreJob(j) {{
+  let s = _scoreCache.get(j.role_id);
+  if (s === undefined) {{ s = scoreJobDetailed(j).score; _scoreCache.set(j.role_id, s); }}
+  return s;
+}}
 
 // ── Custom multi-select dropdown factory ──
 function makeDropdown(containerId, getItems, iconFn, gridMode, favOpts) {{
@@ -1198,7 +1211,7 @@ function buildAppliedProfile() {{
   return profile;
 }}
 let appliedProfile = buildAppliedProfile();
-function refreshAppliedProfile() {{ appliedProfile = buildAppliedProfile(); }}
+function refreshAppliedProfile() {{ appliedProfile = buildAppliedProfile(); _scoreCache.clear(); }}
 // Needs >=3 applied jobs before trusting the signal — one data point is noise, not taste.
 function personalizedBonus(j) {{
   if (appliedProfile.n < 3) return 0;
@@ -1276,16 +1289,20 @@ function filtered() {{
   const _savedOnly   = state.sort === 'saved';
   const _appliedOnly = state.sort === 'applied';
   const _discarded = (_savedOnly || _appliedOnly) ? new Set() : getDiscarded();
+  const _saved     = _savedOnly            ? getSaved()     : null;
+  const _applied   = _appliedOnly          ? getApplied()   : null;
+  const _favs      = state.favOnly         ? getFavs()      : null;
+  const _favCities  = state.favCitiesOnly  ? getFavCities() : null;
   return JOBS.filter(j => {{
     if (HIDDEN_TITLES.test(j.title)) return false;
     if (_discarded.has(j.role_id))                                          return false;
     if (state.q              && !j.title.toLowerCase().includes(state.q) && !(j.company||'').toLowerCase().includes(state.q)) return false;
     if (state.newOnly        && !j.is_new)                                 return false;
-    if (_savedOnly            && !getSaved().has(j.role_id))               return false;
-    if (_appliedOnly          && !getApplied().has(j.role_id))             return false;
-    if (state.favOnly        && !getFavs().has(j.company))                return false;
+    if (_savedOnly            && !_saved.has(j.role_id))                   return false;
+    if (_appliedOnly          && !_applied.has(j.role_id))                 return false;
+    if (state.favOnly        && !_favs.has(j.company))                    return false;
     if (state.favCitiesOnly) {{
-      const fc = getFavCities();
+      const fc = _favCities;
       if (fc.size > 0) {{
         const locs = getLocations(j);
         if (!locs.some(n => fc.has(n.display))) return false;
@@ -1582,7 +1599,12 @@ function render() {{
   updateHiddenCount();
 }}
 
-document.getElementById('q').addEventListener('input', e => {{ state.q = e.target.value.trim().toLowerCase(); render(); }});
+let _qDebounce = null;
+document.getElementById('q').addEventListener('input', e => {{
+  const v = e.target.value.trim().toLowerCase();
+  clearTimeout(_qDebounce);
+  _qDebounce = setTimeout(() => {{ state.q = v.length >= 3 ? v : ''; render(); }}, 300);
+}});
 document.querySelectorAll('[data-new]').forEach(b => b.addEventListener('click', () => {{
   document.querySelectorAll('[data-new]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); state.newOnly = b.dataset.new === 'new'; render();
