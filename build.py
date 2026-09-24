@@ -6,6 +6,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import time
 import urllib.request
 import urllib.parse
@@ -374,15 +375,56 @@ city_counts  = {c: n for c, n in city_counts.items() if n >= 2}
 MAX_NEW_GEOCODE = 150
 city_coords = _geocode_cities(city_counts, max_new=MAX_NEW_GEOCODE)
 
-def _js_string_literal(json_text):
-    # Embed a JSON string as a JS string literal for JSON.parse(); JSON.parse is
-    # much faster than V8 parsing an equivalent huge object-literal, since JSON's
-    # grammar is far simpler. Escape "</" so a URL/title can't prematurely close
-    # the surrounding <script> tag.
-    return json.dumps(json_text).replace('</', '<\\/')
+_JOB_FIELDS = ('role_id', 'title', 'team', 'location', 'posted_date', 'url',
+               'company', 'first_seen', 'last_seen', 'is_new', 'experience')
+# Low-cardinality fields: store each distinct value once plus an index per job.
+_DICT_FIELDS = {'team', 'location', 'posted_date', 'company', 'first_seen', 'last_seen', 'experience'}
 
-jobs_json         = json.dumps(jobs,         ensure_ascii=False)
-jobs_json_embed   = _js_string_literal(jobs_json)
+def _columnar(jobs):
+    # One array per field instead of one object per job, so key names aren't
+    # repeated 200k+ times; roughly halves the payload. Decoded back into job
+    # objects by decodeJobs() in the page.
+    out = {'n': len(jobs)}
+    for k in _JOB_FIELDS:
+        vals = [j.get(k) for j in jobs]
+        if k in _DICT_FIELDS:
+            index = {}
+            out[k] = {'d': None, 'i': [index.setdefault(v, len(index)) for v in vals]}
+            out[k]['d'] = list(index)
+        elif k == 'is_new':
+            out[k] = [1 if v else 0 for v in vals]
+        else:
+            out[k] = vals
+    return out
+
+def _dump_compact(obj):
+    return json.dumps(obj, ensure_ascii=False, separators=(',', ':'))
+
+# Only jobs still listed are embedded in the page; archived ones (no longer on the
+# company's site) go to archive/YYYY-MM.json by first_seen month, fetched only when
+# the Archive tab (or a saved/applied job that's been archived) needs them. Keeps
+# every file far under GitHub's 100 MB limit as history grows.
+active_jobs   = [j for j in jobs if not j.get("archived")]
+archived_jobs = [j for j in jobs if j.get("archived")]
+
+ARCHIVE_DIR = "archive"
+shutil.rmtree(ARCHIVE_DIR, ignore_errors=True)
+os.makedirs(ARCHIVE_DIR)
+_by_month = {}
+for j in archived_jobs:
+    _by_month.setdefault((j.get("first_seen") or "unknown")[:7], []).append(j)
+archive_months = []
+for month in sorted(_by_month, reverse=True):
+    with open(os.path.join(ARCHIVE_DIR, f"{month}.json"), "w", encoding="utf-8") as f:
+        f.write(_dump_compact(_columnar(_by_month[month])))
+    archive_months.append({"month": month, "count": len(_by_month[month])})
+
+# Embedded in a <script type="application/json"> block and read with JSON.parse:
+# faster than V8 parsing a huge object literal, and unlike a JS string literal it
+# needs no quote escaping (which added ~9 MB). Escape "</" so a URL/title can't
+# close the surrounding <script> tag.
+jobs_json_embed     = _dump_compact(_columnar(active_jobs)).replace('</', '<\\/')
+archive_months_json = json.dumps(archive_months)
 teams_json        = json.dumps(teams,        ensure_ascii=False)
 companies_json    = json.dumps(companies,    ensure_ascii=False)
 experiences_json  = json.dumps(experiences,  ensure_ascii=False)
@@ -576,72 +618,87 @@ html = f"""<!DOCTYPE html>
 
     /* ── Count bar ── */
     .count-bar {{
-      max-width: 1100px; margin: 28px auto 0; padding: 0 28px;
+      max-width: 1400px; margin: 28px auto 0; padding: 0 28px;
       font-size: 13px; color: var(--muted);
     }}
 
-    /* ── Grid ── */
+    /* ── Job list (one row per job) ── */
     .grid {{
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px; max-width: 1100px;
-      margin: 16px auto 80px; padding: 0 28px;
+      max-width: 1400px; margin: 16px auto 80px; padding: 0 28px;
+      display: flex; flex-direction: column;
     }}
-
-    /* ── Card ── */
+    .job-head, .card {{
+      display: grid; align-items: center; column-gap: 14px;
+      grid-template-columns: 22px 130px minmax(0,1fr) 240px 64px 78px 44px;
+      grid-template-areas: "logo company title city date actions score";
+      padding: 10px 14px;
+    }}
+    .job-head {{
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.4px; padding-bottom: 6px;
+    }}
+    .job-head .h-score {{ text-align: right; }}
     .card {{
-      background: var(--white); border-radius: 16px; padding: 22px;
-      display: flex; flex-direction: column; gap: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      transition: box-shadow 0.2s, transform 0.2s;
+      background: var(--white); border-bottom: 1px solid #ececf0;
+      transition: background 0.15s;
     }}
-    .card:hover {{ box-shadow: 0 6px 24px rgba(0,0,0,0.12); transform: translateY(-2px); }}
+    .grid > .card:first-of-type {{ border-radius: 12px 12px 0 0; }}
+    .grid > .card:last-of-type  {{ border-radius: 0 0 12px 12px; border-bottom: none; }}
+    .card:hover {{ background: #f7f8fa; }}
 
-    .card-top {{
-      display: flex; align-items: center; gap: 10px;
+    .logo {{ grid-area: logo; width: 22px; height: 22px; object-fit: contain; }}
+    .company-label {{
+      grid-area: company; font-size: 13px; color: var(--muted); font-weight: 500;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }}
-    .logo {{
-      width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;
+    .card-title {{ grid-area: title; min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.35; }}
+    .card-title a {{ color: inherit; text-decoration: none; }}
+    .card-title a:hover {{ color: var(--blue); }}
+    .card-sub {{
+      font-size: 11.5px; font-weight: 400; color: #8e8e93; margin-top: 2px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }}
-    .company-label {{ font-size: 12px; color: var(--muted); font-weight: 500; }}
-    .card-top-right {{ margin-left: auto; display: flex; gap: 4px; align-items: center; }}
+    .card-city {{
+      grid-area: city; font-size: 12.5px; color: #3a3a3c; line-height: 1.35;
+      overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+    }}
+    .card-date {{ grid-area: date; font-size: 12px; color: #8e8e93; line-height: 1.3; }}
+    .card-date span {{ cursor: default; border-bottom: 1px dashed #c7c7cc; }}
+    .card-date .first-seen {{ font-style: italic; }}
+    .card-date .gone {{ display: block; font-size: 10.5px; border-bottom: none; }}
+    .card-actions {{ grid-area: actions; display: flex; justify-content: flex-end; gap: 2px; }}
+    .card-score {{ grid-area: score; text-align: right; }}
     .new-badge {{
-      font-size: 10px; font-weight: 700;
+      font-size: 9.5px; font-weight: 700; vertical-align: 2px; margin-right: 6px;
       background: #34c759; color: #fff;
-      border-radius: 5px; padding: 2px 7px; letter-spacing: 0.4px;
+      border-radius: 5px; padding: 1px 6px; letter-spacing: 0.4px;
     }}
     .match-badge {{
       font-size: 10px; font-weight: 700; color: #fff;
       border-radius: 5px; padding: 2px 7px; letter-spacing: 0.3px;
       cursor: help;
     }}
-
-    .card-title {{
-      font-size: 15px; font-weight: 600; line-height: 1.35;
-    }}
-    .card-title a {{
-      color: inherit; text-decoration: none;
-    }}
-    .card-title a:hover {{ color: var(--blue); }}
-
-    .tags {{ display: flex; flex-wrap: wrap; gap: 5px; }}
-    .tag {{
-      font-size: 11px; font-weight: 500; border-radius: 6px; padding: 2px 8px;
-      background: #f5f5f7; border: 1px solid #e5e5ea; color: #3a3a3c;
-    }}
-    .tag-team  {{ background: #e8f0fe; border-color: #c5d4f8; color: #1a3a8f; }}
-    .tag-exp   {{ background: #fef3e2; border-color: #fcd58a; color: #7a4800; }}
-    .tag-loc   {{ background: #f5f5f7; }}
-
-    .card-date {{ font-size: 12px; color: #8e8e93; }}
-    .card-date span {{ cursor: default; border-bottom: 1px dashed #c7c7cc; }}
     .card-hide-btn {{
-      background: none; border: none; cursor: pointer; padding: 2px 3px;
-      font-size: 12px; color: rgba(0,0,0,0); line-height: 1; flex-shrink: 0;
+      background: none; border: none; cursor: pointer; padding: 2px 4px;
+      font-size: 12px; color: rgba(0,0,0,0.2); line-height: 1;
       transition: color 0.15s;
     }}
-    .card:hover .card-hide-btn {{ color: rgba(0,0,0,0.25); }}
-    .card-hide-btn:hover {{ color: #ff3b30 !important; }}
+    .card-hide-btn:hover {{ color: #ff3b30; }}
+
+    @media (max-width: 720px) {{
+      .grid {{ padding: 0 16px; }}
+      .job-head {{ display: none; }}
+      .card {{
+        grid-template-columns: 22px minmax(0,1fr) auto auto;
+        grid-template-areas:
+          "logo company date  score"
+          "title title  title title"
+          "city  city   actions actions";
+        row-gap: 4px;
+      }}
+      .card-date {{ text-align: right; }}
+      .card-date .gone {{ display: inline; margin-left: 4px; }}
+    }}
 
     .no-results {{
       grid-column: 1/-1; text-align: center;
@@ -665,10 +722,6 @@ html = f"""<!DOCTYPE html>
     .page-btn.active {{ background: var(--blue); border-color: var(--blue); color: #fff; }}
     .page-label {{ font-size: 13px; color: var(--muted); padding: 0 6px; }}
 
-    .card-bottom {{
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      margin-top: auto;
-    }}
     .card-star-btn {{
       background: none; border: none; cursor: pointer; padding: 2px 4px;
       font-size: 17px; color: rgba(0,0,0,0.2); line-height: 1;
@@ -770,7 +823,7 @@ html = f"""<!DOCTYPE html>
 <body>
 
 <div class="hero">
-  <p>{len(jobs):,} jobs tracked{' · ' + str(new_count) + ' new today' if new_count else ''}{' · Updated ' + scraped_at if scraped_at else ''}</p>
+  <p>{len(active_jobs):,} open jobs{' · ' + format(len(archived_jobs), ',') + ' archived' if archived_jobs else ''}{' · ' + str(new_count) + ' new today' if new_count else ''}{' · Updated ' + scraped_at if scraped_at else ''}</p>
 </div>
 
 <div class="controls-bar">
@@ -815,6 +868,8 @@ html = f"""<!DOCTYPE html>
     <button class="pill active" data-sort="foryou">✦ For You</button>
     <button class="pill" data-sort="saved">★ Saved</button>
     <button class="pill" data-sort="applied">➔ Applied</button>
+    <button class="pill" data-sort="archive" title="Jobs no longer listed on the company's site">🗄 Archive</button>
+    <select class="radius-select" id="archive-month" style="display:none"></select>
     <div class="fsep"></div>
     <button class="pill" id="export-btn">⬇ CSV</button>
     <button class="pill" id="stats-btn">📊 Stats</button>
@@ -853,8 +908,45 @@ html = f"""<!DOCTYPE html>
   </div>
 </div>
 
+<script type="application/json" id="jobs-data">{jobs_json_embed}</script>
 <script>
-const JOBS        = JSON.parse({jobs_json_embed});
+function decodeJobs(c) {{
+  const cols = Object.keys(c).filter(k => k !== 'n');
+  const out = new Array(c.n);
+  for (let i = 0; i < c.n; i++) {{
+    const j = {{}};
+    for (const k of cols) {{
+      const v = c[k];
+      j[k] = Array.isArray(v) ? v[i] : v.d[v.i[i]];
+    }}
+    j.is_new = !!j.is_new;
+    out[i] = j;
+  }}
+  return out;
+}}
+const JOBS        = decodeJobs(JSON.parse(document.getElementById('jobs-data').textContent));
+const JOB_IDS     = new Set(JOBS.map(j => j.role_id));
+
+// Archived jobs live in archive/<YYYY-MM>.json (by first-seen month), loaded on demand.
+const ARCHIVE_MONTHS = {archive_months_json};
+const _archiveCache  = new Map();  // month -> Promise<jobs[]>
+let   ARCHIVE        = [];         // jobs for the month picked in the Archive tab
+function loadArchiveMonth(month) {{
+  if (!_archiveCache.has(month)) {{
+    _archiveCache.set(month, fetch(`archive/${{month}}.json`)
+      .then(r => {{ if (!r.ok) throw new Error(r.status); return r.json(); }})
+      .then(decodeJobs)
+      .catch(err => {{ _archiveCache.delete(month); throw err; }}));
+  }}
+  return _archiveCache.get(month);
+}}
+// Every archive month fetched so far, flattened; used so Saved/Applied still show
+// jobs that dropped off their company's site after being saved.
+let _loadedArchived = [];
+async function loadAllArchive() {{
+  const lists = await Promise.all(ARCHIVE_MONTHS.map(m => loadArchiveMonth(m.month)));
+  _loadedArchived = lists.flat();
+}}
 const LOGOS       = {logos_json};
 const TEAMS       = {teams_json};
 const COMPANIES   = {companies_json};
@@ -1189,6 +1281,29 @@ function getApplied()      {{ return new Set(getAppliedList()); }}
 function addApplied(id)    {{ const s=getAppliedList().filter(x=>x!==id); s.push(id); localStorage.setItem('swipe_applied',JSON.stringify(s)); }}
 function removeApplied(id) {{ const s=getAppliedList().filter(x=>x!==id); localStorage.setItem('swipe_applied',JSON.stringify(s)); }}
 
+// ── Saved/applied snapshots ──
+// JOBS only holds open jobs, so a saved/applied job vanishes from it once its company
+// delists it. Keep a copy of each saved/applied job in localStorage so those tabs
+// (and the applied profile) still have it without fetching the whole archive.
+function getSnapshots() {{
+  try {{ return JSON.parse(localStorage.getItem('job_snapshots') || '{{}}'); }} catch (e) {{ return {{}}; }}
+}}
+function syncSnapshots() {{
+  const keep = new Set([...getSavedList(), ...getAppliedList()]);
+  const old = getSnapshots(), out = {{}};
+  for (const j of JOBS)            if (keep.has(j.role_id)) out[j.role_id] = j;
+  for (const j of _loadedArchived) if (keep.has(j.role_id) && !out[j.role_id]) out[j.role_id] = j;
+  for (const id of keep)           if (!out[id] && old[id]) out[id] = old[id];
+  try {{ localStorage.setItem('job_snapshots', JSON.stringify(out)); }} catch (e) {{}}
+  return out;
+}}
+let _snapshots = syncSnapshots();
+// Saved/applied jobs that are no longer open.
+function trackedArchived() {{ return Object.values(_snapshots).filter(j => !JOB_IDS.has(j.role_id)); }}
+function hasUnresolvedTracked() {{
+  return [...getSavedList(), ...getAppliedList()].some(id => !JOB_IDS.has(id) && !_snapshots[id]);
+}}
+
 // ── Applied-jobs learning: bias For You scoring toward what you actually apply to.
 // Runs entirely client-side at page load / on every apply — no server round trip
 // needed, so tonight's freshly-scraped jobs get scored against today's profile
@@ -1201,7 +1316,7 @@ function tokenizeTitle(title) {{
 function buildAppliedProfile() {{
   const appliedIds = getApplied();
   const profile = {{ words: {{}}, companies: {{}}, teams: {{}}, n: 0 }};
-  JOBS.forEach(j => {{
+  JOBS.concat(trackedArchived()).forEach(j => {{
     if (!appliedIds.has(j.role_id)) return;
     profile.n++;
     tokenizeTitle(j.title).forEach(w => {{ profile.words[w] = (profile.words[w] || 0) + 1; }});
@@ -1293,7 +1408,10 @@ function filtered() {{
   const _applied   = _appliedOnly          ? getApplied()   : null;
   const _favs      = state.favOnly         ? getFavs()      : null;
   const _favCities  = state.favCitiesOnly  ? getFavCities() : null;
-  return JOBS.filter(j => {{
+  const src = state.sort === 'archive'        ? ARCHIVE
+            : (_savedOnly || _appliedOnly)    ? JOBS.concat(trackedArchived())
+            :                                   JOBS;
+  return src.filter(j => {{
     if (HIDDEN_TITLES.test(j.title)) return false;
     if (_discarded.has(j.role_id))                                          return false;
     if (state.q              && !j.title.toLowerCase().includes(state.q) && !(j.company||'').toLowerCase().includes(state.q)) return false;
@@ -1501,9 +1619,13 @@ function renderPage(list) {{
     return;
   }}
   const frag = document.createDocumentFragment();
+  const head = document.createElement('div');
+  head.className = 'job-head';
+  head.innerHTML = '<span></span><span>Company</span><span>Title</span><span>Location</span><span>Posted</span><span></span><span class="h-score">Match</span>';
+  frag.appendChild(head);
   page.forEach(j => {{
     const logoSrc = LOGOS[j.company];
-    const scDetail = state.sort === 'foryou' ? scoreJobDetailed(j) : null;
+    const scDetail = scoreJobDetailed(j);
     const sc = scDetail ? scDetail.score : -1;
     const matchColor = sc >= 70 ? '#34c759' : sc >= 40 ? '#ff9500' : '#8e8e93';
     const scTitle = scDetail
@@ -1514,32 +1636,34 @@ function renderPage(list) {{
     const isApplied = getApplied().has(j.role_id);
     const _postTs = parseDate(j.posted_date);
     const _seenTs = parseDate(j.first_seen);
-    const _dateStr = j.posted_date
-      ? `Posted <span title="${{j.posted_date}}">${{fmtDate(_postTs) || j.posted_date}}</span>`
-      : `First seen <span title="${{j.first_seen}}">${{fmtDate(_seenTs) || j.first_seen}}</span>`;
+    const _goneStr = !JOB_IDS.has(j.role_id) && j.last_seen
+      ? `<span class="gone" title="Last listed ${{j.last_seen}}">gone ${{fmtDate(parseDate(j.last_seen)) || j.last_seen}}</span>`
+      : '';
+    const _dateStr = (j.posted_date
+      ? `<span title="Posted ${{j.posted_date}}">${{fmtDate(_postTs) || j.posted_date}}</span>`
+      : `<span class="first-seen" title="No posted date — first seen ${{j.first_seen}}">${{fmtDate(_seenTs) || j.first_seen}}</span>`)
+      + _goneStr;
+    const _locs = (j.location || '').split(/\\s*[|/;]\\s*/).filter(Boolean);
+    const _cityStr = _locs.length > 1 ? `${{_locs[0]}} +${{_locs.length - 1}}` : (_locs[0] || '');
+    const _sub = [j.team, j.experience].filter(Boolean).join(' · ');
+    const _isNew = (()=>{{const pts=parseDate(j.posted_date);const rec=!j.posted_date||(pts>0&&(Date.now()-pts)<14*86400*1000);return j.is_new&&rec;}})();
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <div class="card-top">
-        ${{logoSrc ? `<img class="logo" src="${{logoSrc}}" alt="${{j.company}}"/>` : ''}}
-        <span class="company-label">${{j.company}}</span>
-        <div class="card-top-right">
-          ${{(()=>{{const pts=parseDate(j.posted_date);const rec=!j.posted_date||(pts>0&&(Date.now()-pts)<14*86400*1000);return j.is_new&&rec?'<span class="new-badge">NEW</span>':'';}})()}}
-          ${{sc >= 0 ? `<span class="match-badge" style="background:${{matchColor}}" title="${{scTitle.replace(/"/g,'&quot;')}}">${{sc}}%</span>` : ''}}
-          <button class="card-hide-btn" title="Hide this job">✕</button>
-        </div>
+      ${{logoSrc ? `<img class="logo" src="${{logoSrc}}" alt=""/>` : '<span class="logo"></span>'}}
+      <span class="company-label" title="${{j.company}}">${{j.company}}</span>
+      <div class="card-title">
+        ${{_isNew ? '<span class="new-badge">NEW</span>' : ''}}<a href="${{j.url}}" target="_blank" rel="noopener">${{j.title}}</a>
+        ${{_sub ? `<div class="card-sub" title="${{_sub.replace(/"/g,'&quot;')}}">${{_sub}}</div>` : ''}}
       </div>
-      <div class="card-title"><a href="${{j.url}}" target="_blank" rel="noopener">${{j.title}}</a></div>
-      <div class="tags">
-        ${{j.team       ? `<span class="tag tag-team">${{j.team}}</span>` : ''}}
-        ${{j.experience ? `<span class="tag tag-exp">${{j.experience}}</span>` : ''}}
-        ${{j.location   ? `<span class="tag tag-loc">📍 ${{j.location}}</span>` : ''}}
-      </div>
-      <div class="card-bottom">
-        <div class="card-date">${{_dateStr}}</div>
-        <button class="card-apply-btn${{isApplied ? ' applied' : ''}}" title="${{isApplied ? 'Remove from Applied' : 'Mark as Applied'}}">➔</button>
+      <div class="card-city" title="${{(j.location || '').replace(/"/g,'&quot;')}}">${{_cityStr}}</div>
+      <div class="card-date">${{_dateStr}}</div>
+      <div class="card-actions">
+        <button class="card-hide-btn" title="Hide this job">✕</button>
         <button class="card-star-btn${{isSaved ? ' saved' : ''}}" title="${{isSaved ? 'Remove from Saved' : 'Save'}}">${{isSaved ? '★' : '☆'}}</button>
+        <button class="card-apply-btn${{isApplied ? ' applied' : ''}}" title="${{isApplied ? 'Remove from Applied' : 'Mark as Applied'}}">➔</button>
       </div>
+      <div class="card-score">${{sc >= 0 ? `<span class="match-badge" style="background:${{matchColor}}" title="${{scTitle.replace(/"/g,'&quot;')}}">${{sc}}%</span>` : ''}}</div>
     `;
     card.querySelector('.card-star-btn').addEventListener('click', e => {{
       e.stopPropagation();
@@ -1594,9 +1718,47 @@ function renderPage(list) {{
 }}
 
 function render() {{
+  _snapshots = syncSnapshots();
   currentPage = 1;
   renderPage(sorted(filtered()));
   updateHiddenCount();
+}}
+
+// ── Archive tab ──
+const archiveSel = document.getElementById('archive-month');
+function fmtMonth(m) {{
+  const [y, mo] = m.split('-').map(Number);
+  return mo ? new Date(y, mo - 1, 1).toLocaleString('en-US', {{ month: 'short', year: 'numeric' }}) : m;
+}}
+archiveSel.innerHTML = ARCHIVE_MONTHS.length
+  ? ARCHIVE_MONTHS.map(m => `<option value="${{m.month}}">Found ${{fmtMonth(m.month)}} (${{m.count.toLocaleString()}})</option>`).join('')
+  : '<option value="">No archived jobs yet</option>';
+async function showArchiveMonth() {{
+  const month = archiveSel.value;
+  ARCHIVE = [];
+  if (!month) {{ render(); return; }}
+  grid.innerHTML = '';
+  pagination.innerHTML = '';
+  label.textContent = `Loading ${{fmtMonth(month)}} archive…`;
+  try {{
+    const jobs = await loadArchiveMonth(month);
+    if (state.sort !== 'archive' || archiveSel.value !== month) return;  // user moved on
+    ARCHIVE = jobs;
+    render();
+  }} catch (e) {{
+    if (state.sort === 'archive') label.textContent = `Couldn't load archive (${{e.message}})`;
+  }}
+}}
+archiveSel.addEventListener('change', showArchiveMonth);
+
+// Saved/applied jobs archived before this browser stored a snapshot of them: find
+// them in the archive once, then the snapshots cover it from then on.
+if (ARCHIVE_MONTHS.length && hasUnresolvedTracked()) {{
+  loadAllArchive().then(() => {{
+    _snapshots = syncSnapshots();
+    refreshAppliedProfile();
+    if (state.sort !== 'archive') render();
+  }}).catch(() => {{}});
 }}
 
 let _qDebounce = null;
@@ -1617,7 +1779,9 @@ document.querySelectorAll('[data-region]').forEach(b => b.addEventListener('clic
 }}));
 document.querySelectorAll('[data-sort]').forEach(b => b.addEventListener('click', () => {{
   document.querySelectorAll('[data-sort]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); state.sort = b.dataset.sort; render();
+  b.classList.add('active'); state.sort = b.dataset.sort;
+  archiveSel.style.display = state.sort === 'archive' ? '' : 'none';
+  if (state.sort === 'archive') showArchiveMonth(); else render();
 }}));
 
 document.getElementById('radius-miles').addEventListener('change', function() {{
@@ -1757,6 +1921,7 @@ document.getElementById('export-btn').addEventListener('click', exportCSV);
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-print(f"Built index.html — {len(jobs)} jobs, {new_count} new")
+print(f"Built index.html — {len(active_jobs)} active jobs, {new_count} new; "
+      f"{len(archived_jobs)} archived in {len(archive_months)} {ARCHIVE_DIR}/ files")
 if not _args.no_open:
     webbrowser.open("index.html")

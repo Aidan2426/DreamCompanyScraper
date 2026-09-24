@@ -3,7 +3,7 @@ import argparse
 import json
 from datetime import date
 
-from db import init_db, upsert_jobs, get_new_jobs, get_all_jobs
+from db import init_db, upsert_jobs, get_new_jobs, get_all_jobs, record_full_runs
 from scrapers import apple, google, microsoft, netflix, meta, amazon, openai, anthropic, disney, nvidia, hershey, ibm, cisco, oracle, universal, duolingo, hp, intel, qualcomm, micron, paramount, adobe, motorola, samsung, analogdevices, ebay, gecko, westerndigital, nps, xai, palantir, sony, nintendo, ea, epicgames, roblox, ubisoft, pinterest, linkedin, supercell, pwc, spotify, verizon, amd, salesforce, uber, airbnb, dropbox, twitch, yahoo, riotgames, fujifilm, pnc, upmc, natgeo, panasonic, snap, logitech, cloudflare, peloton, zillow, garmin, autodesk, deloitte, wesco, viatris, dsg, alcoa, arconic, westinghouse, eqt, howmet, americaneagle, coherent, nike, adidas, razer, stripe, notion, workatastartup, visa, bny, mastercard, generaldynamics, ford, sandisk, figma, capitalone, crowdstrike, boeing, wabtec, lenovo, tesla, spacex, lockheed, paypal, dell, broadcom, robopgh, aqua, cmu, covestro, fnb, bechtel, highmark, kennametal, leidos, servicenow, united, armada, bytedance, wbd, seatgeek, ticketmaster, stubhub, cgi, indeed, affirm, formenergy, gevernova, bdo, emerson, questdiagnostics, ey, fedex, gianteagle, atimaterials, ppg, gm, rivian, hubspot, github, discord, aurora, datadog, twok, moderna, boozallen, jnj, pfizer, merck, cdpr, bloomberg, l3harris, paloalto, zetaglobal, mondaydotcom, mongodb, dolby, zscaler, uipath, doordash, reddit, twilio, lyft, elastic, brex, vercel, robinhood, okta, instacart, planetlabs
 
 TODAY = date.today().isoformat()
@@ -41,6 +41,7 @@ async def run(skip_scrape: bool = False, companies: list = None, skip: list = No
 
         new_count = upsert_jobs(all_scraped)
         print(f"\n[OK] {len(all_scraped)} total scraped, {new_count} new today\n")
+        record_full_runs({j.get("company", "Apple") for j in all_scraped})
 
     # Dump all jobs to jobs.json for build.py
     all_jobs = get_all_jobs()
@@ -57,6 +58,8 @@ async def run(skip_scrape: bool = False, companies: list = None, skip: list = No
             "first_seen":  j["first_seen"],
             "is_new":      j["first_seen"] == today,
             "experience":  j["experience"] or "",
+            "last_seen":   j["last_seen"],
+            "archived":    bool(j["archived"]),
         }
         for j in all_jobs
     ]

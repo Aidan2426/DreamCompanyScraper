@@ -15,7 +15,9 @@ async def _capture(response: Response):
         if "all_jobs" in text or "job_search" in text:
             import json as _json
             data = _json.loads(text)
-            search = (data.get("data") or {}).get("job_search_with_featured_jobs") or {}
+            # Meta renamed the field to ..._v2 around May 2026; accept either.
+            d = data.get("data") or {}
+            search = d.get("job_search_with_featured_jobs_v2") or d.get("job_search_with_featured_jobs") or {}
             jobs = search.get("all_jobs", [])
             if jobs:
                 _job_data.extend(jobs)

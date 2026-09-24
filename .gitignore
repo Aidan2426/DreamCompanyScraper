@@ -6,3 +6,4 @@ __pycache__/
 .env
 debug_selectors.py
 debug_google.py
+archive/

@@ -25,6 +25,14 @@ jobs:
           restore-keys: |
             jobs-db-
 
+      # The Actions cache is evicted after 7 days unused, which would lose all job
+      # history. Fall back to the copy uploaded to the db-backup release each run.
+      - name: Restore jobs.db from backup release
+        if: hashFiles('jobs.db') == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download db-backup --pattern jobs.db || echo "No backup release yet"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -43,6 +51,17 @@ jobs:
           python build.py --no-open
           mkdir -p dist
           cp index.html dist/
+          cp -r archive dist/
+
+      - name: Back up jobs.db
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view db-backup >/dev/null 2>&1; then
+            gh release create db-backup --title "jobs.db backup" --latest=false \
+              --notes "Latest jobs.db, re-uploaded by every daily scrape."
+          fi
+          gh release upload db-backup jobs.db --clobber
 
       - name: Commit updated city coordinates
         run: |
@@ -58,3 +77,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
+          # Only keep the latest deploy; daily multi-MB snapshots would bloat the repo.
+          force_orphan: true
