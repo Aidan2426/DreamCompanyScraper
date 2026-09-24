@@ -43,6 +43,7 @@ COMPANY_LOGOS = {
     "Twitch":                    _gfav("twitch.tv"),
     "Yahoo":                     _gfav("yahoo.com"),
     "Riot Games":                _gfav("riotgames.com"),
+    "Activision":                _gfav("activision.com"),
     "Fujifilm":                  _gfav("fujifilm.com"),
     "PNC":                       _gfav("pnc.com"),
     "UPMC":                      _gfav("upmc.com"),

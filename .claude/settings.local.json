@@ -256,7 +256,8 @@
       "Bash(Select-Object -ExpandProperty Line)",
       "Bash(Get-Item \"C:\\\\Users\\\\aidan\\\\OneDrive\\\\Documents\\\\DreamCompanyScraper\\\\build.py\")",
       "Bash(Select-Object -ExpandProperty Length)",
-      "PowerShell(Get-Content *)"
+      "PowerShell(Get-Content *)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe scrapers\\\\activision.py)"
     ]
   }
 }
