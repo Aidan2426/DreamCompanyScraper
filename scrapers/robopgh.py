@@ -1,96 +1,103 @@
 import asyncio
+import json
 import re
+from datetime import date, datetime, timedelta
 from curl_cffi.requests import AsyncSession
 
-BASE_URL = "https://robopgh.org/jobs"
+# Pittsburgh Robotics Network job board. robopgh.org/jobs (Webflow) now redirects
+# here; this is a Next.js site that embeds each page's jobs as JSON in its
+# React Server Components payload (self.__next_f.push chunks).
+BASE_URL = "https://jobs.robopgh.org/jobs"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
+MAX_PAGES = 100  # safety stop; the board has ~16 pages of 20
+# Employers with their own scraper; RoboPGH's copies of their jobs would show up
+# twice under a slightly different company name, with less data.
+SKIP_EMPLOYERS = {"aurora", "aurora innovation", "gecko robotics", "meta"}
+
+_JOB_START = re.compile(r'\{"id":"[a-z0-9]+","title":')
 
 
-def _parse_field(item_html: str, field: str) -> str:
-    m = re.search(
-        rf'fs-cmsfilter-field="{re.escape(field)}"[^>]*>(.*?)</\w+>',
-        item_html,
-        re.DOTALL | re.IGNORECASE,
-    )
-    return m.group(1).strip() if m else ""
+def _payload(html: str) -> str:
+    chunks = re.findall(r'self\.__next_f\.push\(\[1,"(.*?)"\]\)</script>', html, re.S)
+    return "".join(json.loads(f'"{c}"') for c in chunks)
 
 
-def _parse_items(html: str) -> list[dict]:
-    chunks = html.split('<div role="listitem" class="w-dyn-item">')
-    jobs = []
-    for chunk in chunks[1:]:
-        # URL
-        m = re.search(r'href="(https?://[^"]+)"[^>]*class="job-board-list_item-link', chunk)
-        if not m:
-            m = re.search(r'class="job-board-list_item-link[^"]*"[^>]*href="(https?://[^"]+)"', chunk)
-        url = m.group(1).strip() if m else ""
-
-        title   = _parse_field(chunk, "JobTitle")
-        company = _parse_field(chunk, "Employer")
-        city    = _parse_field(chunk, "City")
-        state   = _parse_field(chunk, "State")
-        jtype   = _parse_field(chunk, "Type")
-
-        if not title or not url:
+def _extract_jobs(payload: str) -> list[dict]:
+    decoder = json.JSONDecoder()
+    out = []
+    for m in _JOB_START.finditer(payload):
+        try:
+            obj, _ = decoder.raw_decode(payload, m.start())
+        except ValueError:
             continue
+        if obj.get("applyUrl") and obj.get("company"):
+            out.append(obj)
+    return out
 
-        location = ", ".join(filter(None, [city, state])) or "Pittsburgh, PA"
-        slug = re.sub(r"[^a-z0-9]+", "_", title.lower())[:40]
-        co_slug = re.sub(r"[^a-z0-9]+", "_", company.lower())[:20] if company else "robopgh"
-        role_id = f"robopgh_{co_slug}_{slug}_{abs(hash(url)) % 100000}"
 
-        jobs.append({
-            "role_id":     role_id,
-            "title":       title,
-            "team":        jtype,
-            "location":    location,
-            "posted_date": "",
-            "url":         url,
-            "company":     company or "RoboPGH",
-            "experience":  "",
-        })
-    return jobs
+def _posted(raw) -> str:
+    if not raw:
+        return ""
+    s = str(raw).strip()
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00")).strftime("%b %d, %Y")
+    except ValueError:
+        pass
+    try:
+        return datetime.strptime(s, "%m/%d/%Y").strftime("%b %d, %Y")
+    except ValueError:
+        pass
+    low = s.lower().replace("a month", "1 month")
+    m = re.search(r"(\d+)\+?\s*(day|month)", low)
+    if m:
+        days = int(m.group(1)) * (30 if m.group(2) == "month" else 1)
+        return (date.today() - timedelta(days=days)).strftime("%b %d, %Y")
+    if low in ("new", "today", "posted today", "just posted"):
+        return date.today().strftime("%b %d, %Y")
+    if "yesterday" in low:
+        return (date.today() - timedelta(days=1)).strftime("%b %d, %Y")
+    return ""
 
 
 async def scrape() -> list[dict]:
+    jobs: list[dict] = []
+    seen: set[str] = set()
     async with AsyncSession(impersonate="chrome124") as session:
-        page = 1
-        all_jobs: list[dict] = []
-        seen_ids: set[str] = set()
-
-        while True:
-            params = {} if page == 1 else {"1db4616d_page": page}
-            r = await session.get(BASE_URL, params=params, headers=HEADERS, timeout=30)
+        for page in range(1, MAX_PAGES + 1):
+            r = await session.get(BASE_URL, params={"page": page}, headers=HEADERS, timeout=30)
             if r.status_code != 200:
                 print(f"[robopgh] page {page} -> {r.status_code}, stopping")
                 break
-
-            html = r.text
-            items = _parse_items(html)
-            if not items:
+            raw = _extract_jobs(_payload(r.text))
+            new = [j for j in raw if j["id"] not in seen]
+            if not new:
                 break
+            for j in new:
+                seen.add(j["id"])
+                company = (j.get("company") or "").strip()
+                if company.lower() in SKIP_EMPLOYERS:
+                    continue
+                jobs.append({
+                    "role_id":     f"robopgh_{j['id']}",
+                    "title":       (j.get("title") or "").strip(),
+                    "team":        "",
+                    "location":    (j.get("location") or "").strip(),
+                    "posted_date": _posted(j.get("postedDate")),
+                    "url":         j["applyUrl"],
+                    "company":     company,
+                    "experience":  (j.get("experience") or "").strip() if isinstance(j.get("experience"), str) else "",
+                })
 
-            for j in items:
-                if j["role_id"] not in seen_ids:
-                    seen_ids.add(j["role_id"])
-                    all_jobs.append(j)
-
-            # Finsweet pagination: next page link exists only when there are more pages
-            has_next = f'"1db4616d_page":{page + 1}' in html or f"1db4616d_page={page + 1}" in html
-            # Fallback: if we got a full page of 20 items, try next
-            if not has_next and len(items) < 20:
-                break
-            page += 1
-
-    print(f"[robopgh] Done. {len(all_jobs)} jobs across {page} pages.")
-    return all_jobs
+    print(f"[robopgh] Done. {len(jobs)} jobs across {page} pages "
+          f"({len(seen) - len(jobs)} skipped as duplicates of direct scrapers).")
+    return jobs
 
 
 if __name__ == "__main__":
     jobs = asyncio.run(scrape())
     for j in jobs[:5]:
-        print(j["title"], "|", j["company"], "|", j["location"])
+        print(j["title"], "|", j["company"], "|", j["location"], "|", j["posted_date"])
     print(f"Total: {len(jobs)}")

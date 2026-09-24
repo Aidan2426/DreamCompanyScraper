@@ -1,51 +1,44 @@
-import asyncio
+import httpx
 from datetime import datetime
-from curl_cffi.requests import AsyncSession
 
-ALGOLIA_URL = "https://UYBO3E5EHF-dsn.algolia.net/1/indexes/Greenhouse"
+# Aurora moved its job board from Greenhouse to Ashby around Sep 2026; the old
+# Greenhouse Algolia index (UYBO3E5EHF) stopped updating after that.
+API_URL = "https://api.ashbyhq.com/posting-api/job-board/aurora-operations-inc"
 HEADERS = {
-    "X-Algolia-Application-Id": "UYBO3E5EHF",
-    "X-Algolia-API-Key":        "7a9b56bc6afb962030d482030f588e1e",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "application/json",
 }
 
 
-def _fmt_date(s: str) -> str:
+def _fmt_date(iso: str) -> str:
     try:
-        return datetime.fromisoformat(s[:19]).strftime("%b %d, %Y")
+        return datetime.fromisoformat(iso).strftime("%b %d, %Y")
     except Exception:
-        return ""
+        return iso[:10] if iso else ""
 
 
-async def scrape() -> list[dict]:
-    async with AsyncSession(impersonate="chrome124") as session:
-        r = await session.get(ALGOLIA_URL, params={"query": "", "hitsPerPage": 250},
-                              headers=HEADERS, timeout=30)
+def scrape() -> list[dict]:
+    with httpx.Client(timeout=30, headers=HEADERS, follow_redirects=True) as client:
+        r = client.get(API_URL)
         r.raise_for_status()
-        data = r.json()
+        raw = r.json().get("jobs", [])
 
-    raw = data.get("hits", [])
-    print(f"[aurora] total={data.get('nbHits', len(raw))}")
-
-    seen: set[str] = set()
-    jobs: list[dict] = []
+    print(f"[aurora] total={len(raw)}")
+    jobs = []
     for j in raw:
-        job_id = str(j.get("id") or "").strip()
-        title  = (j.get("title") or "").strip()
-        if not job_id or not title or job_id in seen:
+        job_id = j.get("id", "")
+        title = (j.get("title") or "").strip()
+        if not title or not job_id or j.get("isListed") is False:
             continue
-        seen.add(job_id)
-        depts = j.get("departments") or []
-        team  = depts[0]["name"] if depts else ""
+        locs = [j.get("location", "")] + [s.get("location", "") for s in j.get("secondaryLocations") or []]
         jobs.append({
             "role_id":     f"aurora_{job_id}",
             "title":       title,
-            "team":        team,
-            "location":    (j.get("location") or {}).get("name", ""),
-            "posted_date": _fmt_date(j.get("first_published") or ""),
-            "url":         j.get("absolute_url", ""),
+            "team":        j.get("team") or j.get("department") or "",
+            "location":    " | ".join(l for l in locs if l),
+            "posted_date": _fmt_date(j.get("publishedAt", "")),
+            "url":         j.get("jobUrl", ""),
             "company":     "Aurora Innovation",
-            "experience":  "",
         })
 
     print(f"[aurora] Done. {len(jobs)} jobs.")
@@ -53,7 +46,7 @@ async def scrape() -> list[dict]:
 
 
 if __name__ == "__main__":
-    jobs = asyncio.run(scrape())
+    jobs = scrape()
     for j in jobs[:5]:
         print(j["title"], "|", j["location"], "|", j["posted_date"])
     print(f"Total: {len(jobs)}")
