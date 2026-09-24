@@ -38,6 +38,20 @@ def init_db():
         except Exception:
             pass
         conn.execute("UPDATE jobs SET last_seen = first_seen WHERE last_seen IS NULL")
+        # These Workday scrapers used to build job URLs without the career-site
+        # segment (host/job/... instead of host/<site>/job/...), which 404s. Rewrite
+        # rows saved that way; INSERT OR IGNORE never touches existing rows. No-op once fixed.
+        for host, site in [
+            ("sonyglobal.wd1.myworkdayjobs.com",        "SonyGlobalCareers"),
+            ("analogdevices.wd1.myworkdayjobs.com",     "External"),
+            ("intel.wd1.myworkdayjobs.com",             "External"),
+            ("motorolasolutions.wd5.myworkdayjobs.com", "Careers"),
+            ("sec.wd3.myworkdayjobs.com",               "Samsung_Careers"),
+        ]:
+            conn.execute(
+                "UPDATE jobs SET url = replace(url, ?, ?) WHERE url LIKE ?",
+                (f"{host}/job/", f"{host}/{site}/job/", f"https://{host}/job/%"),
+            )
         # Date of each company's last *complete* scrape. A job is active while its
         # last_seen >= that date; older ones are archived (no longer listed).
         conn.execute("""

@@ -52,7 +52,7 @@ def _parse(data: dict) -> tuple[list[dict], int]:
             "team":        "",
             "location":    j.get("locationsText", ""),
             "posted_date": _parse_posted(j.get("postedOn", "")),
-            "url":         f"{BASE_URL}{path}",
+            "url":         f"{BASE_URL}/Samsung_Careers{path}",
             "company":     "Samsung",
         })
     return jobs, total

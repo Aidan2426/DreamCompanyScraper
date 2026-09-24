@@ -76,7 +76,7 @@ def scrape() -> list[dict]:
                     "team":        "",
                     "location":    j.get("locationsText", ""),
                     "posted_date": _parse_posted(j.get("postedOn", "")),
-                    "url":         f"{BASE_URL}{path}",
+                    "url":         f"{BASE_URL}/SonyGlobalCareers{path}",
                     "company":     "Sony",
                     "experience":  "",
                 })
