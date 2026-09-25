@@ -10891,5 +10891,71 @@
     "lat": 34.4434282,
     "lon": -86.9352842
   },
-  "All Cities, NC": null
+  "All Cities, NC": null,
+  "Woodland Hills, CA": {
+    "lat": 34.1684364,
+    "lon": -118.6058382
+  },
+  "Playa Vista, CA": {
+    "lat": 33.9760102,
+    "lon": -118.4181654
+  },
+  "Mayport, FL": {
+    "lat": 30.3933366,
+    "lon": -81.4305924
+  },
+  "PIttsburgh, PA": {
+    "lat": 40.4406968,
+    "lon": -80.0025666
+  },
+  "Thomasville, NC": {
+    "lat": 35.8831786,
+    "lon": -80.081817
+  },
+  "Pittsburgh, CA": {
+    "lat": 39.5151683,
+    "lon": -121.1002349
+  },
+  "SHERMAN, TX": {
+    "lat": 36.2452294,
+    "lon": -101.8858689
+  },
+  "Lake Wales, FL": {
+    "lat": 27.9014133,
+    "lon": -81.5859099
+  },
+  "Denver, IL": {
+    "lat": 40.2906008,
+    "lon": -91.1070841
+  },
+  "Kitsap, WA": {
+    "lat": 47.594502,
+    "lon": -122.6474421
+  },
+  "Mountain View, WA": {
+    "lat": 48.8481651,
+    "lon": -122.6712875
+  },
+  "620 William Pitt Way, PA": {
+    "lat": 40.5446211,
+    "lon": -79.8279879
+  },
+  "Tarragona, CT": {
+    "lat": 36.133804,
+    "lon": -115.2838085
+  },
+  "Buena Vista, CO": {
+    "lat": 38.8422178,
+    "lon": -106.1311288
+  },
+  "Middleburg, OH": {
+    "lat": 40.4547875,
+    "lon": -80.8803649
+  },
+  "Mountain View, PA": {
+    "lat": 40.3306442,
+    "lon": -76.7771928
+  },
+  "Coppell, PA": null,
+  "Palo Alto, DC": null
 }
