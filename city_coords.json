@@ -10957,5 +10957,48 @@
     "lon": -76.7771928
   },
   "Coppell, PA": null,
-  "Palo Alto, DC": null
+  "Palo Alto, DC": null,
+  "Columbiana, AL": {
+    "lat": 33.1781718,
+    "lon": -86.6072054
+  },
+  "Andrews AFB CDP, MD": null,
+  "Waterford, PA": {
+    "lat": 41.9424811,
+    "lon": -79.9842062
+  },
+  "Workspace: 350 N Orleans, IL": null,
+  "Blawnox, PA": {
+    "lat": 40.4934017,
+    "lon": -79.8606053
+  },
+  "Dupont, WA": {
+    "lat": 47.0990689,
+    "lon": -122.637546
+  },
+  "All Cities, NM": null,
+  "Johnson Creek, WI": {
+    "lat": 43.0759165,
+    "lon": -88.774837
+  },
+  "Locust Grove, GA": {
+    "lat": 33.3459495,
+    "lon": -84.109083
+  },
+  "Birch Run, MI": {
+    "lat": 43.250859,
+    "lon": -83.794131
+  },
+  "Ellenton, FL": {
+    "lat": 27.517143,
+    "lon": -82.548708
+  },
+  "Mercedes, TX": {
+    "lat": 26.1497977,
+    "lon": -97.9136112
+  },
+  "San Ysidro, CA": {
+    "lat": 32.5520013,
+    "lon": -117.0430813
+  }
 }
