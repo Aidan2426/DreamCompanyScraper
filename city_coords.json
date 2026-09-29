@@ -11004,5 +11004,73 @@
   "Mineral, CA": {
     "lat": 40.376348,
     "lon": -121.5666375
+  },
+  "Texas, TX": {
+    "lat": 30.6108618,
+    "lon": -96.3520606
+  },
+  "RAPID CITY, SD": {
+    "lat": 44.0806041,
+    "lon": -103.228023
+  },
+  "Natchez, LA": {
+    "lat": 31.6754441,
+    "lon": -93.0446069
+  },
+  "All Cities, MI": {
+    "lat": 42.5524241,
+    "lon": -83.0708056
+  },
+  "WeWork: University Park 3300 N Interstate 35, TX": {
+    "lat": 30.2911884,
+    "lon": -97.7228343
+  },
+  "Kentucky, KY": {
+    "lat": 38.0266291,
+    "lon": -84.5047222
+  },
+  "Bell, CA": {
+    "lat": 33.9747806,
+    "lon": -118.1866361
+  },
+  "SIOUX CITY, IA": {
+    "lat": 42.4966815,
+    "lon": -96.4058782
+  },
+  "TOPEKA, KS": {
+    "lat": 39.049011,
+    "lon": -95.677556
+  },
+  "MINOT, ND": {
+    "lat": 48.23251,
+    "lon": -101.296273
+  },
+  "NORTH PLATTE, NE": {
+    "lat": 41.1368333,
+    "lon": -100.7612819
+  },
+  "EFFINGHAM, IL": {
+    "lat": 39.0520902,
+    "lon": -88.6029006
+  },
+  "Rancho Santa Margarita, CA": {
+    "lat": 33.6408845,
+    "lon": -117.6029341
+  },
+  "Sarver, PA": {
+    "lat": 40.7314538,
+    "lon": -79.7458838
+  },
+  "Cheshire, CT": {
+    "lat": 41.4989355,
+    "lon": -72.9009925
+  },
+  "San Ramon, CA": {
+    "lat": 37.7648021,
+    "lon": -121.9544387
+  },
+  "West Jefferson, NC": {
+    "lat": 36.4037364,
+    "lon": -81.4928829
   }
 }
