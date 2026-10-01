@@ -11092,5 +11092,35 @@
   "Dampier, WA": {
     "lat": 28.1993024,
     "lon": -80.7384774
+  },
+  "Los Lunas, UT": null,
+  "All Cities, ID": null,
+  "JACKSON, TN": {
+    "lat": 35.6144446,
+    "lon": -88.8177418
+  },
+  "Farmington, NY": {
+    "lat": 42.9830863,
+    "lon": -77.3257438
+  },
+  "IT, MO": {
+    "lat": 38.7022836,
+    "lon": -91.4367917
+  },
+  "Rockford, MI": {
+    "lat": 43.119721,
+    "lon": -85.559604
+  },
+  "Oak Lawn, IL": {
+    "lat": 41.7108662,
+    "lon": -87.7581081
+  },
+  "NAPERVILLE, IL": {
+    "lat": 41.7728699,
+    "lon": -88.1479278
+  },
+  "Denham Springs, LA": {
+    "lat": 30.4868564,
+    "lon": -90.9562125
   }
 }
