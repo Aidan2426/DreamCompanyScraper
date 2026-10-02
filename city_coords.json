@@ -11122,5 +11122,77 @@
   "Denham Springs, LA": {
     "lat": 30.4868564,
     "lon": -90.9562125
+  },
+  "Crest Hill, IL": {
+    "lat": 41.554753,
+    "lon": -88.0986709
+  },
+  "Avon, CO": {
+    "lat": 39.6342752,
+    "lon": -106.522243
+  },
+  "Hazel Park, MI": {
+    "lat": 42.4620142,
+    "lon": -83.1035688
+  },
+  "Muscle Shoals, AL": {
+    "lat": 34.7436791,
+    "lon": -87.6532615
+  },
+  "Mountain Brook, AL": {
+    "lat": 33.5019459,
+    "lon": -86.7556834
+  },
+  "Seymour-Johnson Air Force Base, NC": {
+    "lat": 35.3451315,
+    "lon": -77.9559553
+  },
+  "Edwards, CO": {
+    "lat": 39.6245455,
+    "lon": -106.6308566
+  },
+  "Fremont, MI": {
+    "lat": 43.467517,
+    "lon": -85.942001
+  },
+  "Lebanon, IN": {
+    "lat": 40.0483744,
+    "lon": -86.4691677
+  },
+  "Cleves, OH": {
+    "lat": 39.162299,
+    "lon": -84.7491723
+  },
+  "Keller, TX": {
+    "lat": 32.9299655,
+    "lon": -97.2271249
+  },
+  "Belle Glade, FL": {
+    "lat": 26.6845104,
+    "lon": -80.6675577
+  },
+  "Covington, KY": {
+    "lat": 39.0831712,
+    "lon": -84.5107548
+  },
+  "Leonia, NJ": {
+    "lat": 40.8617353,
+    "lon": -73.9880495
+  },
+  "Germantown, WI": {
+    "lat": 43.2286174,
+    "lon": -88.1103691
+  },
+  "TERRE HAUTE, IN": {
+    "lat": 39.4667025,
+    "lon": -87.4139119
+  },
+  "Union City, NJ": {
+    "lat": 40.7795455,
+    "lon": -74.0237512
+  },
+  "Salado, TX": {
+    "lat": 30.9468791,
+    "lon": -97.5371631
   }
 }
