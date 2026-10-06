@@ -11214,5 +11214,54 @@
   "SeaTac, WA": {
     "lat": 47.4449086,
     "lon": -122.283084
+  },
+  "Moreno Valley, CA": {
+    "lat": 33.9375177,
+    "lon": -117.2305791
+  },
+  "COIMBATORE, IN": null,
+  "Alberta, CA": {
+    "lat": 33.5735866,
+    "lon": -117.7343695
+  },
+  "McGuire AFB, NJ": {
+    "lat": 40.0171621,
+    "lon": -74.5902049
+  },
+  "YAKIMA, WA": {
+    "lat": 46.601557,
+    "lon": -120.510842
+  },
+  "EVANSVILLE, IN": {
+    "lat": 37.970495,
+    "lon": -87.5715641
+  },
+  "ELKO, NV": {
+    "lat": 41.1958128,
+    "lon": -115.3272864
+  },
+  "Collinsville, IL": {
+    "lat": 38.6703267,
+    "lon": -89.9845476
+  },
+  "Danville, VA": {
+    "lat": 36.5879877,
+    "lon": -79.3916713
+  },
+  "Astoria, NY": {
+    "lat": 40.7720145,
+    "lon": -73.9302673
+  },
+  "Carencro, LA": {
+    "lat": 30.317144,
+    "lon": -92.0490096
+  },
+  "Piketon, OH": {
+    "lat": 39.0681252,
+    "lon": -83.0143443
+  },
+  "Bentleyville, PA": {
+    "lat": 40.1167387,
+    "lon": -80.0083855
   }
 }
