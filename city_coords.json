@@ -11312,5 +11312,41 @@
   "Tangiers, MA": {
     "lat": 33.7982714,
     "lon": -116.5404263
+  },
+  "Remote, ID": {
+    "lat": 43.5808664,
+    "lon": -112.9694059
+  },
+  "Vero Beach South, FL": {
+    "lat": 27.6183205,
+    "lon": -80.4063481
+  },
+  "Alamogordo, NM": {
+    "lat": 32.8998822,
+    "lon": -105.9602081
+  },
+  "Travis Air Force Base, CA": {
+    "lat": 38.2632199,
+    "lon": -121.945363
+  },
+  "Dennison, OH": {
+    "lat": 40.3933994,
+    "lon": -81.3337215
+  },
+  "Grass Valley, CA": {
+    "lat": 39.2190607,
+    "lon": -121.06292
+  },
+  "No City, CA": {
+    "lat": 40.7127281,
+    "lon": -74.0060152
+  },
+  "Jemez Springs, NM": {
+    "lat": 35.76851,
+    "lon": -106.6921555
+  },
+  "Valparaiso, FL": {
+    "lat": 30.5085309,
+    "lon": -86.5027282
   }
 }
