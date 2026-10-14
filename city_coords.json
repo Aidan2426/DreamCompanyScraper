@@ -11421,5 +11421,43 @@
   "WATERTOWN, NY": {
     "lat": 43.9747838,
     "lon": -75.9107565
+  },
+  "Folsom, PA": {
+    "lat": 39.8919093,
+    "lon": -75.3276573
+  },
+  "Homestead ARB, FL": null,
+  "SLV - Pinturerias de El Salvador, DC": null,
+  "Waterford, MI": {
+    "lat": 42.7022527,
+    "lon": -83.402718
+  },
+  "New Port Richey, FL": {
+    "lat": 28.2441768,
+    "lon": -82.7192671
+  },
+  "Paoli, PA": {
+    "lat": 40.0405675,
+    "lon": -75.4927891
+  },
+  "Newtown Square, PA": {
+    "lat": 39.9868117,
+    "lon": -75.4007633
+  },
+  "Drexel Hill, PA": {
+    "lat": 39.9483282,
+    "lon": -75.3068878
+  },
+  "BRIDGEPORT, WV": {
+    "lat": 39.2848811,
+    "lon": -80.2539005
+  },
+  "Meyersdale, PA": {
+    "lat": 39.8136931,
+    "lon": -79.024748
+  },
+  "North Richland Hills, TX": {
+    "lat": 32.8342952,
+    "lon": -97.2289029
   }
 }
