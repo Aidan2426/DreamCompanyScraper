@@ -11459,5 +11459,54 @@
   "North Richland Hills, TX": {
     "lat": 32.8342952,
     "lon": -97.2289029
+  },
+  "Remote-Friendly, CA": null,
+  "Mukilteo, WA": {
+    "lat": 47.9474034,
+    "lon": -122.3036992
+  },
+  "Luray, VA": {
+    "lat": 38.6654653,
+    "lon": -78.4600202
+  },
+  "Linwood, PA": {
+    "lat": 39.8265655,
+    "lon": -75.4250468
+  },
+  "Waynesburg, WV": {
+    "lat": 39.9364451,
+    "lon": -80.7091576
+  },
+  "GREAT FALLS, MT": {
+    "lat": 47.5048851,
+    "lon": -111.29189
+  },
+  "Washington, WA": {
+    "lat": 45.5825711,
+    "lon": -122.3509593
+  },
+  "Salina, UT": {
+    "lat": 38.957742,
+    "lon": -111.859984
+  },
+  "KALISPELL, MT": {
+    "lat": 48.202158,
+    "lon": -114.315321
+  },
+  "Peckville, PA": {
+    "lat": 41.4764699,
+    "lon": -75.5732423
+  },
+  "Mansfield, TX": {
+    "lat": 32.563487,
+    "lon": -97.1420308
+  },
+  "Mequon, WI": {
+    "lat": 43.2219088,
+    "lon": -87.9822969
+  },
+  "Thomasville, GA": {
+    "lat": 30.8365815,
+    "lon": -83.9787808
   }
 }
