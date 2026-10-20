@@ -11616,5 +11616,26 @@
   "Vinton, VA": {
     "lat": 37.2800221,
     "lon": -79.8975673
+  },
+  "Bartlett Cove, AK": {
+    "lat": 58.4579033,
+    "lon": -135.906367
+  },
+  "Bristow, VA": {
+    "lat": 38.7311636,
+    "lon": -77.5480241
+  },
+  "All Cities, KS": null,
+  "Camp Parks, CA": {
+    "lat": 37.7293032,
+    "lon": -121.8921848
+  },
+  "Petrified Forest National Park, AZ": {
+    "lat": 34.9744769,
+    "lon": -109.7079943
+  },
+  "California, OR": {
+    "lat": 44.4146043,
+    "lon": -117.5393631
   }
 }
