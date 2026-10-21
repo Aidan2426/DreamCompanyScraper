@@ -11637,5 +11637,62 @@
   "California, OR": {
     "lat": 44.4146043,
     "lon": -117.5393631
+  },
+  "HILO HAWAII, HI": {
+    "lat": 19.7073734,
+    "lon": -155.08158
+  },
+  "Spring Lake, NC": {
+    "lat": 35.1679396,
+    "lon": -78.9728056
+  },
+  "Nabburg, DE": null,
+  "Kincheloe, MI": {
+    "lat": 46.259185,
+    "lon": -84.4673109
+  },
+  "Franklin Furnace, OH": {
+    "lat": 38.60683,
+    "lon": -82.8472029
+  },
+  "O&#x27;Fallon, MO": {
+    "lat": 38.8068356,
+    "lon": -90.6970942
+  },
+  "Carrollton, OH": {
+    "lat": 40.5728404,
+    "lon": -81.0856532
+  },
+  "WEST WENDOVER, NV": {
+    "lat": 40.7409656,
+    "lon": -114.0751726
+  },
+  "Shafter, CA": {
+    "lat": 35.501461,
+    "lon": -119.273682
+  },
+  "Saint Croix, VI": {
+    "lat": 17.729124,
+    "lon": -64.7589156
+  },
+  "Chapel Hill, NC": {
+    "lat": 35.9131542,
+    "lon": -79.05578
+  },
+  "Dunwoody, GA": {
+    "lat": 33.9463786,
+    "lon": -84.3342686
+  },
+  "Lynnfield, MA": {
+    "lat": 42.5389836,
+    "lon": -71.0481084
+  },
+  "Norco, CA": {
+    "lat": 33.9323307,
+    "lon": -117.5508901
+  },
+  "Roxbury, MA": {
+    "lat": 42.3289067,
+    "lon": -71.0850853
   }
 }
