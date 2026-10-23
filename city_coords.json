@@ -11699,5 +11699,58 @@
     "lat": 49.4703695,
     "lon": 10.9999184
   },
-  "USA - Remote, MN": null
+  "USA - Remote, MN": null,
+  "All Cities, NE": null,
+  "Marysville, OH": {
+    "lat": 40.2364486,
+    "lon": -83.3671432
+  },
+  "Kinnelon, NJ": {
+    "lat": 41.0017644,
+    "lon": -74.367096
+  },
+  "USA - Santa Clara, CA": {
+    "lat": 37.2461693,
+    "lon": -121.8880308
+  },
+  "Charlotte, CT": {
+    "lat": 41.7922705,
+    "lon": -73.1337694
+  },
+  "Volcano, HI": {
+    "lat": 19.4297676,
+    "lon": -155.233984
+  },
+  "Avenel, NJ": {
+    "lat": 40.5848314,
+    "lon": -74.2730161
+  },
+  "Stone Mountain, GA": {
+    "lat": 33.8062166,
+    "lon": -84.1457505
+  },
+  "Tega Cay, SC": {
+    "lat": 35.038216,
+    "lon": -81.0226325
+  },
+  "Springfield, PA": {
+    "lat": 39.9306677,
+    "lon": -75.3201879
+  },
+  "Lee's Summit, MO": {
+    "lat": 38.9107156,
+    "lon": -94.3821295
+  },
+  "Montezuma, GA": {
+    "lat": 32.2997975,
+    "lon": -84.0301627
+  },
+  "Payson, AZ": {
+    "lat": 34.2406479,
+    "lon": -111.323026
+  },
+  "Groveland, FL": {
+    "lat": 28.5602149,
+    "lon": -81.8561226
+  }
 }
