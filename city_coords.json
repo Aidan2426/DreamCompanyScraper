@@ -11905,5 +11905,29 @@
   "Racine, WI": {
     "lat": 42.7313756,
     "lon": -87.7834769
+  },
+  "Green Brook, NJ": {
+    "lat": 40.6256703,
+    "lon": -74.4213433
+  },
+  "Fort Leonard Wood, MO": {
+    "lat": 37.70114,
+    "lon": -92.1693303
+  },
+  "Welch, MN": {
+    "lat": 44.5683003,
+    "lon": -92.7385321
+  },
+  "Langley Air Force Base, VA": {
+    "lat": 37.0875143,
+    "lon": -76.3572224
+  },
+  "Dillsburg, PA": {
+    "lat": 40.1109413,
+    "lon": -77.0358059
+  },
+  "Beech Grove, IN": {
+    "lat": 39.7221906,
+    "lon": -86.0894158
   }
 }
