@@ -11965,5 +11965,39 @@
   "Bushkill, PA": {
     "lat": 41.093429,
     "lon": -75.0018401
+  },
+  "All Cities, SC": null,
+  "Valls, CT": {
+    "lat": 34.7832565,
+    "lon": -91.4606413
+  },
+  "Reus, CT": {
+    "lat": 30.4171567,
+    "lon": -87.2216493
+  },
+  "Cherokee, NC": {
+    "lat": 35.1184149,
+    "lon": -84.0886181
+  },
+  "Conyers, GA": {
+    "lat": 33.6676103,
+    "lon": -84.0176904
+  },
+  "Colonial Beach, VA": {
+    "lat": 38.2512549,
+    "lon": -76.9628158
+  },
+  "Norman, OK": {
+    "lat": 35.2225717,
+    "lon": -97.4394816
+  },
+  "Fitchburg, MA": {
+    "lat": 42.5838984,
+    "lon": -71.8038268
+  },
+  "All Cities, UT": null,
+  "Seattle, PA": {
+    "lat": 40.3206519,
+    "lon": -76.8366663
   }
 }
