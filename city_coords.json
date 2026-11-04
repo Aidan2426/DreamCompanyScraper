@@ -11999,5 +11999,57 @@
   "Seattle, PA": {
     "lat": 40.3206519,
     "lon": -76.8366663
+  },
+  "Massillon, OH": {
+    "lat": 40.7965119,
+    "lon": -81.5231597
+  },
+  "Claude, TX": {
+    "lat": 35.1081103,
+    "lon": -101.362741
+  },
+  "Newport, PA": {
+    "lat": 40.4778612,
+    "lon": -77.1305373
+  },
+  "Fort Richardson, AK": {
+    "lat": 61.2349028,
+    "lon": -149.5969223
+  },
+  "USA - Los Angeles, CA": {
+    "lat": 34.0745997,
+    "lon": -118.0534304
+  },
+  "Lumberton, NJ": {
+    "lat": 39.9659459,
+    "lon": -74.8051628
+  },
+  "Lansdowne, PA": {
+    "lat": 39.9381682,
+    "lon": -75.2718507
+  },
+  "La Grange Park, IL": {
+    "lat": 41.8333646,
+    "lon": -87.8677324
+  },
+  "Delaware, DE": {
+    "lat": 39.1138066,
+    "lon": -75.148688
+  },
+  "9808 Scranton Rd, CA": {
+    "lat": 32.8981686,
+    "lon": -117.2028736
+  },
+  "Mount Dora, FL": {
+    "lat": 28.8004955,
+    "lon": -81.6446961
+  },
+  "Champions Gate, FL": {
+    "lat": 29.0071597,
+    "lon": -81.2786591
+  },
+  "Elizabeth City, NC": {
+    "lat": 36.3010192,
+    "lon": -76.2203699
   }
 }
