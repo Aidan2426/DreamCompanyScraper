@@ -12051,5 +12051,46 @@
   "Elizabeth City, NC": {
     "lat": 36.3010192,
     "lon": -76.2203699
+  },
+  "Georgia, VT": {
+    "lat": 44.7275466,
+    "lon": -73.117637
+  },
+  "Missouri Valley, IA": {
+    "lat": 41.5564975,
+    "lon": -95.8879438
+  },
+  "Florida, NY": {
+    "lat": 42.8904161,
+    "lon": -74.196582
+  },
+  "Los Lunas, TX": {
+    "lat": 29.582034,
+    "lon": -98.6599304
+  },
+  "Dallas, PA": {
+    "lat": 41.33617,
+    "lon": -75.9632636
+  },
+  "O Fallon, MO": {
+    "lat": 38.7902503,
+    "lon": -90.7033292
+  },
+  "Redmond, MA": {
+    "lat": 47.6694141,
+    "lon": -122.1238767
+  },
+  "Alameda, CA": {
+    "lat": 37.6090291,
+    "lon": -121.899142
+  },
+  "Greenwich, CT": {
+    "lat": 41.0264862,
+    "lon": -73.6284598
+  },
+  "USA - Little Rock, DC": null,
+  "Atlanta, FL": {
+    "lat": 26.0904246,
+    "lon": -80.3746169
   }
 }
