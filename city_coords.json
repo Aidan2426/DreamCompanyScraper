@@ -12112,5 +12112,26 @@
   "Southington, CT": {
     "lat": 41.6005435,
     "lon": -72.8782941
+  },
+  "Austin, DC": {
+    "lat": 38.8615572,
+    "lon": -76.9549824
+  },
+  "ARCATA, CA": {
+    "lat": 40.866517,
+    "lon": -124.08284
+  },
+  "Larkspur, CA": {
+    "lat": 37.9340915,
+    "lon": -122.5352539
+  },
+  "Clymer, PA": {
+    "lat": 40.6682605,
+    "lon": -79.011747
+  },
+  "MEX - KROMA Hermosillo, DC": null,
+  "Dupont, PA": {
+    "lat": 41.3250801,
+    "lon": -75.7454701
   }
 }
