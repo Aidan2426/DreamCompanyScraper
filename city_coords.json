@@ -12141,5 +12141,14 @@
   "Cuyahoga Falls, OH": {
     "lat": 41.1362729,
     "lon": -81.4828123
-  }
+  },
+  "Tulelake, CA": {
+    "lat": 41.955989,
+    "lon": -121.477492
+  },
+  "Ashford, WA": {
+    "lat": 46.7544085,
+    "lon": -122.010932
+  },
+  "FRA - Valence, DC": null
 }
