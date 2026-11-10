@@ -12150,5 +12150,37 @@
     "lat": 46.7544085,
     "lon": -122.010932
   },
-  "FRA - Valence, DC": null
+  "FRA - Valence, DC": null,
+  "Shelton, WA": {
+    "lat": 47.2150945,
+    "lon": -123.100706
+  },
+  "Crestview, GA": {
+    "lat": 31.3329565,
+    "lon": -84.6193603
+  },
+  "Ellsworth, ME": {
+    "lat": 44.5414596,
+    "lon": -68.4243599
+  },
+  "Denver, MA": {
+    "lat": 39.7392364,
+    "lon": -104.984862
+  },
+  "Leonardtown, MD": {
+    "lat": 38.2912431,
+    "lon": -76.6357946
+  },
+  "Spring Lake Heights, NJ": {
+    "lat": 40.1532197,
+    "lon": -74.0438803
+  },
+  "Greenfield, WI": {
+    "lat": 42.9596903,
+    "lon": -87.98132
+  },
+  "Great Neck, NY": {
+    "lat": 40.80292,
+    "lon": -73.7360177
+  }
 }
