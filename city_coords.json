@@ -12182,5 +12182,50 @@
   "Great Neck, NY": {
     "lat": 40.80292,
     "lon": -73.7360177
+  },
+  "Indialantic, FL": {
+    "lat": 28.0911921,
+    "lon": -80.5679875
+  },
+  "Charleston Air Force Base, SC": {
+    "lat": 32.8992985,
+    "lon": -80.039465
+  },
+  "Flex - Cambridge, MA": null,
+  "Joint Base Lewis McChord, WA": {
+    "lat": 47.0308343,
+    "lon": -122.5074136
+  },
+  "North Chesterfield, VA": {
+    "lat": 37.5056125,
+    "lon": -77.6087021
+  },
+  "Coldwater, MI": {
+    "lat": 41.941091,
+    "lon": -85.0030617
+  },
+  "Jasper, AL": {
+    "lat": 33.8312185,
+    "lon": -87.2775053
+  },
+  "Fremont, AZ": {
+    "lat": 35.323084,
+    "lon": -111.660731
+  },
+  "Upper Gwynedd, PA": {
+    "lat": 40.2142419,
+    "lon": -75.304156
+  },
+  "Patten, ME": {
+    "lat": 45.9960683,
+    "lon": -68.4473498
+  },
+  "Barbourville, KY": {
+    "lat": 36.8664765,
+    "lon": -83.8888138
+  },
+  "Rio Grande City, TX": {
+    "lat": 26.3827771,
+    "lon": -98.8205251
   }
 }
