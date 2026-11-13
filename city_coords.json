@@ -12235,5 +12235,22 @@
   "Zeeland, MI": {
     "lat": 42.8123375,
     "lon": -86.0165267
+  },
+  "New Gisborne, VI": null,
+  "Patrick AFB, FL": {
+    "lat": 28.2422228,
+    "lon": -80.6091074
+  },
+  "Sharpsburg, MD": {
+    "lat": 39.4581995,
+    "lon": -77.7486599
+  },
+  "Eielson AFB, AK": {
+    "lat": 64.6744645,
+    "lon": -147.0825915
+  },
+  "Shenandoah, TX": {
+    "lat": 30.1802151,
+    "lon": -95.4557726
   }
 }
