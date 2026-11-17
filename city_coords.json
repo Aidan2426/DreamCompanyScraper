@@ -12324,5 +12324,37 @@
   "Winter Harbor, ME": {
     "lat": 44.3948755,
     "lon": -68.0841096
+  },
+  "USA - Remote, RI": null,
+  "All Cities, TN": {
+    "lat": 46.5730654,
+    "lon": -120.4895695
+  },
+  "United States Remote Office; Washington, DC": null,
+  "Ashburn, TX": {
+    "lat": 29.6657748,
+    "lon": -95.2917088
+  },
+  "Johnsonburg, PA": {
+    "lat": 41.4906172,
+    "lon": -78.675026
+  },
+  "Itajaí - SC, SC": null,
+  "GREENWOOD, IN": {
+    "lat": 39.6136987,
+    "lon": -86.1095429
+  },
+  "Westland, MI": {
+    "lat": 42.3238056,
+    "lon": -83.4005321
+  },
+  "Trenton, MI": {
+    "lat": 42.1406552,
+    "lon": -83.1800544
+  },
+  "USA - Remote, MA": null,
+  "Rowland Heights, CA": {
+    "lat": 33.9734043,
+    "lon": -117.8941305
   }
 }
