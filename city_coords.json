@@ -12384,5 +12384,41 @@
   "Honaunau, HI": {
     "lat": 19.425801,
     "lon": -155.908356
+  },
+  "El Prat de Llobregat (Barcelona), CT": {
+    "lat": 41.3473729,
+    "lon": 2.0772714
+  },
+  "Menlo Park, MA": {
+    "lat": 37.4519671,
+    "lon": -122.177992
+  },
+  "Watervliet, NY": {
+    "lat": 42.7300784,
+    "lon": -73.7012299
+  },
+  "Iuka, MS": {
+    "lat": 34.8117565,
+    "lon": -88.1900415
+  },
+  "Fridley, MN": {
+    "lat": 45.0838291,
+    "lon": -93.2590388
+  },
+  "North Versailles, PA": {
+    "lat": 40.3797913,
+    "lon": -79.8094916
+  },
+  "North Salt Lake, UT": {
+    "lat": 40.8485564,
+    "lon": -111.906882
+  },
+  "SPARROWS POINT, MD": {
+    "lat": 39.219275,
+    "lon": -76.4760724
+  },
+  "LAWRENCE, NY": {
+    "lat": 40.6156599,
+    "lon": -73.7295763
   }
 }
