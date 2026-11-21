@@ -12420,5 +12420,26 @@
   "LAWRENCE, NY": {
     "lat": 40.6156599,
     "lon": -73.7295763
+  },
+  "LUCKNOW, IN": null,
+  "Shirley, NY": {
+    "lat": 40.7936005,
+    "lon": -72.8713257
+  },
+  "Delmont, PA": {
+    "lat": 40.4131233,
+    "lon": -79.5703201
+  },
+  "North Bergen, NJ": {
+    "lat": 40.8042674,
+    "lon": -74.012084
+  },
+  "New City, NY": {
+    "lat": 41.1509835,
+    "lon": -73.9897782
+  },
+  "NORTHAMPTON, PA": {
+    "lat": 40.7451356,
+    "lon": -75.3289302
   }
 }
